@@ -158,7 +158,7 @@ def build_dashboard() -> str:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UniLife Erasmus Mobility Dashboard</title>
+  <title>unilife.ellep.it</title>
   <style>
     :root {{
       color-scheme: light;
@@ -246,7 +246,7 @@ def build_dashboard() -> str:
 </head>
 <body>
   <header>
-    <h1>UniLife Erasmus Mobility Dashboard</h1>
+    <h1>unilife.ellep.it</h1>
     <p>Higher Education study mobility flows from the Erasmus+ KA1 2022 researcher file, joined to economic indicators for descriptive analysis. This dashboard is exploratory and does not claim causal effects.</p>
   </header>
   <main>
