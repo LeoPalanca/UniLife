@@ -17,19 +17,27 @@ This is a descriptive and exploratory project. It does **not** claim causal infe
 
 ## Core Data
 
-The backbone dataset is:
+The main backbone dataset is:
 
 ```text
-data/raw/annual-report-2024-statistical-annex.xlsx
+data/raw/Erasmus-KA1-Mobility-Data-2022.xlsx
 ```
 
-The preferred sheet is:
+The main sheet is:
 
 ```text
-HE-Learn Mobility
+KA1 mobilities 2022
 ```
 
-This sheet captures Higher Education learner mobilities, which is closer to university Erasmus student mobility than the broader `Youth Mobility` sheet.
+The analysis filters this detailed KA1 file to Higher Education study mobilities:
+
+- `Field == "Higher Education"`
+- learner profile only
+- study mobility activity only
+- age 18+
+- cross-border country pairs only
+
+The annual report annex remains in `data/raw/` as a reference file.
 
 ## Unit of Analysis
 
@@ -81,17 +89,42 @@ Do not commit `.env`.
 
 ## Analysis Plan
 
-1. Load the `HE-Learn Mobility` sheet from the Erasmus+ statistical annex.
-2. Reshape the sending x receiving country matrix into a long flow table.
-3. Remove same-country flows for the main cross-border analysis.
-4. Add GDP, wages, cost-of-living, and distance indicators.
-5. Compute economic gaps between sending and receiving countries.
-6. Produce descriptive visualizations:
+1. Build the KA1 Higher Education study-flow table.
+2. Add GDP, net earnings, and cost-of-living indicators.
+3. Compute economic gaps between sending and receiving countries.
+4. Produce descriptive visualizations:
    - flow heatmap
    - Italy vs Luxembourg destination profiles
    - destination GDP/cost gap vs flow share
    - flow-weighted destination GDP/cost by sending country
-7. Estimate a non-causal, gravity-style descriptive regression.
+5. Estimate a non-causal, gravity-style descriptive regression.
+
+## Build Commands
+
+```bash
+.venv/bin/python scripts/build_flows.py
+.venv/bin/python scripts/build_indicators.py
+.venv/bin/python scripts/build_dashboard.py
+```
+
+The dashboard is generated at:
+
+```text
+dashboard/dist/index.html
+```
+
+It is deployed on the VM as:
+
+```text
+http://unilife.ellep.it
+```
+
+VM deployment helpers:
+
+```bash
+./scripts/setup_unilife_nginx.sh
+./scripts/deploy_dashboard.sh
+```
 
 Example descriptive model:
 
@@ -126,8 +159,13 @@ This optional section connects the final project to the course's LLM information
 ├── requirements.txt
 ├── data/
 │   ├── raw/
+│   │   ├── Erasmus-KA1-Mobility-Data-2022.xlsx
+│   │   ├── Erasmus-KA2-Mobility-Data.xlsx
 │   │   └── annual-report-2024-statistical-annex.xlsx
 │   └── processed/
+├── dashboard/
+│   └── dist/
+│       └── index.html
 ├── notebooks/
 │   └── unilife.ipynb
 ├── reports/
@@ -138,4 +176,4 @@ This optional section connects the final project to the course's LLM information
 
 ## Current Position
 
-Use the official Erasmus Excel file as the backbone of the project. Build the flow dataset first. Add Reddit and LLM extraction only after the flow/economic analysis is clean and reproducible.
+Use the detailed KA1 Erasmus Excel file as the backbone of the project. Build the flow dataset first. Add Reddit and LLM extraction only after the flow/economic analysis is clean and reproducible.
