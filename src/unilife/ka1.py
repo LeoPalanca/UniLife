@@ -86,6 +86,11 @@ def filter_he_studies(raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 def aggregate_country_flows(filtered: pd.DataFrame, include_domestic: bool = False) -> pd.DataFrame:
     """Aggregate filtered KA1 records to sending-receiving country flows."""
+    country_names = canonical_country_names(filtered)
+    filtered = filtered.copy()
+    filtered["sending_country"] = filtered["sending_code"].map(country_names).fillna(filtered["sending_country"])
+    filtered["receiving_country"] = filtered["receiving_code"].map(country_names).fillna(filtered["receiving_country"])
+
     flow_cols = ["sending_code", "sending_country", "receiving_code", "receiving_country"]
     flows = (
         filtered.groupby(flow_cols, as_index=False)[PARTICIPANTS_COL]
@@ -99,6 +104,20 @@ def aggregate_country_flows(filtered: pd.DataFrame, include_domestic: bool = Fal
         flows = flows.loc[flows["sending_code"] != flows["receiving_code"]].reset_index(drop=True)
 
     return flows
+
+
+def canonical_country_names(filtered: pd.DataFrame) -> dict[str, str]:
+    """Choose one country name per code using participant-weighted frequency."""
+    sending = filtered[["sending_code", "sending_country", PARTICIPANTS_COL]].rename(
+        columns={"sending_code": "code", "sending_country": "country"}
+    )
+    receiving = filtered[["receiving_code", "receiving_country", PARTICIPANTS_COL]].rename(
+        columns={"receiving_code": "code", "receiving_country": "country"}
+    )
+    names = pd.concat([sending, receiving], ignore_index=True).dropna(subset=["code", "country"])
+    names = names.groupby(["code", "country"], as_index=False)[PARTICIPANTS_COL].sum()
+    names = names.sort_values([PARTICIPANTS_COL, "country"], ascending=[False, True])
+    return names.drop_duplicates("code").set_index("code")["country"].to_dict()
 
 
 def build_ka1_he_studies_flows(path: str | Path = RAW_KA1) -> tuple[pd.DataFrame, pd.DataFrame]:
