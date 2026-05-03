@@ -92,12 +92,13 @@ Do not commit `.env`.
 1. Build the KA1 Higher Education study-flow table.
 2. Add GDP, net earnings, and cost-of-living indicators.
 3. Compute economic gaps between sending and receiving countries.
-4. Produce descriptive visualizations:
+4. Add Higher Education grant-per-participant metrics from the annual annex.
+5. Produce descriptive visualizations:
    - flow heatmap
    - Italy vs Luxembourg destination profiles
    - destination GDP/cost gap vs flow share
    - flow-weighted destination GDP/cost by sending country
-5. Estimate a non-causal, gravity-style descriptive regression.
+6. Estimate a non-causal, gravity-style descriptive regression.
 
 ## Build Commands
 
@@ -118,6 +119,15 @@ It is deployed on the VM as:
 ```text
 http://unilife.ellep.it
 ```
+
+Current dashboard features:
+
+- sending-country selector
+- selected-country destination chart and GDP-gap scatter
+- destination table sortable by flow count, flow share, GDP gap, price gap, and earnings gap
+- same-order sending/receiving heatmap
+- sortable flow-weighted destination economics table
+- Higher Education grant-per-participant metric from the annual annex
 
 VM deployment helpers:
 
