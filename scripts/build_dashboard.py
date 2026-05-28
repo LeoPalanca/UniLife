@@ -8,6 +8,9 @@ import pandas as pd
 
 
 DATA_PATH = Path("data/processed/ka1_he_studies_flows_with_indicators.csv")
+ORG_FLOWS_PATH = Path("data/processed/erasmus_org_flows_long.csv")
+CITY_COORDS_PATH = Path("data/processed/city_coordinates.csv")
+SECTOR_EARNINGS_PATH = Path("data/processed/sector_earnings_2018.csv")
 OUTPUT_PATH = Path("dashboard/dist/index.html")
 
 
@@ -84,12 +87,81 @@ def weighted_records(flows: pd.DataFrame) -> list[dict]:
     return pd.DataFrame(rows).replace({np.nan: None}).sort_values("outgoing", ascending=False).to_dict(orient="records")
 
 
+def org_point_records(top_per_sender: int = 250) -> tuple[list[dict], list[dict]]:
+    """Compact per-sender university points plus an all-inbound aggregate.
+
+    University points are placed at their receiving-city coordinate (no
+    per-university geocoding exists), so clustering groups same-city
+    universities. Returns (perSender, allInbound).
+    """
+    flows = pd.read_csv(ORG_FLOWS_PATH)
+    coords = pd.read_csv(CITY_COORDS_PATH)[
+        ["receiving_code", "receiving_city", "lat", "lon", "match_level"]
+    ]
+    merged = flows.merge(coords, on=["receiving_code", "receiving_city"], how="left")
+    merged = merged.dropna(subset=["lat", "lon"])
+
+    capped = merged.sort_values(["sending_code", "flow_count"], ascending=[True, False])
+    capped = capped.groupby("sending_code", group_keys=False).head(top_per_sender)
+
+    def compact(row: pd.Series, with_sender: bool) -> dict:
+        record = {
+            "o": row["receiving_org"],
+            "c": row["receiving_city"],
+            "n": row["receiving_country"],
+            "la": round(float(row["lat"]), 3),
+            "lo": round(float(row["lon"]), 3),
+            "f": int(row["flow_count"]),
+            "m": row["match_level"],
+        }
+        if with_sender:
+            record["s"] = row["sending_code"]
+        return record
+
+    per_sender = [compact(row, True) for _, row in capped.iterrows()]
+
+    inbound = (
+        merged.groupby(
+            ["receiving_org", "receiving_city", "receiving_country", "lat", "lon", "match_level"],
+            as_index=False,
+        )["flow_count"]
+        .sum()
+        .sort_values("flow_count", ascending=False)
+    )
+    all_inbound = [compact(row, False) for _, row in inbound.iterrows()]
+    return per_sender, all_inbound
+
+
+def sector_earnings_records() -> list[dict]:
+    """Detailed-sector mean monthly earnings per country for the salary explorer."""
+    earnings = pd.read_csv(SECTOR_EARNINGS_PATH)
+    earnings = earnings[earnings["is_sector"] == True]  # noqa: E712 - pandas mask
+    earnings = earnings.replace({np.nan: None})
+    records = []
+    for _, row in earnings.iterrows():
+        records.append(
+            {
+                "code": row["country_code"],
+                "country": row["country_name"],
+                "nace": row["nace_code"],
+                "label": row["nace_label"],
+                "eur": None if row["earnings_eur"] is None else int(row["earnings_eur"]),
+                "pps": None if row["earnings_pps"] is None else int(row["earnings_pps"]),
+            }
+        )
+    return records
+
+
 def build_dashboard() -> str:
     flows = pd.read_csv(DATA_PATH)
+    org_points, org_inbound = org_point_records()
     payload = {
         "flows": clean_records(flows),
         "countries": country_records(flows),
         "weighted": weighted_records(flows),
+        "orgPoints": org_points,
+        "orgInbound": org_inbound,
+        "sectorEarnings": sector_earnings_records(),
     }
     data_json = json.dumps(payload, separators=(",", ":"))
 
@@ -99,6 +171,13 @@ def build_dashboard() -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>unilife.ellep.it</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
   <style>
     :root {
       color-scheme: light;
@@ -219,6 +298,31 @@ def build_dashboard() -> str:
     }
     .source-list li { margin-bottom: 6px; }
     .heatmap-wrap { overflow: auto; }
+    #map {
+      height: 540px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .map-controls { margin-bottom: 14px; }
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      align-items: center;
+    }
+    .legend-dot {
+      display: inline-block;
+      border-radius: 50%;
+      background: rgba(47, 111, 115, .55);
+      border: 1px solid var(--accent);
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    .leaflet-popup-content { font-size: 13px; }
     .tooltip {
       position: fixed;
       pointer-events: none;
@@ -255,6 +359,24 @@ def build_dashboard() -> str:
       <p class="note">Main flow definition: Higher Education learners, study mobility activity, age 18+, cross-border flows only.</p>
     </section>
 
+    <section>
+      <h2>Destination University Map</h2>
+      <div class="controls map-controls">
+        <label>Map view
+          <select id="mapView">
+            <option value="sender">Selected country's destinations</option>
+            <option value="all">All inbound flows (Europe-wide)</option>
+          </select>
+        </label>
+      </div>
+      <div id="map"></div>
+      <div class="map-legend">
+        <span><span class="legend-dot" style="width:10px;height:10px"></span> smaller flow</span>
+        <span><span class="legend-dot" style="width:24px;height:24px"></span> larger flow</span>
+        <span>One point per receiving university, sized by incoming students. Zoom out to aggregate nearby universities into clusters; click a cluster to zoom in and pick a university. Universities sit at their city coordinate; cities without a coordinate match fall back to their country centroid.</span>
+      </div>
+    </section>
+
     <div class="grid">
       <section>
         <h2>Top Destinations</h2>
@@ -285,6 +407,23 @@ def build_dashboard() -> str:
     </section>
 
     <section>
+      <h2>Expected Earnings by Economic Sector</h2>
+      <div class="controls">
+        <label>Country
+          <select id="earnCountry"></select>
+        </label>
+        <label>Unit
+          <select id="earnUnit">
+            <option value="eur">Euro (EUR)</option>
+            <option value="pps">Purchasing power standard (PPS)</option>
+          </select>
+        </label>
+      </div>
+      <div class="chart" id="earningsChart"></div>
+      <p class="note">Mean monthly gross earnings by NACE economic sector, Structure of Earnings Survey 2018. This is a salary-by-sector reference, <strong>not</strong> salary by field of study (Eurostat does not publish earnings by field of study). Coverage is limited to the 17 countries that report this dataset.</p>
+    </section>
+
+    <section>
       <h2>Data Sources and Measurement Notes</h2>
       <ul class="source-list">
         <li><strong>Erasmus flows:</strong> <code>Erasmus-KA1-Mobility-Data-2022.xlsx</code>, sheet <code>KA1 mobilities 2022</code>. Filtered to Higher Education study mobility.</li>
@@ -302,7 +441,13 @@ def build_dashboard() -> str:
     const flows = payload.flows;
     const countries = payload.countries;
     const weightedRows = payload.weighted;
+    const orgPoints = payload.orgPoints;
+    const orgInbound = payload.orgInbound;
+    const sectorEarnings = payload.sectorEarnings;
     const senderSelect = document.getElementById('senderSelect');
+    const mapViewSelect = document.getElementById('mapView');
+    const earnCountrySelect = document.getElementById('earnCountry');
+    const earnUnitSelect = document.getElementById('earnUnit');
     const tooltip = document.getElementById('tooltip');
     let weightedSort = { key: 'outgoing', dir: -1 };
     let destinationSort = { key: 'flow_count', dir: -1 };
@@ -518,12 +663,110 @@ def build_dashboard() -> str:
       });
     }
 
+    let map = null;
+    let clusterLayer = null;
+
+    function clusterFlow(cluster) {
+      return cluster.getAllChildMarkers().reduce((sum, marker) => sum + (marker.options.flow || 0), 0);
+    }
+
+    function initMap() {
+      map = L.map('map', { scrollWheelZoom: false }).setView([50, 12], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 14,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      clusterLayer = L.markerClusterGroup({
+        chunkedLoading: true,
+        maxClusterRadius: 48,
+        spiderfyOnMaxZoom: true,
+        iconCreateFunction: cluster => {
+          const total = clusterFlow(cluster);
+          const size = total >= 5000 ? 52 : total >= 1000 ? 44 : total >= 200 ? 36 : 28;
+          return L.divIcon({
+            html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:rgba(47,111,115,.78);color:#fff;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)">${fmtInt(total)}</div>`,
+            className: 'flow-cluster',
+            iconSize: [size, size]
+          });
+        }
+      }).addTo(map);
+    }
+
+    function renderMap() {
+      if (!map) return;
+      clusterLayer.clearLayers();
+      const view = mapViewSelect.value;
+      const points = view === 'all'
+        ? orgInbound
+        : orgPoints.filter(point => point.s === senderSelect.value);
+      if (!points.length) return;
+      const maxFlow = Math.max(...points.map(point => point.f), 1);
+      const markers = [];
+      const bounds = [];
+      points.forEach(point => {
+        const radius = 4 + 16 * Math.sqrt(point.f / maxFlow);
+        const fallback = point.m !== 'city';
+        const color = fallback ? '#b44e5a' : '#2f6f73';
+        const marker = L.circleMarker([point.la, point.lo], {
+          radius, color, weight: 1, fillColor: color, fillOpacity: 0.55, flow: point.f
+        });
+        const where = fallback ? ' (city without coordinate match: country-level estimate)' : '';
+        marker.bindPopup(`<strong>${escapeHtml(point.o)}</strong><br>${escapeHtml(point.c)}, ${escapeHtml(point.n)}${where}<br>${fmtInt(point.f)} incoming students`);
+        marker.bindTooltip(`${escapeHtml(point.o)}: ${fmtInt(point.f)}`);
+        markers.push(marker);
+        bounds.push([point.la, point.lo]);
+      });
+      clusterLayer.addLayers(markers);
+      if (bounds.length) {
+        map.fitBounds(bounds, { padding: [30, 30], maxZoom: 7 });
+      }
+    }
+
     function updateCountry() {
       const rows = senderRows(senderSelect.value);
       renderSummary(rows);
       renderBar(rows);
       renderScatter(rows);
       renderDestinationTable(rows);
+      if (mapViewSelect.value === 'sender') renderMap();
+    }
+
+    function populateEarnCountries() {
+      const seen = new Map();
+      sectorEarnings.forEach(row => { if (!seen.has(row.code)) seen.set(row.code, row.country); });
+      const options = [...seen.entries()].sort((a, b) => a[1].localeCompare(b[1]));
+      earnCountrySelect.innerHTML = options
+        .map(([code, country]) => `<option value="${code}">${escapeHtml(country)}</option>`)
+        .join('');
+      earnCountrySelect.value = seen.has('ES') ? 'ES' : options[0][0];
+    }
+
+    function renderEarnings() {
+      const code = earnCountrySelect.value;
+      const unit = earnUnitSelect.value;
+      const data = sectorEarnings
+        .filter(row => row.code === code && row[unit] != null)
+        .sort((a, b) => b[unit] - a[unit]);
+      if (!data.length) {
+        document.getElementById('earningsChart').innerHTML = '<p class="note">No data for this country.</p>';
+        return;
+      }
+      const reversed = [...data].reverse();
+      const width = 760, rowH = 26, left = 240, right = 80;
+      const height = 30 + reversed.length * rowH;
+      const max = Math.max(...reversed.map(row => row[unit]), 1);
+      const unitLabel = unit === 'eur' ? 'EUR' : 'PPS';
+      const bars = reversed.map((row, i) => {
+        const y = 16 + i * rowH;
+        const w = scale(row[unit], 0, max, 0, width - left - right);
+        const tip = `${escapeHtml(row.label)}<br>${fmtMoney(row[unit])} ${unitLabel}/month`;
+        return `<g data-tip="${tip}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()">
+          <text x="${left - 8}" y="${y + 14}" text-anchor="end" class="axis-text">${escapeHtml(row.label.length > 38 ? row.label.slice(0, 37) + '…' : row.label)}</text>
+          <rect class="bar" x="${left}" y="${y}" width="${w}" height="17" rx="3"></rect>
+          <text x="${left + w + 6}" y="${y + 13}" class="axis-text">${fmtMoney(row[unit])}</text>
+        </g>`;
+      }).join('');
+      document.getElementById('earningsChart').innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img">${bars}</svg>`;
     }
 
     populateSelect();
@@ -531,6 +774,15 @@ def build_dashboard() -> str:
     updateCountry();
     renderHeatmap();
     renderWeightedTable();
+    populateEarnCountries();
+    renderEarnings();
+    earnCountrySelect.addEventListener('change', renderEarnings);
+    earnUnitSelect.addEventListener('change', renderEarnings);
+    if (typeof L !== 'undefined') {
+      initMap();
+      mapViewSelect.addEventListener('change', renderMap);
+      renderMap();
+    }
   </script>
 </body>
 </html>
