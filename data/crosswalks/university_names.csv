@@ -1,72 +1,146 @@
 country_code,variant_key,canonical_name
 IT,UNIBO,"UNIBO — Alma Mater Studiorum, Università di Bologna"
-IT,ALMA MATER STUDIORUM - UNIVERSITA DI BOLOGNA,"UNIBO — Alma Mater Studiorum, Università di Bologna"
+IT,Alma Mater Studiorum - Università di Bologna,"UNIBO — Alma Mater Studiorum, Università di Bologna"
 IT,UNIPD,UNIPD — Università degli Studi di Padova
-IT,UNIVERSITA DEGLI STUDI DI PADOVA,UNIPD — Università degli Studi di Padova
+IT,Università degli Studi di Padova,UNIPD — Università degli Studi di Padova
 IT,POLIMI,POLIMI — Politecnico di Milano
-IT,POLITECNICO DI MILANO,POLIMI — Politecnico di Milano
+IT,Politecnico di Milano,POLIMI — Politecnico di Milano
 IT,POLITO,POLITO — Politecnico di Torino
-IT,POLITECNICO DI TORINO,POLITO — Politecnico di Torino
+IT,Politecnico di Torino,POLITO — Politecnico di Torino
 IT,UNIFI,UNIFI — Università degli Studi di Firenze
-IT,UNIVERSITA DEGLI STUDI DI FIRENZE,UNIFI — Università degli Studi di Firenze
+IT,Università degli Studi di Firenze,UNIFI — Università degli Studi di Firenze
 IT,UNITO,UNITO — Università degli Studi di Torino
+IT,Università degli Studi di Torino,UNITO — Università degli Studi di Torino
 IT,UMIL,UNIMI — Università degli Studi di Milano
 IT,UNIMI,UNIMI — Università degli Studi di Milano
+IT,Università degli Studi di Milano,UNIMI — Università degli Studi di Milano
 IT,UNIMIB,UNIMIB — Università degli Studi di Milano-Bicocca
-IT,LUISS GUIDO CARLI,LUISS — Libera Università Internazionale degli Studi Sociali Guido Carli
+IT,Università degli Studi di Milano-Bicocca,UNIMIB — Università degli Studi di Milano-Bicocca
+IT,LUISS,LUISS — Libera Università Internazionale degli Studi Sociali Guido Carli
+IT,LUISS Guido Carli,LUISS — Libera Università Internazionale degli Studi Sociali Guido Carli
+IT,LUISS Libera Universita Internazionale degli Studi Sociali Guido Carli,LUISS — Libera Università Internazionale degli Studi Sociali Guido Carli
 IT,UNIROMA3,UNIROMA3 — Università degli Studi Roma Tre
+IT,Università degli Studi Roma Tre,UNIROMA3 — Università degli Studi Roma Tre
 IT,UNIROMA1,UNIROMA1 — Sapienza Università di Roma
-IT,UNIVERSITA DEGLI STUDI DI ROMA LA SAPIENZA,UNIROMA1 — Sapienza Università di Roma
+IT,Università degli Studi di Roma La Sapienza,UNIROMA1 — Sapienza Università di Roma
+IT,Sapienza Università di Roma,UNIROMA1 — Sapienza Università di Roma
 IT,UNITOV,UNIROMA2 — Università degli Studi di Roma Tor Vergata
+IT,UNIROMA2,UNIROMA2 — Università degli Studi di Roma Tor Vergata
+IT,Università degli Studi di Roma Tor Vergata,UNIROMA2 — Università degli Studi di Roma Tor Vergata
 IT,UNINA,UNINA — Università degli Studi di Napoli Federico II
+IT,Università degli Studi di Napoli Federico II,UNINA — Università degli Studi di Napoli Federico II
 IT,UNIGE,UNIGE — Università degli Studi di Genova
+IT,Università degli Studi di Genova,UNIGE — Università degli Studi di Genova
 IT,UNIPI,UNIPI — Università di Pisa
+IT,Università di Pisa,UNIPI — Università di Pisa
 IT,UNIPA,UNIPA — Università degli Studi di Palermo
+IT,Università degli Studi di Palermo,UNIPA — Università degli Studi di Palermo
 IT,UNIPG,UNIPG — Università degli Studi di Perugia
+IT,Università degli Studi di Perugia,UNIPG — Università degli Studi di Perugia
 IT,UNISI,UNISI — Università degli Studi di Siena
+IT,Università degli Studi di Siena,UNISI — Università degli Studi di Siena
 IT,UCSC,UCSC — Università Cattolica del Sacro Cuore
-IT,LIBERA UNIVERSITA MARIA SS ASSUNTA,LUMSA — Libera Università Maria Ss. Assunta
-IT,UNIVERSITA DEGLI STUDI DI PARMA,UNIPR — Università degli Studi di Parma
+IT,Università Cattolica del Sacro Cuore,UCSC — Università Cattolica del Sacro Cuore
+IT,LUMSA,LUMSA — Libera Università Maria Ss. Assunta
+IT,Libera Università Maria Ss Assunta,LUMSA — Libera Università Maria Ss. Assunta
+IT,Libera Università Maria Ss Assunta di Roma,LUMSA — Libera Università Maria Ss. Assunta
 IT,UNIPR,UNIPR — Università degli Studi di Parma
+IT,Università degli Studi di Parma,UNIPR — Università degli Studi di Parma
 IT,UNIPV,UNIPV — Università degli Studi di Pavia
+IT,Università degli Studi di Pavia,UNIPV — Università degli Studi di Pavia
 IT,UNITN,UNITN — Università degli Studi di Trento
+IT,Università degli Studi di Trento,UNITN — Università degli Studi di Trento
 IT,UNICA,UNICA — Università degli Studi di Cagliari
+IT,Università degli Studi di Cagliari,UNICA — Università degli Studi di Cagliari
 IT,UNIBA,UNIBA — Università degli Studi di Bari Aldo Moro
+IT,Università degli Studi di Bari Aldo Moro,UNIBA — Università degli Studi di Bari Aldo Moro
 IT,UNIVR,UNIVR — Università degli Studi di Verona
+IT,Università degli Studi di Verona,UNIVR — Università degli Studi di Verona
 IT,UNIMORE,UNIMORE — Università degli Studi di Modena e Reggio Emilia
+IT,Università degli Studi di Modena e Reggio Emilia,UNIMORE — Università degli Studi di Modena e Reggio Emilia
 IT,UNIFG,UNIFG — Università degli Studi di Foggia
+IT,Università degli Studi di Foggia,UNIFG — Università degli Studi di Foggia
 IT,UNIVE,UNIVE — Università Ca' Foscari Venezia
-IT,UNIVERSITA' CARLO CATTANEO - LIUC,LIUC — Università Carlo Cattaneo
+IT,Università Ca Foscari Venezia,UNIVE — Università Ca' Foscari Venezia
+IT,LIUC,LIUC — Università Carlo Cattaneo
+IT,Università Carlo Cattaneo - LIUC,LIUC — Università Carlo Cattaneo
 IT,UNITS,UNITS — Università degli Studi di Trieste
+IT,Università degli Studi di Trieste,UNITS — Università degli Studi di Trieste
 IT,UNIBZ,UNIBZ — Libera Università di Bolzano
+IT,Libera Università di Bolzano,UNIBZ — Libera Università di Bolzano
 IT,UNISS,UNISS — Università degli Studi di Sassari
+IT,Università degli Studi di Sassari,UNISS — Università degli Studi di Sassari
+IT,UNICT,UNICT — Università degli Studi di Catania
+IT,Università degli Studi di Catania,UNICT — Università degli Studi di Catania
+IT,UNIFE,UNIFE — Università degli Studi di Ferrara
+IT,Unife,UNIFE — Università degli Studi di Ferrara
+IT,Università degli Studi di Ferrara,UNIFE — Università degli Studi di Ferrara
+IT,IULM,IULM — Libera Università di Lingue e Comunicazione
+IT,POLIBA,POLIBA — Politecnico di Bari
+IT,Politecnico di Bari,POLIBA — Politecnico di Bari
+IT,UNIVPM,UNIVPM — Università Politecnica delle Marche
+IT,Ud'A,UNICH — Università G. d'Annunzio Chieti-Pescara
+IT,Università degli Studi Gabriele d'Annunzio di Chieti-Pescara,UNICH — Università G. d'Annunzio Chieti-Pescara
+IT,UNILE,UNISALENTO — Università del Salento
+IT,UNIMC,UNIMC — Università di Macerata
+IT,UNISA,UNISA — Università degli Studi di Salerno
+IT,Università degli Studi di Salerno,UNISA — Università degli Studi di Salerno
+IT,IUAV,IUAV — Università IUAV di Venezia
+IT,Università IUAV di Venezia,IUAV — Università IUAV di Venezia
+IT,UNIUD,UNIUD — Università degli Studi di Udine
+IT,UNISOB,UNISOB — Università Suor Orsola Benincasa
+IT,UNICAL,UNICAL — Università della Calabria
+IT,UNINS,UNINSUBRIA — Università degli Studi dell'Insubria
+IT,UNIVAQ,UNIVAQ — Università degli Studi dell'Aquila
+IT,Università degli Studi dell'Aquila,UNIVAQ — Università degli Studi dell'Aquila
+IT,UNIME,UNIME — Università degli Studi di Messina
+IT,Università degli Studi di Messina,UNIME — Università degli Studi di Messina
+IT,UNIURB,UNIURB — Università degli Studi di Urbino Carlo Bo
+IT,UNIBS,UNIBS — Università degli Studi di Brescia
+IT,UNIPARTH,UNIPARTHENOPE — Università degli Studi di Napoli Parthenope
+IT,Università Commerciale Luigi Bocconi,BOCCONI — Università Commerciale Luigi Bocconi
+IT,UNITUS,UNITUS — Università degli Studi della Tuscia
+IT,Università degli Studi della Tuscia,UNITUS — Università degli Studi della Tuscia
+IT,UNINT,UNINT — Università degli Studi Internazionali di Roma
+IT,Università degli Studi Internazionali di Roma,UNINT — Università degli Studi Internazionali di Roma
+IT,UNICAS,UNICAS — Università degli Studi di Cassino
+IT,UNICAM,UNICAM — Università di Camerino
+IT,Università degli Studi della Campania Luigi Vanvitelli,UNICAMPANIA — Università della Campania Luigi Vanvitelli
+IT,Università degli Studi di Bergamo,UNIBG — Università degli Studi di Bergamo
+IT,UNISR,UNISR — Università Vita-Salute San Raffaele
+IT,University of Teramo,UNITE — Università degli Studi di Teramo
+IT,UNISANNIO,UNISANNIO — Università degli Studi del Sannio
+IT,Università degli Studi della Basilicata,UNIBAS — Università degli Studi della Basilicata
+IT,Università degli Studi del Molise,UNIMOL — Università degli Studi del Molise
+IT,Foro Italico,FOROITALICO — Università di Roma Foro Italico
+IT,University for Foreigners of Siena,UNISTRASI — Università per Stranieri di Siena
 ES,UVEG,UVEG — Universitat de València
 ES,UGR,UGR — Universidad de Granada
-ES,UNIVERSIDAD DE MALAGA,UMA — Universidad de Málaga
+ES,Universidad de Malaga,UMA — Universidad de Málaga
 ES,UCM,UCM — Universidad Complutense de Madrid
-ES,UNIVERSIDAD COMPLUTENSE DE MADRID,UCM — Universidad Complutense de Madrid
+ES,Universidad Complutense de Madrid,UCM — Universidad Complutense de Madrid
 ES,UPV,UPV — Universitat Politècnica de València
 ES,USE,US — Universidad de Sevilla
 ES,UPC,UPC — Universitat Politècnica de Catalunya
 ES,UB,UB — Universitat de Barcelona
-ES,UNIVERSITAT AUTONOMA DE BARCELONA,UAB — Universitat Autònoma de Barcelona
+ES,Universitat Autonoma de Barcelona,UAB — Universitat Autònoma de Barcelona
 ES,UAM,UAM — Universidad Autónoma de Madrid
-ES,UNIVERSIDAD AUTONOMA DE MADRID,UAM — Universidad Autónoma de Madrid
-ES,UNIVERSIDAD DE ZARAGOZA,UNIZAR — Universidad de Zaragoza
+ES,Universidad Autonoma de Madrid,UAM — Universidad Autónoma de Madrid
+ES,Universidad de Zaragoza,UNIZAR — Universidad de Zaragoza
 ES,UPM,UPM — Universidad Politécnica de Madrid
 ES,UC3M,UC3M — Universidad Carlos III de Madrid
 ES,UPV/EHU,UPV/EHU — Universidad del País Vasco
 PT,ULISBOA,ULISBOA — Universidade de Lisboa
-PT,UNIVERSIDADE DE COIMBRA,UC — Universidade de Coimbra
+PT,Universidade de Coimbra,UC — Universidade de Coimbra
 PT,UNL,NOVA — Universidade NOVA de Lisboa
 PT,UCP,UCP — Universidade Católica Portuguesa
 CZ,CU,CU — Charles University (Univerzita Karlova)
 NO,NTNU,NTNU — Norwegian University of Science and Technology
-NO,UNIVERSITY OF OSLO,UiO — University of Oslo
+NO,University of Oslo,UiO — University of Oslo
 NO,UIB,UiB — University of Bergen
 SI,UL,UL — University of Ljubljana
-BE,KU LEUVEN,KU Leuven
+BE,KU Leuven,KU Leuven
 BE,UGENT,UGent — Ghent University
-HU,EOTVOS LORAND TUDOMANYEGYETEM,ELTE — Eötvös Loránd University
+HU,Eotvos Lorand Tudomanyegyetem,ELTE — Eötvös Loránd University
 DE,TUM,TUM — Technische Universität München
 AT,UNIVIE,UNIVIE — Universität Wien
