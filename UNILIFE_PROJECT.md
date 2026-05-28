@@ -13,11 +13,11 @@
 
 ## Research Question
 
-> How are Erasmus student mobility flows distributed across economic gaps between sending and receiving countries?
+> What explains the size of Erasmus Higher Education mobility flows from one country to another?
 
-The project asks whether students from different origin countries tend to choose destinations that are richer, poorer, cheaper, more expensive, or economically similar to their home country.
+We frame origin-to-destination choice as a gravity-style model in which flow size responds to the **salary gap**, **perceived quality of life**, **institution quality**, and **language affinity** between origin and destination, controlling for income, cost of living, and distance.
 
-This is a descriptive and exploratory project. It does **not** claim causal inference. The goal is to document patterns in official Erasmus mobility flows and connect them to economic indicators such as GDP per capita, wages, and cost of living.
+This is a descriptive and exploratory project. It does **not** claim causal inference. Following the grading rubric, the regression is the project's **step-3 design**: the executed work is the spatial flow analysis plus the Reddit text layer; the regression itself is described, not estimated.
 
 ---
 
@@ -51,27 +51,39 @@ Possible descriptive hypotheses:
 |--------|------|------|
 | `annual-report-2024-statistical-annex.xlsx` | Erasmus+ country-to-country mobility matrix | Main flow data |
 | `HE-Learn Mobility` sheet | Higher Education learner flows | Preferred outcome |
-| GDP per capita | Sending and receiving country income | Economic gap |
-| Average wages / salaries | Labor-market attractiveness | Economic gap |
-| Cost-of-living index | Affordability of destination | Economic gap |
-| Distance between countries | Gravity-style control | Baseline mobility friction |
+| Average wages / salaries (Eurostat) | Labor-market attractiveness | β₁ salary gap |
+| University ranking score | Academic pull of destination | β₃ institution quality (planned) |
+| GDP per capita | Sending and receiving country income | Control: income gap |
+| Cost-of-living index | Affordability of destination | Control: price-level gap |
+| Distance between countries | Gravity friction | Control (planned) |
+| Language groupings (Med / Anglo-Saxon / Germanic) | Origin–destination language affinity | Control (planned) |
 
-Optional text layer:
+Text layer (β₂ quality of life):
 
 | Source | What | Role |
 |--------|------|------|
 | Reddit `r/Erasmus` | Student discussions of destinations | Qualitative perception layer |
-| Gemini + Pydantic extraction | City/country, sentiment, themes | Text-analysis extension |
+| Gemini + Pydantic extraction | City/country, sentiment, themes | β₂ quality of life (text analysis) |
 
 ---
 
 ## Unit of Analysis
 
-The main dataset should be a country-pair table:
+The main analytical dataset is a country-pair table:
 
 ```text
 sending_country, sending_code, receiving_country, receiving_code, flow_count
 ```
+
+For the interactive dashboard, the detailed KA1 file is also aggregated to:
+
+```text
+country -> university
+university -> country
+university -> university
+```
+
+These organization-level views support the planned institution-quality layer (β₃), but the project should still be described as Erasmus cross-border mobility. True within-country Erasmus is not a meaningful layer in this file; the few same-country rows are treated as coding anomalies rather than a domestic mobility outcome.
 
 Then join country-level indicators:
 
@@ -144,21 +156,22 @@ Repeat for:
 
 This gives a clean way to ask whether students from each country tend to move toward richer, poorer, cheaper, or more expensive destinations.
 
-### Step 5 - Regression as Descriptive Evidence
+### Step 5 - Regression Design (step-3 deliverable, not estimated)
 
-Use a simple gravity-style model:
+The gravity-style specification that the collected data would feed:
 
 ```text
 log(1 + flow_ij) =
-    beta1 * gdp_gap_ij
-  + beta2 * cost_gap_ij
-  + beta3 * distance_ij
+    beta1 * salary_gap_ij            # Eurostat net earnings (built)
+  + beta2 * quality_of_life_j        # Reddit sentiment/themes (text layer)
+  + beta3 * institution_quality_j    # university ranking (planned)
+  + controls(gdp_gap_ij, price_level_gap_ij, distance_ij, language_affinity_ij)
   + sending_country fixed effects
   + receiving_country fixed effects
   + error_ij
 ```
 
-This is not causal. It is a structured descriptive model that checks whether economic gaps are associated with larger or smaller flows after accounting for broad origin and destination differences.
+Language affinity (Med / Anglo-Saxon / Germanic groupings) is a **gravity control**, not an instrument: it directly shapes bilateral flows, so it fails the IV exclusion restriction. Per the grading rubric, this regression is **described, not implemented**: the executed analysis is the spatial flow pipeline plus the Reddit text layer (β₂). Origin and destination fixed effects absorb broad country differences. The estimate would be descriptive, not causal. Expected signs: salary gap +, quality of life +, institution quality +, price-level gap −, distance −, language affinity +.
 
 ### Step 6 - Optional Reddit / LLM Text Layer
 

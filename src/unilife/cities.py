@@ -46,28 +46,31 @@ def load_university_crosswalk(path: str | Path = UNIVERSITY_CROSSWALK) -> dict[t
 
 
 def normalize_org_key(value: object) -> str | None:
-    """Accent/case/whitespace-insensitive key for an organization name.
+    """Accent/case/punctuation/whitespace-insensitive key for an organization name.
 
-    Returns None for blank or placeholder names so they can be dropped.
+    Strips all punctuation to spaces so acronym and full-name variants that differ
+    only by apostrophes, quotes, periods or hyphens collapse to one key. Returns
+    None for blank or placeholder names so they can be dropped.
     """
     if not isinstance(value, str):
         return None
     text = unicodedata.normalize("NFKD", value)
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
-    text = _WS.sub(" ", text).strip().upper().strip(" .,-/_")
+    text = re.sub(r"[^0-9A-Za-z]+", " ", text).strip().upper()
     if not text or text in _PLACEHOLDER_ORGS:
-        return None
-    if not any(ch.isalnum() for ch in text):
         return None
     return text
 
 
 def canonical_org_names(filtered: pd.DataFrame) -> dict[tuple[str, str], str]:
     """Pick one display name per (country_code, org_key) by participant-weighted frequency."""
-    part = filtered[["receiving_code", "Receiving Organization", PARTICIPANTS_COL]].rename(
-        columns={"receiving_code": "code", "Receiving Organization": "org"}
-    )
-    part = part.dropna(subset=["code", "org"])
+    frames = []
+    for code_col, org_col in (("sending_code", "Sending Organization"), ("receiving_code", "Receiving Organization")):
+        part = filtered[[code_col, org_col, PARTICIPANTS_COL]].rename(
+            columns={code_col: "code", org_col: "org"}
+        )
+        frames.append(part)
+    part = pd.concat(frames, ignore_index=True).dropna(subset=["code", "org"])
     part["org_key"] = part["org"].map(normalize_org_key)
     part = part.dropna(subset=["org_key"])
     part["display"] = part["org"].astype(str).str.strip()
@@ -138,8 +141,19 @@ def build_ka1_he_studies_city_flows(path: str | Path = RAW_KA1) -> tuple[pd.Data
     return flows, diagnostics
 
 
-def aggregate_org_flows(filtered: pd.DataFrame, include_domestic: bool = False) -> pd.DataFrame:
-    """Aggregate filtered KA1 records to receiving-university flows within cities."""
+def _org_display(
+    code: str,
+    key: str,
+    org_names: dict[tuple[str, str], str],
+    crosswalk: dict[tuple[str, str], str],
+) -> str:
+    if key == ORG_NOT_SPECIFIED:
+        return "(University not specified)"
+    return crosswalk.get((code, key)) or org_names.get((code, key), key.title())
+
+
+def prepare_org_endpoints(filtered: pd.DataFrame) -> pd.DataFrame:
+    """Add normalized sending/receiving city and university endpoint fields."""
     country_names = canonical_country_names(filtered)
     city_names = canonical_city_names(filtered)
     org_names = canonical_org_names(filtered)
@@ -148,24 +162,35 @@ def aggregate_org_flows(filtered: pd.DataFrame, include_domestic: bool = False) 
     df = filtered.copy()
     df["sending_city_key"] = df["Sending City"].map(normalize_city_key)
     df["receiving_city_key"] = df["Receiving City"].map(normalize_city_key)
+    df["sending_org_key"] = df["Sending Organization"].map(normalize_org_key)
     df["receiving_org_key"] = df["Receiving Organization"].map(normalize_org_key)
-    df = df.dropna(subset=["receiving_city_key"]).copy()
+
+    df = df.dropna(subset=["sending_city_key", "receiving_city_key"]).copy()
+    df["sending_org_key"] = df["sending_org_key"].fillna(ORG_NOT_SPECIFIED)
     df["receiving_org_key"] = df["receiving_org_key"].fillna(ORG_NOT_SPECIFIED)
 
     df["sending_country"] = df["sending_code"].map(country_names).fillna(df["sending_country"])
     df["receiving_country"] = df["receiving_code"].map(country_names).fillna(df["receiving_country"])
 
-    def org_display(code: str, key: str) -> str:
-        if key == ORG_NOT_SPECIFIED:
-            return "(University not specified)"
-        return crosswalk.get((code, key)) or org_names.get((code, key), key.title())
-
+    df["sending_org"] = [
+        _org_display(c, k, org_names, crosswalk) for c, k in zip(df["sending_code"], df["sending_org_key"])
+    ]
     df["receiving_org"] = [
-        org_display(c, k) for c, k in zip(df["receiving_code"], df["receiving_org_key"])
+        _org_display(c, k, org_names, crosswalk) for c, k in zip(df["receiving_code"], df["receiving_org_key"])
+    ]
+    df["sending_city"] = [
+        city_names.get((c, k), k.title()) for c, k in zip(df["sending_code"], df["sending_city_key"])
     ]
     df["receiving_city"] = [
         city_names.get((c, k), k.title()) for c, k in zip(df["receiving_code"], df["receiving_city_key"])
     ]
+
+    return df
+
+
+def aggregate_country_to_org_flows(filtered: pd.DataFrame, include_domestic: bool = False) -> pd.DataFrame:
+    """Aggregate filtered KA1 records to sending-country -> receiving-university flows."""
+    df = prepare_org_endpoints(filtered)
 
     keys = [
         "sending_code", "sending_country",
@@ -189,9 +214,78 @@ def aggregate_org_flows(filtered: pd.DataFrame, include_domestic: bool = False) 
     return flows.reset_index(drop=True)
 
 
+def aggregate_org_to_country_flows(filtered: pd.DataFrame, include_domestic: bool = False) -> pd.DataFrame:
+    """Aggregate filtered KA1 records to sending-university -> receiving-country flows."""
+    df = prepare_org_endpoints(filtered)
+
+    keys = [
+        "sending_code", "sending_country", "sending_city", "sending_org",
+        "receiving_code", "receiving_country",
+    ]
+    flows = (
+        df.groupby(keys, as_index=False)[PARTICIPANTS_COL]
+        .sum()
+        .rename(columns={PARTICIPANTS_COL: "flow_count"})
+    )
+
+    if not include_domestic:
+        flows = flows.loc[flows["sending_code"] != flows["receiving_code"]]
+
+    cols = [
+        "sending_code", "sending_country", "sending_city", "sending_org",
+        "receiving_code", "receiving_country",
+        "flow_count",
+    ]
+    flows = flows[cols].sort_values(["sending_code", "flow_count"], ascending=[True, False])
+    return flows.reset_index(drop=True)
+
+
+def aggregate_org_to_org_flows(filtered: pd.DataFrame, include_domestic: bool = False) -> pd.DataFrame:
+    """Aggregate filtered KA1 records to sending-university -> receiving-university flows."""
+    df = prepare_org_endpoints(filtered)
+
+    keys = [
+        "sending_code", "sending_country", "sending_city", "sending_org",
+        "receiving_code", "receiving_country", "receiving_city", "receiving_org",
+    ]
+    flows = (
+        df.groupby(keys, as_index=False)[PARTICIPANTS_COL]
+        .sum()
+        .rename(columns={PARTICIPANTS_COL: "flow_count"})
+    )
+
+    if not include_domestic:
+        flows = flows.loc[flows["sending_code"] != flows["receiving_code"]]
+
+    cols = [
+        "sending_code", "sending_country", "sending_city", "sending_org",
+        "receiving_code", "receiving_country", "receiving_city", "receiving_org",
+        "flow_count",
+    ]
+    flows = flows[cols].sort_values(["flow_count", "sending_code"], ascending=[False, True])
+    return flows.reset_index(drop=True)
+
+
+def aggregate_org_flows(filtered: pd.DataFrame, include_domestic: bool = False) -> pd.DataFrame:
+    """Backward-compatible alias for sending-country -> receiving-university flows."""
+    return aggregate_country_to_org_flows(filtered, include_domestic=include_domestic)
+
+
 def build_ka1_he_studies_org_flows(path: str | Path = RAW_KA1) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Build the HE studies-only receiving-university flow dataset."""
+    """Build the HE studies-only sending-country -> receiving-university dataset."""
     raw = load_ka1_raw(path)
     filtered, diagnostics = filter_he_studies(raw)
     flows = aggregate_org_flows(filtered, include_domestic=False)
+    return flows, diagnostics
+
+
+def build_ka1_he_studies_org_flow_levels(path: str | Path = RAW_KA1) -> tuple[dict[str, pd.DataFrame], pd.DataFrame]:
+    """Build country->university, university->country, and university->university flow datasets."""
+    raw = load_ka1_raw(path)
+    filtered, diagnostics = filter_he_studies(raw)
+    flows = {
+        "country_to_uni": aggregate_country_to_org_flows(filtered, include_domestic=False),
+        "uni_to_country": aggregate_org_to_country_flows(filtered, include_domestic=False),
+        "uni_to_uni": aggregate_org_to_org_flows(filtered, include_domestic=False),
+    }
     return flows, diagnostics

@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import json
 import os
 import time
 from pathlib import Path
-from typing import Literal
+from typing import Callable, Literal
 
+import requests
 from pydantic import BaseModel, Field
 
-DEFAULT_MODEL = "gemini-2.5-flash"
+DEFAULT_MODEL = "deepseek/deepseek-v4-flash"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 ENV_PATH = Path(".env")
 
 
@@ -27,16 +30,18 @@ class PostExtraction(BaseModel):
 
 
 def load_api_key() -> str:
-    """Read GEMINI_API_KEY from the environment or the local .env (whitespace-tolerant)."""
-    key = os.environ.get("GEMINI_API_KEY", "").strip()
+    """Read OPENROUTER_API_KEY from the environment or the local .env (whitespace-tolerant)."""
+    key = os.environ.get("OPENROUTER_API_KEY", "").strip()
     if key:
         return key
     if ENV_PATH.exists():
         for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
             line = line.strip()
-            if line.startswith("GEMINI_API_KEY") and "=" in line:
-                return line.split("=", 1)[1].strip()
-    raise RuntimeError("GEMINI_API_KEY not set. Add it to .env or the environment.")
+            if line.startswith("OPENROUTER_API_KEY"):
+                value = line[len("OPENROUTER_API_KEY"):].lstrip("=: ").strip()
+                if value:
+                    return value.strip("\"'")
+    raise RuntimeError("OPENROUTER_API_KEY not set. Add it to .env or the environment.")
 
 
 PROMPT = (
@@ -45,30 +50,43 @@ PROMPT = (
     "city and/or country) the author talks about. For each, give the sentiment the "
     "author expresses toward it and the themes discussed (e.g. cost, housing, "
     "nightlife, academics, safety, bureaucracy, social life, weather). Only include "
-    "destinations actually discussed, not passing geographic mentions. If none, "
-    "return an empty list.\n\nTEXT:\n"
+    "destinations actually discussed, not passing geographic mentions.\n\n"
+    "Return ONLY a JSON object of the form "
+    '{"mentions": [{"city": str|null, "country": str, '
+    '"sentiment": "positive"|"neutral"|"negative", "themes": [str], '
+    '"confidence": number 0..1}]}. '
+    "If no destination is discussed, return {\"mentions\": []}.\n\nTEXT:\n"
 )
 
 
 def _is_retryable(exc: Exception) -> bool:
     text = str(exc).lower()
-    transient = ("429", "resource_exhausted", "503", "500", "unavailable", "overloaded", "deadline")
+    transient = ("429", "resource_exhausted", "503", "500", "502", "unavailable", "overloaded", "deadline", "timeout")
     return any(token in text for token in transient)
 
 
-def extract_text(client, text: str, model: str = DEFAULT_MODEL, retries: int = 5) -> PostExtraction:
-    """Run one structured extraction call against Gemini, backing off on transient errors."""
+def extract_text(api_key: str, text: str, model: str = DEFAULT_MODEL, retries: int = 5) -> PostExtraction:
+    """Run one structured extraction call against OpenRouter, backing off on transient errors."""
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://unilife.ellep.it",
+        "X-Title": "UniLife Erasmus research",
+    }
+    body = {
+        "model": model,
+        "messages": [{"role": "user", "content": PROMPT + text}],
+        "response_format": {"type": "json_object"},
+        "temperature": 0,
+    }
     for attempt in range(retries):
         try:
-            response = client.models.generate_content(
-                model=model,
-                contents=PROMPT + text,
-                config={"response_mime_type": "application/json", "response_schema": PostExtraction},
-            )
-            parsed = getattr(response, "parsed", None)
-            if isinstance(parsed, PostExtraction):
-                return parsed
-            return PostExtraction.model_validate_json(response.text)
+            response = requests.post(OPENROUTER_URL, headers=headers, json=body, timeout=90)
+            if response.status_code in (429, 500, 502, 503):
+                raise RuntimeError(f"{response.status_code} {response.text[:200]}")
+            response.raise_for_status()
+            content = response.json()["choices"][0]["message"]["content"]
+            return PostExtraction.model_validate_json(content)
         except Exception as exc:
             if _is_retryable(exc) and attempt < retries - 1:
                 time.sleep(min(8 * (attempt + 1), 40))
@@ -81,16 +99,16 @@ def extract_corpus(
     limit: int | None = 100,
     min_chars: int = 80,
     model: str = DEFAULT_MODEL,
-    pause: float = 4.0,
+    pause: float = 1.0,
+    progress_every: int = 0,
+    on_progress: Callable[[int, int, list[dict]], None] | None = None,
 ) -> list[dict]:
     """Extract destination mentions from the highest-signal records.
 
     Records are ranked by score so a bounded sample (``limit``) captures the most
     discussed destinations while keeping API cost predictable.
     """
-    from google import genai
-
-    client = genai.Client(api_key=load_api_key())
+    api_key = load_api_key()
 
     usable = [r for r in records if len((r.get("title", "") + " " + r.get("text", "")).strip()) >= min_chars]
     usable.sort(key=lambda r: r.get("score", 0), reverse=True)
@@ -98,10 +116,11 @@ def extract_corpus(
         usable = usable[:limit]
 
     results: list[dict] = []
-    for record in usable:
+    total = len(usable)
+    for index, record in enumerate(usable, start=1):
         text = (record.get("title", "") + "\n" + record.get("text", "")).strip()
         try:
-            extraction = extract_text(client, text, model=model)
+            extraction = extract_text(api_key, text, model=model)
             mentions = [m.model_dump() for m in extraction.mentions]
         except Exception as exc:  # keep going; record the failure for review
             mentions = []
@@ -110,6 +129,10 @@ def extract_corpus(
                  "permalink": record.get("permalink"), "error": str(exc), "mentions": []}
             )
             time.sleep(pause)
+            if progress_every and (index % progress_every == 0 or index == total):
+                print(f"processed {index:,}/{total:,} prompts", flush=True)
+                if on_progress:
+                    on_progress(index, total, results)
             continue
         results.append(
             {
@@ -121,4 +144,8 @@ def extract_corpus(
             }
         )
         time.sleep(pause)
+        if progress_every and (index % progress_every == 0 or index == total):
+            print(f"processed {index:,}/{total:,} prompts", flush=True)
+            if on_progress:
+                on_progress(index, total, results)
     return results

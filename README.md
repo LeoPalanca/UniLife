@@ -9,11 +9,31 @@
 
 ## Research Question
 
-> How are Erasmus student mobility flows distributed across economic gaps between sending and receiving countries?
+> What explains the size of Erasmus Higher Education mobility flows from one country to another?
 
-The project asks whether students from different origin countries tend to choose destinations that are richer, poorer, cheaper, more expensive, or economically similar to their home country.
+We frame origin-to-destination choice as a gravity-style model in which flow size responds to the **salary gap**, **perceived quality of life**, **institution quality**, and **language affinity** between origin and destination, controlling for income, cost of living, and distance.
 
-This is a descriptive and exploratory project. It does **not** claim causal inference. The goal is to document patterns in official Erasmus mobility flows and connect them to economic indicators such as GDP per capita, wages, and cost of living.
+This is a descriptive and exploratory project. It does **not** claim causal inference. Per the grading rubric, the regression is the project's **step-3 design** (described, not estimated); the executed work is the spatial flow analysis plus the Reddit text layer.
+
+### Model Design
+
+| Term | Variable | Source | Status |
+|------|----------|--------|--------|
+| β₁ | salary gap | Eurostat net earnings | built |
+| β₂ | quality of life | Reddit `r/Erasmus` sentiment/themes (Gemini + Pydantic) | planned (text layer) |
+| β₃ | institution quality | university ranking score | planned |
+| control | gdp gap, price-level gap, distance, language affinity | World Bank / Eurostat / distance / language groupings | built (distance + language planned) |
+
+```text
+log(1 + flow_ij) =
+    beta1 * salary_gap_ij
+  + beta2 * quality_of_life_j
+  + beta3 * institution_quality_j
+  + controls(gdp_gap_ij, price_level_gap_ij, distance_ij, language_affinity_ij)
+  + sending_country fixed effects
+  + receiving_country fixed effects
+  + error_ij
+```
 
 ## Core Data
 
@@ -41,11 +61,21 @@ The annual report annex remains in `data/raw/` as a reference file.
 
 ## Unit of Analysis
 
-The main dataset should be a country-pair table:
+The main analytical dataset is a country-pair table:
 
 ```text
 sending_country, sending_code, receiving_country, receiving_code, flow_count
 ```
+
+For the dashboard, the same KA1 file is also aggregated at three organization levels:
+
+```text
+country -> university
+university -> country
+university -> university
+```
+
+These are still Erasmus mobility flows, so the meaningful scope is cross-border country pairs. Same-country rows in the source are extremely rare and look like coding artifacts, not a real domestic Erasmus layer.
 
 Then join country-level indicators:
 
@@ -98,13 +128,16 @@ Do not commit `.env`.
    - Italy vs Luxembourg destination profiles
    - destination GDP/cost gap vs flow share
    - flow-weighted destination GDP/cost by sending country
-6. Estimate a non-causal, gravity-style descriptive regression.
+6. Design (do not estimate) the gravity-style regression — see [Model Design](#model-design).
+7. Build the Reddit text layer for the quality-of-life variable (β₂).
 
 ## Build Commands
 
 ```bash
 .venv/bin/python scripts/build_flows.py
 .venv/bin/python scripts/build_indicators.py
+.venv/bin/python scripts/build_org_flows.py
+.venv/bin/python scripts/build_geocode.py
 .venv/bin/python scripts/build_dashboard.py
 ```
 
@@ -122,12 +155,14 @@ http://unilife.ellep.it
 
 Current dashboard features:
 
-- sending-country selector
+- sticky top-bar controls for sending country search, flow level, map aggregation, university/place search, and salary explorer settings
 - selected-country destination chart and GDP-gap scatter
 - destination table sortable by flow count, flow share, GDP gap, price gap, and earnings gap
 - same-order sending/receiving heatmap
+- university-level flow map and table for country→university, university→country, and university→university views
 - sortable flow-weighted destination economics table
 - Higher Education grant-per-participant metric from the annual annex
+- Reddit destination sentiment/themes layer for the quality-of-life variable
 
 VM deployment helpers:
 
@@ -136,28 +171,18 @@ VM deployment helpers:
 ./scripts/deploy_dashboard.sh
 ```
 
-Example descriptive model:
+See [Model Design](#model-design) above for the full gravity specification.
 
-```text
-log(1 + flow_ij) =
-    beta1 * gdp_gap_ij
-  + beta2 * cost_gap_ij
-  + beta3 * distance_ij
-  + sending_country fixed effects
-  + receiving_country fixed effects
-  + error_ij
-```
+## Text Layer (β₂ quality of life)
 
-## Optional Text Layer
-
-If the official flow analysis is complete, add a course-relevant text extension:
+The Reddit text layer supplies the quality-of-life variable (β₂) and is the executed text-analysis component. Built after the flow pipeline is clean:
 
 - collect Reddit `r/Erasmus` posts/comments mentioning destinations
 - use Gemini + Pydantic for structured extraction
 - extract country/city, sentiment, and themes such as cost, housing, nightlife, academics, safety, and bureaucracy
 - manually label 40-50 mentions to evaluate extraction quality
 
-This optional section connects the final project to the course's LLM information-extraction assignment.
+This connects the final project to the course's LLM information-extraction assignment.
 
 ## Repository Structure
 
@@ -186,4 +211,4 @@ This optional section connects the final project to the course's LLM information
 
 ## Current Position
 
-Use the detailed KA1 Erasmus Excel file as the backbone of the project. Build the flow dataset first. Add Reddit and LLM extraction only after the flow/economic analysis is clean and reproducible.
+Use the detailed KA1 Erasmus Excel file as the backbone of the project. Build the flow dataset first, then the Reddit text layer (β₂ quality of life). The gravity regression is documented as step-3 design, not estimated.
