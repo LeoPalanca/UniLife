@@ -86,6 +86,48 @@ def fetch_country_indicators(year: int = 2022) -> pd.DataFrame:
     return indicators.sort_values("country_code").reset_index(drop=True)
 
 
+def fetch_sector_earnings(year: int = 2018) -> pd.DataFrame:
+    """Fetch EU mean monthly gross earnings by country and economic sector (NACE).
+
+    Source: Structure of Earnings Survey (earn_ses18_24), run every four years.
+    Coverage is limited to the countries that publish this dataset.
+    """
+    frames = []
+    for unit, column in (("EUR", "earnings_eur"), ("PPS", "earnings_pps")):
+        data = fetch_eurostat(
+            "earn_ses18_24",
+            time=str(year),
+            indic_se="ERN",
+            unit=unit,
+            sex="T",
+            sizeclas="TOTAL",
+            l_serv="TOTAL",
+            freq="A",
+        )
+        data = data[["geo", "geo_label", "nace_r2", "nace_r2_label", "value"]].rename(
+            columns={
+                "geo": "country_code",
+                "geo_label": "country_name",
+                "nace_r2": "nace_code",
+                "nace_r2_label": "nace_label",
+                "value": column,
+            }
+        )
+        frames.append(data)
+
+    merged = frames[0].merge(
+        frames[1][["country_code", "nace_code", "earnings_pps"]],
+        on=["country_code", "nace_code"],
+        how="outer",
+    )
+    merged = merged[~merged["country_code"].str.startswith(("EU", "EA"))]
+    # NACE single-letter codes are the detailed sectors; multi-character codes are aggregates.
+    merged["is_sector"] = merged["nace_code"].str.fullmatch(r"[A-Z]")
+    merged["country_code"] = merged["country_code"].replace({"GB": "UK", "GR": "EL"})
+    merged["year"] = year
+    return merged.sort_values(["country_code", "nace_code"]).reset_index(drop=True)
+
+
 def fetch_world_bank_gdp_per_capita(year: int = 2022) -> pd.DataFrame:
     """Fetch broad-country-coverage GDP per capita from the World Bank."""
     response = requests.get(
