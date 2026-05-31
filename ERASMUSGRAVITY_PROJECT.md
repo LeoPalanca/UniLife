@@ -1,4 +1,4 @@
-# UniLife - Final Project
+# ErasmusGravity - Final Project
 
 **Course:** Text Analysis for Economics  
 **Deliverable:** `Palanca_Leonardo.zip` - notebook + report + raw/processed data
@@ -52,18 +52,18 @@ Possible descriptive hypotheses:
 | `annual-report-2024-statistical-annex.xlsx` | Erasmus+ country-to-country mobility matrix | Main flow data |
 | `HE-Learn Mobility` sheet | Higher Education learner flows | Preferred outcome |
 | Average wages / salaries (Eurostat) | Labor-market attractiveness | β₁ salary gap |
-| University ranking score | Academic pull of destination | β₃ institution quality (planned) |
+| QS World 2023 score (geocoded → destination city) | Academic pull of destination | β₃ institution quality (built) |
 | GDP per capita | Sending and receiving country income | Control: income gap |
 | Cost-of-living index | Affordability of destination | Control: price-level gap |
-| Distance between countries | Gravity friction | Control (planned) |
-| Language groupings (Med / Anglo-Saxon / Germanic) | Origin–destination language affinity | Control (planned) |
+| Distance (origin centroid → destination city) | Gravity friction | Control (built) |
+| Language-family groupings (shared family dummy) | Origin–destination language affinity | Control (built) |
 
 Text layer (β₂ quality of life):
 
 | Source | What | Role |
 |--------|------|------|
 | Reddit `r/Erasmus` | Student discussions of destinations | Qualitative perception layer |
-| Gemini + Pydantic extraction | City/country, sentiment, themes | β₂ quality of life (text analysis) |
+| OpenRouter (DeepSeek) + Pydantic extraction | City/country, sentiment, themes | β₂ quality of life (text analysis) |
 
 ---
 
@@ -164,7 +164,7 @@ The gravity-style specification that the collected data would feed:
 log(1 + flow_ij) =
     beta1 * salary_gap_ij            # Eurostat net earnings (built)
   + beta2 * quality_of_life_j        # Reddit sentiment/themes (text layer)
-  + beta3 * institution_quality_j    # university ranking (planned)
+  + beta3 * institution_quality_j    # QS 2023 score, geocoded -> destination city (built)
   + controls(gdp_gap_ij, price_level_gap_ij, distance_ij, language_affinity_ij)
   + sending_country fixed effects
   + receiving_country fixed effects
@@ -178,7 +178,7 @@ Language affinity (Med / Anglo-Saxon / Germanic groupings) is a **gravity contro
 If the core flow analysis is working, add a text-analysis extension:
 
 - Scrape or collect Reddit posts/comments mentioning Erasmus destinations.
-- Use Gemini + Pydantic to extract:
+- Use OpenRouter (DeepSeek) + Pydantic to extract:
 
 ```python
 from pydantic import BaseModel, Field
@@ -239,7 +239,7 @@ Optional text figures:
 
 ```text
 Palanca_Leonardo.zip
-├── unilife.ipynb
+├── erasmusgravity.ipynb
 ├── report.pdf
 ├── data/
 │   ├── raw/
@@ -247,7 +247,7 @@ Palanca_Leonardo.zip
 │   └── processed/
 │       ├── erasmus_flows_long.csv
 │       └── erasmus_flows_with_economics.csv
-└── README.md or UNILIFE_PROJECT.md
+└── README.md or ERASMUSGRAVITY_PROJECT.md
 ```
 
 If the optional text layer is added:

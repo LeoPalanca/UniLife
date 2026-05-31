@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ErasmusGravity — unilife.ellep.it</title>
+<style>
+  :root{
+    --paper:#f7f7f4; --panel:#ffffff; --soft:#eef3f1; --soft-2:#f3f5f5;
+    --ink:#1f2933; --ink-strong:#11181f; --muted:#5f6b76; --faint:#8a949d;
+    --line:#d8dee4; --line-soft:#e7ebef;
+    --accent:#2f6f73; --accent-deep:#234f52; --accent-bright:#37868b;
+    --accent-2:#b44e5a; --accent-2-deep:#8f3b46;
+    --positive:#2f6f73; --negative:#b44e5a; --neutral:#5f6b76;
+    --c1:#2f6f73; --c2:#b44e5a; --c3:#c98a2b; --c4:#4a6fa5; --c5:#6b8f3a; --c6:#8a5a9e;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Palladio,Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --radius:8px;
+    --shadow:0 1px 2px rgba(17,24,31,.04),0 8px 24px -16px rgba(17,24,31,.28);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums;
+  }
+  h1,h2,h3,h4,p{margin:0}
+  a{color:inherit}
+  code{font-family:var(--mono)}
+
+  /* ---------- Editorial hero ---------- */
+  .pagehead{background:var(--panel); border-bottom:1px solid var(--line); padding:64px 42px 48px; position:relative; overflow:hidden}
+  .hero-inner{max-width:1320px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr; gap:32px; align-items:center}
+  .kicker{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); display:inline-flex; align-items:center; gap:9px; margin-bottom:18px}
+  .kicker .dot{width:18px; height:18px}
+  .pagehead h1{font-size:clamp(34px,4.6vw,58px); font-weight:800; letter-spacing:-.03em; line-height:1.0; color:var(--ink-strong); max-width:15ch}
+  .pagehead h1 .pull{color:var(--accent); font-style:italic; font-family:var(--serif); font-weight:700}
+  .pagehead .rq{max-width:62ch; margin-top:22px; color:var(--muted); font-size:16px; line-height:1.55}
+  .pagehead .rq b{color:var(--ink); font-weight:700}
+  .hero-orbits{justify-self:end; max-width:100%; opacity:.85; pointer-events:none}
+
+  /* ---------- Header meta strip ---------- */
+  .meta-strip{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:28px; padding-top:22px; border-top:1px solid var(--line)}
+  .readout{font-size:13px; color:var(--muted)} .readout b{color:var(--ink); font-weight:700}
+
+  /* ---------- Nav + controls bar (sticky) ---------- */
+  .topbar{background:var(--panel); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:60; transition:box-shadow .2s ease}
+  .topbar.stuck{box-shadow:0 10px 28px -18px rgba(17,24,31,.45)}
+  .tb-row1{padding:12px 42px; display:flex; align-items:center; gap:24px}
+  .tb-row1 .nav{margin-right:auto}
+  .brand{display:flex; align-items:center; gap:10px; font-size:21px; letter-spacing:-.01em}
+  .brand .e{font-weight:500; color:var(--ink)} .brand .g{font-weight:800; color:var(--accent)}
+  .field{display:flex; flex-direction:column; gap:6px}
+  .field > span{font-size:11.5px; font-weight:700; letter-spacing:.03em; color:var(--muted)}
+  .field input, .field select, .ctrl{
+    font:inherit; font-size:13.5px; padding:9px 12px; border:1px solid var(--line);
+    border-radius:8px; background:#fff; color:var(--ink); width:100%;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input::placeholder{color:var(--faint)}
+  .field input:hover, .field select:hover{border-color:#c2ccd2}
+  .field input:focus, .field select:focus{
+    outline:none; border-color:var(--accent-bright);
+    box-shadow:0 0 0 3px rgba(47,111,115,.14);
+  }
+  /* search field with leading icon */
+  .field .ip{position:relative; display:block}
+  .field .ip .ic{position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--faint); pointer-events:none}
+  .field .ip input{padding-left:33px}
+  .field .ip:focus-within .ic{color:var(--accent)}
+  /* custom select chevron */
+  .selwrap{position:relative}
+  .selwrap select{appearance:none; -webkit-appearance:none; padding-right:32px; cursor:pointer}
+  .selwrap::after{content:""; position:absolute; right:13px; top:50%; width:8px; height:8px; border-right:1.6px solid var(--muted); border-bottom:1.6px solid var(--muted); transform:translateY(-65%) rotate(45deg); pointer-events:none}
+  .btn{font:inherit; font-size:13px; font-weight:600; padding:9px 16px; border:1px solid var(--line); border-radius:7px; background:var(--soft); color:var(--accent); cursor:pointer; white-space:nowrap}
+  .btn:hover{background:#e3ebe8}
+  /* mode toggle */
+  .modeswitch{display:inline-flex; background:var(--soft); border:1px solid var(--line); border-radius:999px; padding:3px}
+  .modeswitch button{font:inherit; font-size:12.5px; font-weight:700; border:none; background:none; color:var(--muted); padding:6px 14px; border-radius:999px; cursor:pointer; display:flex; align-items:center; gap:6px}
+  .modeswitch button.active{background:#fff; color:var(--accent); box-shadow:0 1px 3px rgba(17,24,31,.12)}
+  /* ---------- Explore control surface ---------- */
+  .tb-row2{padding:0 42px 18px; margin-top:0}
+  .ctrl-surface{
+    margin-top:4px; border:1px solid var(--line); border-radius:13px;
+    background:linear-gradient(180deg,#fbfcfc 0%,#f4f7f6 100%);
+    box-shadow:inset 0 1px 0 #fff, 0 1px 2px rgba(17,24,31,.03);
+    overflow:hidden;
+  }
+  .cs-head{display:flex; align-items:center; gap:10px; padding:11px 18px; border-bottom:1px solid var(--line-soft)}
+  .cs-head .t{display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+  .cs-head .t svg{flex:none}
+  .cs-head .reset{margin-left:auto; font:inherit; font-size:12.5px; font-weight:600; color:var(--muted); background:none; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px; padding:5px 9px; border-radius:7px}
+  .cs-head .reset:hover{color:var(--accent); background:rgba(47,111,115,.08)}
+  .cs-grid{display:grid; grid-template-columns:1.7fr 1.2fr}
+  .ctrl-group{margin:0; border:0; border-right:1px solid var(--line-soft); padding:16px 20px 18px; min-width:0}
+  .ctrl-group:last-child{border-right:none}
+  .cg-legend{display:flex; align-items:center; gap:7px; font-family:var(--serif); font-style:italic; font-size:15px; font-weight:700; color:var(--ink-strong); margin-bottom:13px}
+  .cg-legend .gl{width:18px; height:18px; flex:none}
+  .cg-fields{display:grid; gap:13px}
+  .cg-fields.two{grid-template-columns:1fr 1fr}
+  .field .hint{font-size:11px; color:var(--faint); line-height:1.4; margin-top:-1px}
+  .nav{display:flex; gap:2px; flex-wrap:wrap} 
+  .nav a{font-size:12.5px; font-weight:600; color:var(--muted); text-decoration:none; padding:5px 10px; border-radius:999px}
+  .nav a.active{color:var(--accent); background:var(--soft)} .nav a:hover{color:var(--accent)}
+
+  /* Read mode hides the deeper control surface */
+  body.mode-free .explore-only{display:none}
+
+  /* ---------- Main ---------- */
+  main{padding:36px 42px 56px; display:flex; flex-direction:column; gap:30px; max-width:1320px; margin:0 auto}
+  main > section[id]{scroll-margin-top:90px}
+  /* two-up row for paired section cards */
+  .duo{display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:start}
+  .duo > .section-card{margin:0}
+  /* filter chip: marks tiles that respond to the sending-country selection */
+  .filter-chip{display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:700; color:var(--accent-deep); background:rgba(47,111,115,.09); border:1px solid #c9d7d5; border-radius:999px; padding:4px 11px 4px 9px; line-height:1; white-space:nowrap}
+  .filter-chip .fdot{width:7px; height:7px; border-radius:50%; background:var(--accent-2); flex:none}
+  .filter-chip .lab{color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.11em; font-size:9.5px}
+  .filter-chip .fc-country{letter-spacing:-.01em}
+  /* let the title + chip sit on one line inside the flex-column h2 */
+  .h2-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  /* section header with an inline local control */
+  .sec-head{display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap}
+  .sec-ctrl{display:flex; flex-direction:column; gap:6px; min-width:230px}
+  .sec-ctrl > span{font-size:11.5px; font-weight:700; letter-spacing:.03em; color:var(--muted)}
+  .sec-ctrl select{font:inherit; font-size:13.5px; padding:9px 32px 9px 12px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); width:100%; appearance:none; -webkit-appearance:none; cursor:pointer; transition:border-color .15s ease, box-shadow .15s ease}
+  .sec-ctrl select:hover{border-color:#c2ccd2}
+  .sec-ctrl select:focus{outline:none; border-color:var(--accent-bright); box-shadow:0 0 0 3px rgba(47,111,115,.14)}
+  .section-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:30px 30px 32px; box-shadow:var(--shadow)}
+  .section-card > h2{font-size:27px; font-weight:800; letter-spacing:-.02em; color:var(--ink-strong); display:flex; flex-direction:column; align-items:flex-start; gap:12px; line-height:1.12}
+  .sec-kicker{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.04em; color:var(--paper); background:var(--ink-strong); border-radius:6px; padding:4px 10px; display:inline-flex; align-items:center; gap:5px}
+  .sec-kicker sub{font-size:9px}
+  .sec-kicker.dep{background:var(--ink-strong); color:var(--paper)}
+  .sec-kicker.beta{background:var(--accent); color:var(--paper); font-family:var(--serif); font-style:italic; font-size:14px; letter-spacing:0; padding:3px 11px}
+  .sec-kicker.ctrl{background:var(--soft); color:var(--muted); border:1px solid #c9d7d5}
+  .sec-kicker .lab{font-family:var(--sans); font-style:normal; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; opacity:.82}
+  .sec-kicker.plain{background:none; color:var(--accent); border:1px solid #c9d7d5; font-family:var(--sans); font-size:11px; letter-spacing:.12em; text-transform:uppercase}
+
+  /* ---------- Act dividers ---------- */
+  .act{margin:22px 4px 0; padding-bottom:14px; border-bottom:2px solid var(--ink-strong); display:flex; align-items:flex-end; gap:18px}
+  .act:first-of-type{margin-top:6px}
+  .act .gd-glyph{flex:none; margin-bottom:2px}
+  .act .gd-main{flex:1}
+  .act .gd-role{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+  .act h3{font-size:24px; font-weight:800; letter-spacing:-.02em; color:var(--ink-strong); margin-top:6px; line-height:1.1}
+  .act .gd-sym{font-family:var(--serif); font-style:italic; font-size:30px; font-weight:700; color:var(--accent); margin-bottom:-2px; white-space:nowrap}
+  .act .gd-sym sub{font-size:18px}
+  .act.ctrl{border-bottom-color:#c9d7d5}
+  .act.ctrl .gd-role{color:var(--muted)}
+  .act.ctrl .gd-sym{font-family:var(--mono); font-style:normal; font-size:15px; font-weight:700; color:var(--muted)}
+
+  /* model intro tile gets an accent edge */
+  .section-card.intro{border-left:3px solid var(--accent)}
+  .note{font-size:13px; color:var(--muted); line-height:1.5; margin-top:8px}
+  .note b{color:var(--ink); font-weight:600}
+  .subh{font-size:16px; font-weight:600; margin-bottom:10px}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:24px}
+
+  /* stat + var cards */
+  .card-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:16px}
+  .card{background:var(--soft); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px}
+  .card .label{font-size:13px; font-weight:600; color:var(--muted); line-height:1.3}
+  .card .value{font-size:30px; font-weight:800; letter-spacing:-.02em; margin-top:8px; color:var(--ink-strong)}
+  .card .value .u{font-size:14px; font-weight:600; color:var(--muted); letter-spacing:0}
+  .var-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:16px}
+  .var-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px}
+  .var-card .top{display:flex; align-items:center; gap:7px; margin-bottom:10px}
+  .var-card .sym{font-family:var(--serif); font-style:italic; font-size:16px; font-weight:700; color:var(--ink-strong)}
+  .var-card .sym.ctl{font-family:var(--mono); font-style:normal; font-size:11px; font-weight:700; color:var(--muted)}
+  .var-card .status{font-family:var(--mono); font-size:11px; font-weight:700}
+  .var-card .status.built{color:var(--accent)} .var-card .status.planned{color:var(--muted)}
+  .var-card h4{font-size:18px; font-weight:700; letter-spacing:-.01em; margin-bottom:7px}
+  .var-card .vmeta{font-size:12.5px; color:var(--muted); line-height:1.5}
+  .var-card .vmeta b{color:var(--ink); font-weight:600}
+
+  /* equation */
+  .equation{font-family:var(--serif); font-size:18px; line-height:2.05; color:var(--ink-strong); background:var(--soft); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:var(--radius); padding:22px 26px; overflow-x:auto; margin:16px 0}
+  .equation .gk{font-style:italic} .equation .fx{color:var(--accent-deep); font-weight:600}
+
+  /* tables */
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); margin-top:14px}
+  table.data-table{border-collapse:collapse; width:100%; min-width:820px; font-size:13.5px}
+  .data-table thead th{text-align:left; padding:11px 14px; background:var(--soft); color:var(--accent); font-weight:700; font-size:12px; letter-spacing:.02em; cursor:pointer; border-bottom:1px solid var(--line); white-space:nowrap; user-select:none}
+  .data-table thead th.num{text-align:right}
+  .data-table thead th .arr{opacity:.4; font-size:10px; margin-left:3px}
+  .data-table thead th.active{color:var(--accent-deep)} .data-table thead th.active .arr{opacity:1}
+  .data-table tbody td{padding:10px 14px; border-bottom:1px solid var(--line-soft)}
+  .data-table tbody td.num{text-align:right}
+  .data-table tbody tr:last-child td{border-bottom:none}
+  .data-table tbody tr:hover{background:var(--soft)}
+  .code-cell{font-family:var(--mono); font-weight:600; color:var(--accent-deep); font-size:12.5px}
+  .sent{font-weight:800} .sent.pos{color:var(--positive)} .sent.neg{color:var(--negative)} .sent.neu{color:var(--neutral)}
+  .themes{color:var(--muted); font-size:12.5px; max-width:200px; white-space:normal}
+
+  /* map placeholder */
+  .map-ph{height:540px; background:var(--soft); border:1px solid var(--line); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; margin-top:14px}
+  .map-ph .label{color:var(--muted); font-size:14px; z-index:2; background:rgba(255,255,255,.7); padding:8px 14px; border-radius:999px}
+  .map-ph .deco{position:absolute; inset:0; opacity:.5}
+  .pin{position:absolute; border-radius:50%; border:2px solid #fff; box-shadow:0 2px 8px -2px rgba(17,24,31,.4)}
+  .pin.teal{background:var(--accent)} .pin.coral{background:var(--accent-2)}
+  .cluster{position:absolute; border-radius:50%; background:var(--accent); color:#fff; border:2px solid #fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; box-shadow:0 3px 12px -3px rgba(17,24,31,.5)}
+  .map-legend{display:flex; gap:24px; align-items:center; margin-top:14px; flex-wrap:wrap}
+  .dotleg{display:flex; align-items:center; gap:9px; color:var(--muted); font-size:13px}
+  .dotleg .pin{position:static}
+  .legendswatch{display:flex; gap:16px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:var(--muted)}
+  .legendswatch span{display:inline-flex; align-items:center; gap:6px}
+  .legendswatch i{width:14px; height:3px; border-radius:2px; display:inline-block}
+
+  .chart-ramp{display:flex; border-radius:6px; overflow:hidden; border:1px solid var(--line); margin-top:12px; max-width:420px}
+  .chart-ramp div{flex:1; height:26px}
+  .ramp-axis{display:flex; justify-content:space-between; max-width:420px; font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:4px}
+
+  /* sources */
+  .sources{margin:14px 0 0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+  .sources li{font-size:13.5px; color:var(--muted); line-height:1.5; padding-left:20px; position:relative}
+  .sources li::before{content:""; position:absolute; left:2px; top:8px; width:8px; height:8px; border-radius:50%; border:1.5px solid var(--accent)}
+  .sources li b{color:var(--ink); font-weight:700}
+  .sources code{font-size:12px; color:var(--accent-deep); background:var(--soft); padding:1px 5px; border-radius:4px}
+
+  footer{background:var(--soft); border-top:1px solid var(--line); padding:34px 42px; color:var(--muted); font-size:13px; display:flex; flex-direction:column; gap:5px}
+  footer b{color:var(--ink); font-weight:700}
+
+  @media(max-width:1024px){ .pagehead,.tb-row1,.tb-row2,main,footer{padding-left:28px; padding-right:28px} }
+  @media(max-width:860px){
+    .hero-inner{grid-template-columns:1fr; gap:0}
+    .hero-orbits{display:none}
+    .duo{grid-template-columns:1fr}
+  }
+  @media(max-width:700px){
+    .pagehead{padding:40px 18px 32px}
+    .tb-row1{flex-wrap:wrap; gap:12px}
+    .tb-row1 .nav{margin-right:0; order:3; width:100%}
+    .tb-row2{padding:12px 18px 16px}
+    .cs-grid{grid-template-columns:1fr}
+    .ctrl-group{border-right:none; border-bottom:1px solid var(--line-soft)}
+    .ctrl-group:last-child{border-bottom:none}
+    .pagehead h1{font-size:32px}
+    main{padding:24px 18px; gap:22px} .section-card{padding:22px}
+    .section-card > h2{font-size:23px}
+    .nav{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body class="mode-free">
+<!-- ====== 2. NAV + CONTROLS ====== -->
+<div class="topbar" data-screen-label="Topbar">
+  <div class="tb-row1">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/><circle cx="13" cy="13" r="3.1" fill="#b44e5a"/><circle cx="23.2" cy="9.4" r="1.7" fill="#2f6f73"/></svg>
+      <span><span class="e">Erasmus</span><span class="g">Gravity</span></span>
+    </div>
+    <nav class="nav">
+      <a href="#map" class="active">Map</a><a href="#trends">Trends</a><a href="#universities">Universities</a><a href="#economics">Economics</a><a href="#salary">Salary</a><a href="#reddit">Reddit</a>
+    </nav>
+    <div class="modeswitch" role="group" aria-label="View mode">
+      <button id="m-free" class="active" onclick="setMode('free')">◐ Read</button>
+      <button id="m-explore" onclick="setMode('explore')">⚙ Explore</button>
+    </div>
+  </div>
+  <div class="tb-row2 explore-only">
+    <div class="ctrl-surface">
+      <div class="cs-head">
+        <span class="t">
+          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M5 8h6M7 12h2" stroke="#2f6f73" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Refine the view
+        </span>
+        <button class="reset" type="button">
+          <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.55M13 2v3h-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Reset all
+        </button>
+      </div>
+      <div class="cs-grid">
+        <fieldset class="ctrl-group">
+          <div class="cg-legend"><svg class="gl" viewBox="0 0 18 18" aria-hidden="true"><ellipse cx="9" cy="9" rx="8" ry="3.4" fill="none" stroke="#2f6f73" stroke-width="1.3" transform="rotate(-22 9 9)"/><circle cx="9" cy="9" r="2.1" fill="#b44e5a"/></svg>Flow</div>
+          <div class="cg-fields">
+            <label class="field"><span>Sending country</span>
+              <span class="ip">
+                <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <input placeholder="Search country or code" value="Italy">
+              </span>
+            </label>
+            <label class="field"><span>Endpoints to compare</span>
+              <div class="selwrap"><select><option>Country → university</option><option>University → country</option><option>University → university</option></select></div>
+              <span class="hint">Which ends of each flow are broken out — e.g. a whole country to single universities.</span>
+            </label>
+            <label class="field"><span>Focus on one place</span>
+              <span class="ip">
+                <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <input placeholder="Search university, city, country">
+              </span>
+              <span class="hint">Filter the map and tables down to a single institution or city.</span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="ctrl-group">
+          <div class="cg-legend"><svg class="gl" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" fill="none" stroke="#2f6f73" stroke-width="1.3"/><path d="M9 5.5v7M7.3 10.5c0 1 .8 1.6 1.7 1.6s1.7-.5 1.7-1.4-.7-1.2-1.7-1.5-1.6-.6-1.6-1.4.7-1.4 1.6-1.4 1.6.6 1.6 1.4" fill="none" stroke="#b44e5a" stroke-width="1.2" stroke-linecap="round"/></svg>Salary</div>
+          <div class="cg-fields two">
+            <label class="field"><span>Country</span>
+              <div class="selwrap"><select><option>Spain</option><option>Germany</option></select></div>
+            </label>
+            <label class="field"><span>Unit</span>
+              <div class="selwrap"><select><option>EUR</option><option>PPS</option></select></div>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 1. HEADER ====== -->
+<header class="pagehead" data-screen-label="Header">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="kicker">
+        <svg class="dot" viewBox="0 0 18 18" aria-hidden="true"><ellipse cx="9" cy="9" rx="8" ry="3.4" fill="none" stroke="#2f6f73" stroke-width="1.3" transform="rotate(-22 9 9)"/><circle cx="9" cy="9" r="2.2" fill="#b44e5a"/></svg>
+        ErasmusGravity · unilife.ellep.it
+      </div>
+      <h1>What pulls a student <span class="pull">across a border?</span></h1>
+      <p class="rq"><b>Research question:</b> what explains the size of Erasmus+ Higher Education flows from one country to another? We frame destination choice as a gravity-style model where flows respond to the salary gap, perceived quality of life, institution quality, and language affinity between origin and destination.</p>
+      <div class="meta-strip">
+        <span class="readout">Currently showing <b>Italy</b> · 12,847 outgoing students</span>
+      </div>
+    </div>
+    <svg class="hero-orbits" width="440" height="360" viewBox="0 0 440 360" aria-hidden="true">
+      <g fill="none" stroke="#2f6f73" stroke-width="1.2" opacity="0.55">
+        <ellipse cx="230" cy="180" rx="200" ry="78" transform="rotate(-18 230 180)"/>
+        <ellipse cx="230" cy="180" rx="150" ry="56" transform="rotate(-18 230 180)"/>
+        <ellipse cx="230" cy="180" rx="96" ry="35" transform="rotate(-18 230 180)"/>
+      </g>
+      <circle cx="230" cy="180" r="10" fill="#b44e5a"/>
+      <circle cx="44" cy="138" r="5" fill="#2f6f73"/>
+      <circle cx="412" cy="226" r="4.5" fill="#c98a2b"/>
+      <circle cx="352" cy="86" r="3.5" fill="#2f6f73"/>
+    </svg>
+  </div>
+</header>
+<main>
+<!-- SECTIONS -->
+<!-- INTRO: THE MODEL -->
+<section class="section-card intro" data-screen-label="The Model">
+  <h2><span class="sec-kicker plain">The model</span> A gravity model of student flows</h2>
+  <p class="note">We model each origin–destination flow as a gravity-style regression. This is the project's <b>step-3 design</b>: the specification below describes how the collected text and spatial data would be used to answer the research question. It is documented, not estimated. The page that follows is organized around its terms — <b>the dependent variable</b>, then each <b>explanatory variable</b>, then the <b>controls</b>.</p>
+  <div class="equation">
+    <span class="fx">log</span>(1 + flow<sub>ij</sub>) = <span class="gk">β₁</span>·salary_gap<sub>ij</sub> + <span class="gk">β₂</span>·quality_of_life<sub>j</sub> + <span class="gk">β₃</span>·institution_quality<sub>j</sub><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;+ controls(gdp_gap, price_level_gap, distance, language_affinity)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;+ origin FE + destination FE + <span class="gk">ε</span><sub>ij</sub>
+  </div>
+  <div class="var-grid">
+    <div class="var-card"><div class="top"><span class="sym">β₁</span><span class="status built">· built</span></div><h4>Salary gap</h4><div class="vmeta"><b>Role:</b> labour-market pull · <b>Source:</b> Eurostat net earnings · <b>Sign:</b> +</div></div>
+    <div class="var-card"><div class="top"><span class="sym">β₂</span><span class="status built">· built</span></div><h4>Quality of life</h4><div class="vmeta"><b>Role:</b> perceived liveability · <b>Source:</b> Reddit r/Erasmus · <b>Sign:</b> +</div></div>
+    <div class="var-card"><div class="top"><span class="sym">β₃</span><span class="status planned">· planned</span></div><h4>Institution quality</h4><div class="vmeta"><b>Role:</b> academic pull · <b>Source:</b> ranking score · <b>Sign:</b> +</div></div>
+    <div class="var-card"><div class="top"><span class="sym ctl">control</span><span class="status planned">· planned</span></div><h4>Language affinity</h4><div class="vmeta"><b>Role:</b> origin–destination affinity · <b>Source:</b> language groupings · <b>Sign:</b> +</div></div>
+    <div class="var-card"><div class="top"><span class="sym ctl">control</span><span class="status built">· built</span></div><h4>GDP gap</h4><div class="vmeta"><b>Role:</b> income difference · <b>Source:</b> World Bank · <b>Sign:</b> ±</div></div>
+    <div class="var-card"><div class="top"><span class="sym ctl">control</span><span class="status built">· built</span></div><h4>Price-level gap</h4><div class="vmeta"><b>Role:</b> cost of living · <b>Source:</b> Eurostat · <b>Sign:</b> −</div></div>
+    <div class="var-card"><div class="top"><span class="sym ctl">control</span><span class="status planned">· planned</span></div><h4>Distance</h4><div class="vmeta"><b>Role:</b> gravity friction · <b>Source:</b> capital distance · <b>Sign:</b> −</div></div>
+  </div>
+  <p class="note" style="margin-top:18px">Language affinity is a gravity control (a bilateral friction that directly shapes flows), not an instrument. Origin and destination fixed effects absorb broad country-level differences. The estimate is descriptive, not causal.</p>
+</section>
+
+<!-- ACT I -->
+<div class="act" data-screen-label="Act — Dependent variable">
+  <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#2f6f73" stroke-width="1.5" transform="rotate(-22 15 15)"/><circle cx="15" cy="15" r="4" fill="#b44e5a"/><circle cx="27" cy="11" r="2" fill="#2f6f73"/></svg>
+  <div class="gd-main">
+    <div class="gd-role">The dependent variable</div>
+    <h3>What we are explaining — the flows themselves</h3>
+  </div>
+  <span class="gd-sym">flow<sub>ij</sub></span>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section-card" data-screen-label="Country Overview">
+  <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Selected Country Overview <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">Italy</span></span></span></h2>
+  <p class="note">Use the sending-country selector in the top bar.</p>
+  <div class="card-row">
+    <div class="card"><div class="label">Outgoing students</div><div class="value">12,847</div></div>
+    <div class="card"><div class="label">Destinations</div><div class="value">31</div></div>
+    <div class="card"><div class="label">Share to richer GDP pc countries</div><div class="value">62.4<span class="u">%</span></div></div>
+    <div class="card"><div class="label">HE grants, EUR</div><div class="value">421.5<span class="u">M</span></div></div>
+    <div class="card"><div class="label">Grant / est. participant</div><div class="value">1,842</div></div>
+  </div>
+</section>
+
+<!-- 6. UNIVERSITY FLOW MAP -->
+<section class="section-card" id="map" data-screen-label="Flow Map">
+  <div class="sec-head">
+    <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">University Flow Map <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">Italy</span></span></span></h2>
+    <label class="sec-ctrl explore-only"><span>Map view</span><div class="selwrap"><select><option>Selected sending country</option><option>All countries aggregate</option></select></div></label>
+  </div>
+  <div class="map-ph">
+    <svg class="deco" viewBox="0 0 900 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="#2f6f73" stroke-opacity=".22" stroke-width="1.4">
+        <path d="M250,300 Q400,160 620,200"/><path d="M250,300 Q380,260 560,330"/><path d="M250,300 Q330,400 520,420"/><path d="M250,300 Q200,200 380,150"/>
+      </g>
+    </svg>
+    <div class="pin teal" style="width:40px;height:40px;left:24%;top:52%"></div>
+    <div class="cluster" style="width:56px;height:56px;left:66%;top:33%">2,341</div>
+    <div class="pin teal" style="width:26px;height:26px;left:60%;top:60%"></div>
+    <div class="pin teal" style="width:20px;height:20px;left:55%;top:26%"></div>
+    <div class="pin coral" style="width:18px;height:18px;left:40%;top:25%"></div>
+    <div class="pin teal" style="width:16px;height:16px;left:72%;top:72%"></div>
+    <div class="label">Map placeholder — Leaflet with clustered markers</div>
+  </div>
+  <div class="map-legend">
+    <span class="dotleg"><span class="pin teal" style="width:10px;height:10px"></span> smaller flow</span>
+    <span class="dotleg"><span class="pin teal" style="width:24px;height:24px"></span> larger flow</span>
+  </div>
+  <p class="note">Each point is a university endpoint of an Erasmus flow; circle radius scales with the number of students on that link. Teal markers are city-matched; coral markers are geocoding fallbacks. Overlapping points cluster into a teal badge showing the aggregate.</p>
+</section>
+
+<!-- 7. MOBILITY OVER TIME -->
+<section class="section-card" id="trends" data-screen-label="Mobility Over Time">
+  <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Mobility Over Time (2014–2023) <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">Italy</span></span></span></h2>
+  <p class="note">Higher Education study mobility by calendar year.</p>
+  <div class="grid2" style="margin-top:16px">
+    <div>
+      <div class="subh">All countries — total outgoing</div>
+      <svg width="100%" viewBox="0 0 420 280" role="img" aria-label="Total outgoing students by year">
+        <g stroke="#e7ebef"><line x1="46" y1="50" x2="408" y2="50"/><line x1="46" y1="100" x2="408" y2="100"/><line x1="46" y1="150" x2="408" y2="150"/><line x1="46" y1="200" x2="408" y2="200"/></g>
+        <line x1="46" y1="20" x2="46" y2="232" stroke="#d8dee4"/><line x1="46" y1="232" x2="408" y2="232" stroke="#d8dee4"/>
+        <g font-family="-apple-system,sans-serif" font-size="10" fill="#8a949d"><text x="20" y="204">250k</text><text x="20" y="104">350k</text></g>
+        <polyline fill="none" stroke="#2f6f73" stroke-width="2.6" points="60,190 99,176 138,160 177,142 216,120 255,150 294,108 333,84 372,72 405,58"/>
+        <g fill="#2f6f73"><circle cx="60" cy="190" r="3.6"/><circle cx="99" cy="176" r="3.6"/><circle cx="138" cy="160" r="3.6"/><circle cx="177" cy="142" r="3.6"/><circle cx="216" cy="120" r="3.6"/><circle cx="255" cy="150" r="3.6"/><circle cx="294" cy="108" r="3.6"/><circle cx="333" cy="84" r="3.6"/><circle cx="372" cy="72" r="3.6"/><circle cx="405" cy="58" r="3.6"/></g>
+        <g font-family="-apple-system,sans-serif" font-size="10" fill="#8a949d"><text x="48" y="250">2014</text><text x="248" y="250">2020</text><text x="386" y="250">2023</text></g>
+      </svg>
+      <p class="note">The 2020 drop reflects COVID-19 disruption.</p>
+    </div>
+    <div>
+      <div class="subh">Italy — top destinations</div>
+      <svg width="100%" viewBox="0 0 420 280" role="img" aria-label="Italy top destination trends">
+        <g stroke="#e7ebef"><line x1="46" y1="50" x2="408" y2="50"/><line x1="46" y1="100" x2="408" y2="100"/><line x1="46" y1="150" x2="408" y2="150"/><line x1="46" y1="200" x2="408" y2="200"/></g>
+        <line x1="46" y1="20" x2="46" y2="232" stroke="#d8dee4"/><line x1="46" y1="232" x2="408" y2="232" stroke="#d8dee4"/>
+        <polyline fill="none" stroke="#2f6f73" stroke-width="2.2" points="60,120 99,110 138,96 177,86 216,108 255,80 294,66 333,58 372,52 405,46"/>
+        <polyline fill="none" stroke="#b44e5a" stroke-width="2.2" points="60,160 99,154 138,150 177,142 216,158 255,140 294,132 333,128 372,124 405,120"/>
+        <polyline fill="none" stroke="#c98a2b" stroke-width="2.2" points="60,180 99,176 138,170 177,166 216,178 255,164 294,158 333,154 372,150 405,148"/>
+        <polyline fill="none" stroke="#4a6fa5" stroke-width="2.2" points="60,200 99,196 138,192 177,188 216,198 255,186 294,182 333,178 372,176 405,172"/>
+        <polyline fill="none" stroke="#6b8f3a" stroke-width="2.2" points="60,212 99,210 138,206 177,204 216,212 255,202 294,200 333,196 372,196 405,192"/>
+        <g font-family="-apple-system,sans-serif" font-size="10" fill="#8a949d"><text x="48" y="250">2014</text><text x="386" y="250">2023</text></g>
+      </svg>
+      <div class="legendswatch">
+        <span><i style="background:#2f6f73"></i>Spain</span><span><i style="background:#b44e5a"></i>Germany</span><span><i style="background:#c98a2b"></i>France</span><span><i style="background:#4a6fa5"></i>Portugal</span><span><i style="background:#6b8f3a"></i>UK</span>
+      </div>
+      <p class="note">Yearly flows from the selected sending country.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. UNIVERSITY-LEVEL FLOW DETAIL -->
+<section class="section-card" id="universities" data-screen-label="University Flow Detail">
+  <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">University-Level Flow Detail <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">Italy</span></span></span></h2>
+  <p class="note">Country → university view for the selected sending country. Switch flow level in the top bar to see university → country or university → university links.</p>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Destination country</th><th>Receiving city</th><th>Receiving university</th><th class="num active">Students <span class="arr">▼</span></th></tr></thead>
+      <tbody>
+        <tr><td><span class="code-cell">ES</span> Spain</td><td>Madrid</td><td>Universidad Complutense de Madrid</td><td class="num">342</td></tr>
+        <tr><td><span class="code-cell">DE</span> Germany</td><td>Munich</td><td>Technische Universität München</td><td class="num">287</td></tr>
+        <tr><td><span class="code-cell">FR</span> France</td><td>Paris</td><td>Sorbonne Université</td><td class="num">231</td></tr>
+        <tr><td><span class="code-cell">PT</span> Portugal</td><td>Lisbon</td><td>Universidade de Lisboa</td><td class="num">198</td></tr>
+        <tr><td><span class="code-cell">NL</span> Netherlands</td><td>Amsterdam</td><td>Universiteit van Amsterdam</td><td class="num">176</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TOP DEST + HEATMAP (paired, 2-up) -->
+<div class="duo">
+<!-- TOP DESTINATIONS -->
+<section class="section-card" data-screen-label="Top Destinations">
+  <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Top Destinations <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">Italy</span></span></span></h2>
+  <svg width="100%" viewBox="0 0 420 360" role="img" aria-label="Top destinations bar chart" style="margin-top:14px;max-width:560px">
+    <g font-family="-apple-system,sans-serif" font-size="12.5">
+      <g><text x="52" y="28" text-anchor="end" font-weight="700" fill="#234f52">ES</text><rect x="62" y="16" width="300" height="17" rx="3" fill="#2f6f73"/><text x="368" y="28" fill="#1f2933" font-weight="600">4,231</text></g>
+      <g><text x="52" y="62" text-anchor="end" font-weight="700" fill="#234f52">DE</text><rect x="62" y="50" width="149" height="17" rx="3" fill="#2f6f73"/><text x="217" y="62" fill="#1f2933" font-weight="600">2,108</text></g>
+      <g><text x="52" y="96" text-anchor="end" font-weight="700" fill="#234f52">FR</text><rect x="62" y="84" width="133" height="17" rx="3" fill="#2f6f73"/><text x="201" y="96" fill="#1f2933" font-weight="600">1,876</text></g>
+      <g><text x="52" y="130" text-anchor="end" font-weight="700" fill="#234f52">PT</text><rect x="62" y="118" width="109" height="17" rx="3" fill="#2f6f73"/><text x="177" y="130" fill="#1f2933" font-weight="600">1,542</text></g>
+      <g><text x="52" y="164" text-anchor="end" font-weight="700" fill="#234f52">NL</text><rect x="62" y="152" width="70" height="17" rx="3" fill="#2f6f73"/><text x="138" y="164" fill="#1f2933" font-weight="600">987</text></g>
+      <g><text x="52" y="198" text-anchor="end" font-weight="700" fill="#234f52">UK</text><rect x="62" y="186" width="62" height="17" rx="3" fill="#2f6f73"/><text x="130" y="198" fill="#1f2933" font-weight="600">876</text></g>
+      <g><text x="52" y="232" text-anchor="end" font-weight="700" fill="#234f52">PL</text><rect x="62" y="220" width="46" height="17" rx="3" fill="#2f6f73"/><text x="114" y="232" fill="#1f2933" font-weight="600">654</text></g>
+      <g><text x="52" y="266" text-anchor="end" font-weight="700" fill="#234f52">AT</text><rect x="62" y="254" width="39" height="17" rx="3" fill="#2f6f73"/><text x="107" y="266" fill="#1f2933" font-weight="600">543</text></g>
+      <g><text x="52" y="300" text-anchor="end" font-weight="700" fill="#234f52">BE</text><rect x="62" y="288" width="31" height="17" rx="3" fill="#2f6f73"/><text x="99" y="300" fill="#1f2933" font-weight="600">432</text></g>
+      <g><text x="52" y="334" text-anchor="end" font-weight="700" fill="#234f52">CZ</text><rect x="62" y="322" width="23" height="17" rx="3" fill="#2f6f73"/><text x="91" y="334" fill="#1f2933" font-weight="600">321</text></g>
+    </g>
+  </svg>
+  <p class="note">Destinations by student count for the selected sending country.</p>
+</section>
+
+<!-- 11. FLOW HEATMAP -->
+<section class="section-card" id="economics" data-screen-label="Flow Heatmap">
+  <h2><span class="sec-kicker dep">flow<sub>ij</sub></span> Flow Heatmap</h2>
+  <p class="note">Rows and columns use the same country order. Each cell is the flow from the row country to the column country.</p>
+  <svg width="100%" viewBox="0 0 560 360" role="img" aria-label="Flow heatmap" style="margin-top:14px;max-width:560px">
+    <g font-family="-apple-system,sans-serif" font-size="11.5" font-weight="700" fill="#234f52">
+      <text x="44" y="42">ES</text><text x="44" y="80">DE</text><text x="44" y="118">FR</text><text x="44" y="156">IT</text><text x="44" y="194">PL</text><text x="44" y="232">NL</text><text x="44" y="270">PT</text><text x="44" y="308">AT</text>
+      <text x="82" y="334" text-anchor="middle">ES</text><text x="120" y="334" text-anchor="middle">DE</text><text x="158" y="334" text-anchor="middle">FR</text><text x="196" y="334" text-anchor="middle">IT</text><text x="234" y="334" text-anchor="middle">PL</text><text x="272" y="334" text-anchor="middle">NL</text><text x="310" y="334" text-anchor="middle">PT</text><text x="348" y="334" text-anchor="middle">AT</text>
+    </g>
+    <g id="heat-cells"></g>
+  </svg>
+  <div class="chart-ramp">
+    <div style="background:#f3f5f5"></div><div style="background:rgba(47,111,115,.15)"></div><div style="background:rgba(47,111,115,.3)"></div><div style="background:rgba(47,111,115,.45)"></div><div style="background:rgba(47,111,115,.6)"></div><div style="background:rgba(47,111,115,.75)"></div><div style="background:rgba(47,111,115,.9)"></div>
+  </div>
+  <div class="ramp-axis"><span>0</span><span>4,000+</span></div>
+</section>
+</div>
+
+<!-- 10. DESTINATION TABLE -->
+<section class="section-card" data-screen-label="Destination Table">
+  <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Selected Country Destination Table <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">Italy</span></span></span></h2>
+  <p class="note">Click column headers to sort by flow count, flow share, GDP gap, price gap, or earnings gap.</p>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th>Code</th><th>Destination</th>
+        <th class="num active">Students <span class="arr">▼</span></th>
+        <th class="num">Flow share <span class="arr">▾</span></th>
+        <th class="num">Receiver GDP pc US$ <span class="arr">▾</span></th>
+        <th class="num">GDP gap US$ <span class="arr">▾</span></th>
+        <th class="num">Price gap <span class="arr">▾</span></th>
+        <th class="num">Earnings gap EUR <span class="arr">▾</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="code-cell">ES</td><td>Spain</td><td class="num">4,231</td><td class="num">14.2%</td><td class="num">33,090</td><td class="num">+8,420</td><td class="num">−6.1</td><td class="num">+412</td></tr>
+        <tr><td class="code-cell">DE</td><td>Germany</td><td class="num">2,108</td><td class="num">7.1%</td><td class="num">52,820</td><td class="num">+28,150</td><td class="num">+12.4</td><td class="num">+1,190</td></tr>
+        <tr><td class="code-cell">FR</td><td>France</td><td class="num">1,876</td><td class="num">6.3%</td><td class="num">44,410</td><td class="num">+19,740</td><td class="num">+7.8</td><td class="num">+860</td></tr>
+        <tr><td class="code-cell">PT</td><td>Portugal</td><td class="num">1,542</td><td class="num">5.2%</td><td class="num">24,560</td><td class="num">−110</td><td class="num">−9.4</td><td class="num">−240</td></tr>
+        <tr><td class="code-cell">NL</td><td>Netherlands</td><td class="num">987</td><td class="num">3.3%</td><td class="num">57,430</td><td class="num">+32,760</td><td class="num">+15.1</td><td class="num">+1,420</td></tr>
+        <tr><td class="code-cell">UK</td><td>United Kingdom</td><td class="num">876</td><td class="num">2.9%</td><td class="num">46,510</td><td class="num">+21,840</td><td class="num">+18.2</td><td class="num">+980</td></tr>
+        <tr><td class="code-cell">PL</td><td>Poland</td><td class="num">654</td><td class="num">2.2%</td><td class="num">18,690</td><td class="num">−5,980</td><td class="num">−14.7</td><td class="num">−520</td></tr>
+        <tr><td class="code-cell">AT</td><td>Austria</td><td class="num">543</td><td class="num">1.8%</td><td class="num">53,270</td><td class="num">+28,600</td><td class="num">+11.3</td><td class="num">+1,070</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ACT II -->
+<div class="act" data-screen-label="Act — Explanatory variables">
+  <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#2f6f73" stroke-width="1.5" transform="rotate(-22 15 15)"/><ellipse cx="15" cy="15" rx="8" ry="3.6" fill="none" stroke="#2f6f73" stroke-width="1.3" transform="rotate(-22 15 15)"/><circle cx="15" cy="15" r="3.2" fill="#b44e5a"/></svg>
+  <div class="gd-main">
+    <div class="gd-role">The explanatory variables</div>
+    <h3>What pulls students toward a destination</h3>
+  </div>
+  <span class="gd-sym">β₁ · β₂ · β₃</span>
+</div>
+
+<!-- 13. SALARY EXPLORER -->
+<section class="section-card" id="salary" data-screen-label="Salary Explorer">
+  <h2><span class="sec-kicker beta">β₁</span> Salary gap <span style="font-weight:600;font-size:17px;color:var(--muted);letter-spacing:0">— expected earnings by sector</span></h2>
+  <svg width="100%" viewBox="0 0 760 320" role="img" aria-label="Earnings by NACE sector" style="margin-top:14px">
+    <g font-family="-apple-system,sans-serif" font-size="12.5">
+      <g><text x="340" y="26" text-anchor="end" fill="#1f2933">Financial and insurance activities</text><rect x="350" y="14" width="340" height="17" rx="3" fill="#2f6f73"/><text x="696" y="26" fill="#1f2933" font-weight="600">4,820</text></g>
+      <g><text x="340" y="60" text-anchor="end" fill="#1f2933">Information and communication</text><rect x="350" y="48" width="297" height="17" rx="3" fill="#2f6f73"/><text x="653" y="60" fill="#1f2933" font-weight="600">4,210</text></g>
+      <g><text x="340" y="94" text-anchor="end" fill="#1f2933">Professional, scientific, technical</text><rect x="350" y="82" width="274" height="17" rx="3" fill="#2f6f73"/><text x="630" y="94" fill="#1f2933" font-weight="600">3,890</text></g>
+      <g><text x="340" y="128" text-anchor="end" fill="#1f2933">Manufacturing</text><rect x="350" y="116" width="220" height="17" rx="3" fill="#2f6f73"/><text x="576" y="128" fill="#1f2933" font-weight="600">3,120</text></g>
+      <g><text x="340" y="162" text-anchor="end" fill="#1f2933">Construction</text><rect x="350" y="150" width="210" height="17" rx="3" fill="#2f6f73"/><text x="566" y="162" fill="#1f2933" font-weight="600">2,980</text></g>
+      <g><text x="340" y="196" text-anchor="end" fill="#1f2933">Wholesale and retail trade</text><rect x="350" y="184" width="179" height="17" rx="3" fill="#2f6f73"/><text x="535" y="196" fill="#1f2933" font-weight="600">2,540</text></g>
+      <g><text x="340" y="230" text-anchor="end" fill="#1f2933">Accommodation and food service</text><rect x="350" y="218" width="133" height="17" rx="3" fill="#2f6f73"/><text x="489" y="230" fill="#1f2933" font-weight="600">1,890</text></g>
+      <g><text x="340" y="264" text-anchor="end" fill="#1f2933">Administrative and support services</text><rect x="350" y="252" width="124" height="17" rx="3" fill="#2f6f73"/><text x="480" y="264" fill="#1f2933" font-weight="600">1,760</text></g>
+    </g>
+  </svg>
+  <p class="note">Mean monthly gross earnings by NACE sector, Structure of Earnings Survey 2018. Coverage limited to 17 countries.</p>
+</section>
+
+<!-- 14. REDDIT QUALITY OF LIFE -->
+<section class="section-card" id="reddit" data-screen-label="Reddit Quality of Life">
+  <h2><span class="sec-kicker beta">β₂</span> Quality of life <span style="font-weight:600;font-size:17px;color:var(--muted);letter-spacing:0">— perceived liveability from r/Erasmus</span></h2>
+  <p class="note">Destination mentions extracted from r/Erasmus with OpenRouter (DeepSeek) + Pydantic. <b>Net sentiment</b> = (positive − negative) / mentions. Per-country counts are small; read as qualitative.</p>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th>Destination country</th>
+        <th class="num active">Mentions <span class="arr">▼</span></th>
+        <th class="num">Positive <span class="arr">▾</span></th>
+        <th class="num">Neutral <span class="arr">▾</span></th>
+        <th class="num">Negative <span class="arr">▾</span></th>
+        <th class="num">Net sentiment <span class="arr">▾</span></th>
+        <th class="num">Score-wtd net <span class="arr">▾</span></th>
+        <th class="num">Avg. score <span class="arr">▾</span></th>
+        <th>Positive themes</th><th>Negative themes</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="code-cell">ES</span> Spain</td><td class="num">84</td><td class="num">52</td><td class="num">20</td><td class="num">12</td><td class="num"><span class="sent pos">+0.48</span></td><td class="num"><span class="sent pos">+0.41</span></td><td class="num">6.2</td><td class="themes">nightlife, weather, culture</td><td class="themes">bureaucracy, housing cost</td></tr>
+        <tr><td><span class="code-cell">NL</span> Netherlands</td><td class="num">61</td><td class="num">34</td><td class="num">16</td><td class="num">11</td><td class="num"><span class="sent pos">+0.38</span></td><td class="num"><span class="sent pos">+0.33</span></td><td class="num">5.4</td><td class="themes">cycling, academics, English</td><td class="themes">housing crisis, cost</td></tr>
+        <tr><td><span class="code-cell">PT</span> Portugal</td><td class="num">47</td><td class="num">29</td><td class="num">12</td><td class="num">6</td><td class="num"><span class="sent pos">+0.49</span></td><td class="num"><span class="sent pos">+0.44</span></td><td class="num">5.9</td><td class="themes">cost, people, food</td><td class="themes">admin delays</td></tr>
+        <tr><td><span class="code-cell">DE</span> Germany</td><td class="num">73</td><td class="num">31</td><td class="num">24</td><td class="num">18</td><td class="num"><span class="sent pos">+0.18</span></td><td class="num"><span class="sent pos">+0.12</span></td><td class="num">4.8</td><td class="themes">academics, transit</td><td class="themes">language, bureaucracy, cold</td></tr>
+        <tr><td><span class="code-cell">FR</span> France</td><td class="num">58</td><td class="num">22</td><td class="num">18</td><td class="num">18</td><td class="num"><span class="sent neu">+0.07</span></td><td class="num"><span class="sent neg">−0.04</span></td><td class="num">4.1</td><td class="themes">culture, food</td><td class="themes">housing, admin, strikes</td></tr>
+        <tr><td><span class="code-cell">AT</span> Austria</td><td class="num">29</td><td class="num">9</td><td class="num">8</td><td class="num">12</td><td class="num"><span class="sent neg">−0.10</span></td><td class="num"><span class="sent neg">−0.16</span></td><td class="num">3.6</td><td class="themes">nature, safety</td><td class="themes">cost, closed social scene</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- β₃ INSTITUTION QUALITY -->
+<section class="section-card" id="institution" data-screen-label="Institution Quality">
+  <h2><span class="sec-kicker beta">β₃</span> Institution quality <span style="font-weight:600;font-size:17px;color:var(--muted);letter-spacing:0">— academic pull</span></h2>
+  <p class="note">Planned explanatory variable. Destination institution quality would enter as a ranking-derived score on the receiving university, capturing academic pull beyond country-level economics. Not yet in the processed pipeline.</p>
+  <div style="margin-top:16px;display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px dashed var(--line);border-radius:10px;background:var(--soft-2);color:var(--muted);font-size:13.5px">
+    <span class="status planned" style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted)">· planned</span>
+    Source: destination university ranking score · Expected sign: + · Joins on receiving-university identifier.
+  </div>
+</section>
+
+<!-- ACT III -->
+<div class="act ctrl" data-screen-label="Act — Controls">
+  <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#8a949d" stroke-width="1.4" transform="rotate(-22 15 15)"/><circle cx="15" cy="15" r="3.2" fill="#8a949d"/></svg>
+  <div class="gd-main">
+    <div class="gd-role">Controls &amp; gravity frictions</div>
+    <h3>What we hold constant</h3>
+  </div>
+  <span class="gd-sym">controls</span>
+</div>
+
+<!-- CONTROL: GDP GAP SCATTER -->
+<section class="section-card" data-screen-label="GDP Gap Scatter">
+  <h2><span class="sec-kicker ctrl">control</span> GDP gap &amp; flow share</h2>
+  <svg width="100%" viewBox="0 0 420 320" role="img" aria-label="GDP gap vs flow share scatter" style="margin-top:14px;max-width:560px">
+    <line x1="46" y1="270" x2="406" y2="270" stroke="#d8dee4"/><line x1="46" y1="20" x2="46" y2="270" stroke="#d8dee4"/>
+    <line x1="226" y1="20" x2="226" y2="270" stroke="#b44e5a" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="226" y="292" text-anchor="middle" font-size="11" fill="#8a949d" font-family="-apple-system,sans-serif">poorer ← GDP pc gap → richer</text>
+    <text x="52" y="34" font-size="11" fill="#8a949d" font-family="-apple-system,sans-serif">flow share</text>
+    <g fill="#5d6f9f" fill-opacity="0.68" stroke="#fff" stroke-width="1.6">
+      <circle cx="120" cy="70" r="20"/><circle cx="300" cy="150" r="14"/><circle cx="284" cy="178" r="12"/><circle cx="196" cy="110" r="17"/><circle cx="340" cy="210" r="9"/><circle cx="356" cy="190" r="8"/><circle cx="250" cy="222" r="11"/><circle cx="150" cy="210" r="9"/><circle cx="318" cy="238" r="7"/><circle cx="230" cy="160" r="13"/>
+    </g>
+  </svg>
+  <p class="note"><b>GDP gap</b> = receiving-country GDP per capita minus sending-country. <b>Flow share</b> = flow to that destination divided by all outgoing.</p>
+</section>
+
+<!-- CONTROL: FLOW-WEIGHTED ECONOMICS -->
+<section class="section-card" data-screen-label="Flow-Weighted Economics">
+  <h2><span class="sec-kicker ctrl">control</span> Flow-Weighted Destination Economics</h2>
+  <p class="note">Click column headers to sort. Each value weights destination indicators by the share of the sender's outgoing flow.</p>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th>Code</th><th>Sender</th>
+        <th class="num active">Outgoing students <span class="arr">▼</span></th>
+        <th class="num">Wtd dest GDP pc US$ <span class="arr">▾</span></th>
+        <th class="num">Wtd dest price level <span class="arr">▾</span></th>
+        <th class="num">Wtd dest earnings EUR <span class="arr">▾</span></th>
+        <th class="num">Grant / est. pax EUR <span class="arr">▾</span></th>
+        <th class="num">Grant / actual pax EUR <span class="arr">▾</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="code-cell">IT</td><td>Italy</td><td class="num">12,847</td><td class="num">38,420</td><td class="num">104.2</td><td class="num">2,610</td><td class="num">1,842</td><td class="num">1,910</td></tr>
+        <tr><td class="code-cell">DE</td><td>Germany</td><td class="num">19,204</td><td class="num">35,180</td><td class="num">98.7</td><td class="num">2,380</td><td class="num">1,705</td><td class="num">1,788</td></tr>
+        <tr><td class="code-cell">FR</td><td>France</td><td class="num">17,650</td><td class="num">36,940</td><td class="num">101.5</td><td class="num">2,470</td><td class="num">1,760</td><td class="num">1,830</td></tr>
+        <tr><td class="code-cell">ES</td><td>Spain</td><td class="num">21,318</td><td class="num">39,610</td><td class="num">106.8</td><td class="num">2,690</td><td class="num">1,889</td><td class="num">1,952</td></tr>
+        <tr><td class="code-cell">PL</td><td>Poland</td><td class="num">9,472</td><td class="num">41,230</td><td class="num">110.4</td><td class="num">2,820</td><td class="num">1,920</td><td class="num">2,004</td></tr>
+        <tr><td class="code-cell">NL</td><td>Netherlands</td><td class="num">7,860</td><td class="num">34,070</td><td class="num">97.1</td><td class="num">2,310</td><td class="num">1,668</td><td class="num">1,742</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 15. DATA SOURCES -->
+<section class="section-card" data-screen-label="Data Sources">
+  <h2><span class="sec-kicker plain">Notes</span> Data Sources and Measurement Notes</h2>
+  <ul class="sources">
+    <li><b>Erasmus flows:</b> <code>Erasmus-KA1-Mobility-Data-2022.xlsx</code>, sheet <code>KA1 mobilities 2022</code>. Filtered to Higher Education study mobility.</li>
+    <li><b>Flow scope:</b> Cross-border origin–destination. Same-country rows are coding artifacts.</li>
+    <li><b>HE grants:</b> <code>annual-report-2024-statistical-annex.xlsx</code>, sheet <code>KA1_estimated paxs</code>, Call Year 2022.</li>
+    <li><b>GDP per capita:</b> World Bank current US$.</li>
+    <li><b>Price levels and net earnings:</b> Eurostat API.</li>
+    <li><b>Scholarship proxy:</b> Grant per participant is country-level, not individual.</li>
+    <li><b>Quality of life (built):</b> Reddit r/Erasmus, sentiment + themes via OpenRouter + Pydantic.</li>
+    <li><b>Institution quality (planned):</b> Destination university ranking score.</li>
+  </ul>
+</section>
+
+<!-- SECTIONS -->
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer data-screen-label="Footer">
+  <div style="font-size:16px"><b>ErasmusGravity</b> — Economic Attractiveness and Erasmus Mobility</div>
+  <div>Text Analysis and Spatial Data for Economists · SP 2026 · Leonardo Palanca</div>
+  <div>Data vintage: Erasmus KA1 2022, Eurostat 2022, Reddit r/Erasmus 2024–2025</div>
+</footer>
+
+<script>
+  function setMode(m){
+    document.body.classList.toggle('mode-free', m==='free');
+    document.body.classList.toggle('mode-explore', m==='explore');
+    document.getElementById('m-free').classList.toggle('active', m==='free');
+    document.getElementById('m-explore').classList.toggle('active', m==='explore');
+    try{localStorage.setItem('eg-mode', m)}catch(e){}
+  }
+  try{var s=localStorage.getItem('eg-mode'); if(s) setMode(s);}catch(e){}
+
+  // populate 8x8 flow heatmap
+  (function(){
+    var m=[
+      [0,.62,.55,.7,.35,.3,.5,.28],
+      [.48,0,.5,.42,.6,.38,.22,.45],
+      [.4,.45,0,.5,.3,.35,.32,.26],
+      [.85,.6,.7,0,.4,.5,.55,.42],
+      [.3,.7,.25,.35,0,.28,.2,.3],
+      [.32,.4,.3,.45,.22,0,.26,.24],
+      [.7,.3,.4,.6,.18,.24,0,.2],
+      [.26,.5,.28,.4,.3,.22,.18,0]
+    ];
+    var g=document.getElementById('heat-cells'); if(!g) return;
+    var x0=64,y0=28,cs=38,ns='http://www.w3.org/2000/svg';
+    for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+      var v=m[r][c],rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',x0+c*cs);rect.setAttribute('y',y0+r*cs);
+      rect.setAttribute('width',cs-3);rect.setAttribute('height',cs-3);
+      rect.setAttribute('rx','2.5');
+      rect.setAttribute('fill', v===0?'#f3f5f5':'rgba(47,111,115,'+v+')');
+      g.appendChild(rect);
+    }
+  })();
+
+  // sticky topbar shadow once scrolled past the header
+  (function(){
+    var tb=document.querySelector('.topbar'); if(!tb) return;
+    var onScroll=function(){ tb.classList.toggle('stuck', window.scrollY>6); };
+    window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  })();
+
+  // explore: reset controls
+  (function(){
+    var btn=document.querySelector('.cs-head .reset'); if(!btn) return;
+    btn.addEventListener('click', function(){
+      var surf=document.querySelector('.ctrl-surface');
+      surf.querySelectorAll('input').forEach(function(i){ i.value=''; });
+      surf.querySelectorAll('select').forEach(function(s){ s.selectedIndex=0; });
+    });
+  })();
+
+  // keep "Showing <country>" chips in sync with the sending-country field
+  (function(){
+    var input=document.querySelector('.ctrl-surface .ip input');
+    var chips=document.querySelectorAll('.fc-country');
+    if(!input || !chips.length) return;
+    function sync(){
+      var v=input.value.trim();
+      var label=v ? v : 'all countries';
+      chips.forEach(function(c){ c.textContent=label; });
+    }
+    input.addEventListener('input', sync);
+  })();
+
+  // lightweight sort affordance (toggles arrow direction + active header) — visual only
+  document.addEventListener('click', function(e){
+    var th=e.target.closest('.data-table thead th'); if(!th) return;
+    var row=th.parentNode;
+    [].forEach.call(row.children, function(h){ if(h!==th){h.classList.remove('active'); var a=h.querySelector('.arr'); if(a)a.textContent='▾';} });
+    th.classList.add('active');
+    var arr=th.querySelector('.arr'); if(arr){ arr.textContent = arr.textContent==='▼' ? '▲' : '▼'; }
+  });
+</script>
+<!-- INSERT -->
+</body>
+</html>

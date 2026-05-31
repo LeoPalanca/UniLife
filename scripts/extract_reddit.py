@@ -6,8 +6,8 @@ import sys
 import pandas as pd
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
-from unilife.reddit import RAW_REDDIT
-from unilife.reddit_extract import DEFAULT_MODEL, extract_corpus
+from erasmusgravity.reddit import RAW_REDDIT
+from erasmusgravity.reddit_extract import DEFAULT_MODEL, extract_corpus
 
 
 OUTPUT_DIR = Path("data/processed")
@@ -25,9 +25,11 @@ def flatten_results(results: list[dict]) -> pd.DataFrame:
                     "kind": r["kind"],
                     "score": r["score"],
                     "permalink": r["permalink"],
+                    "created_utc": r.get("created_utc"),
                     "city": m.get("city"),
                     "country": m.get("country"),
                     "sentiment": m.get("sentiment"),
+                    "sentiment_score": m.get("sentiment_score"),
                     "themes": "; ".join(m.get("themes", [])),
                     "confidence": m.get("confidence"),
                 }
@@ -51,9 +53,22 @@ def main() -> None:
     parser.add_argument("--pause", type=float, default=1.0, help="Seconds to wait between API calls.")
     parser.add_argument("--resume", action="store_true", help="Skip records already present in the output JSON.")
     parser.add_argument("--progress-every", type=int, default=10, help="Print and checkpoint every N prompts.")
+    parser.add_argument(
+        "--productive-from",
+        help="Prior results JSON; only re-process records that had a mention or errored "
+        "(skips records previously found empty to save API calls).",
+    )
     args = parser.parse_args()
 
     records = json.loads(RAW_REDDIT.read_text(encoding="utf-8"))
+
+    if args.productive_from:
+        prior = json.loads(Path(args.productive_from).read_text(encoding="utf-8"))
+        keep = {(r.get("kind"), r.get("id")) for r in prior if r.get("mentions") or "error" in r}
+        before = len(records)
+        records = [r for r in records if (r.get("kind"), r.get("id")) in keep]
+        print(f"productive filter: {len(records):,} of {before:,} records (skipped previously-empty)", flush=True)
+
     existing: list[dict] = []
     if args.resume and OUTPUT_JSON.exists():
         existing = json.loads(OUTPUT_JSON.read_text(encoding="utf-8"))

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ErasmusGravity — Design System</title>
+<style>
+  :root{
+    /* Surfaces */
+    --paper:#f7f7f4; --panel:#ffffff; --soft:#eef3f1; --soft-2:#f3f5f5;
+    /* Text */
+    --ink:#1f2933; --ink-strong:#11181f; --muted:#5f6b76; --faint:#8a949d;
+    /* Lines */
+    --line:#d8dee4; --line-soft:#e7ebef;
+    /* Accents */
+    --accent:#2f6f73; --accent-deep:#234f52; --accent-bright:#37868b;
+    --accent-2:#b44e5a; --accent-2-deep:#8f3b46;
+    /* Semantic */
+    --positive:#2f6f73; --negative:#b44e5a; --neutral:#5f6b76;
+    /* Chart palette */
+    --c1:#2f6f73; --c2:#b44e5a; --c3:#c98a2b; --c4:#4a6fa5; --c5:#6b8f3a; --c6:#8a5a9e;
+    /* Type */
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Palladio,Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    /* Spacing base 8 */
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s6:48px;
+    --radius:8px; --radius-lg:14px;
+    --shadow:0 1px 2px rgba(17,24,31,.04),0 8px 24px -16px rgba(17,24,31,.28);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    font-variant-numeric:tabular-nums;
+  }
+  h1,h2,h3,h4,p{margin:0}
+  a{color:inherit}
+  code,.mono{font-family:var(--mono)}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  /* ---------- Editorial primitives ---------- */
+  .kicker{
+    font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); display:inline-flex; align-items:center; gap:9px;
+  }
+  .kicker.coral{color:var(--accent-2)}
+  .kicker .num{
+    font-family:var(--mono); font-size:11px; letter-spacing:.04em;
+    color:var(--paper); background:var(--accent); border-radius:5px;
+    padding:2px 6px; font-weight:600;
+  }
+  .kicker.coral .num{background:var(--accent-2)}
+
+  /* ---------- Orbital glyph ---------- */
+  .orbit{display:inline-block; vertical-align:middle}
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50; background:rgba(255,255,255,.86);
+    backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line);
+    box-shadow:0 1px 0 rgba(17,24,31,.02);
+  }
+  .topbar-inner{
+    max-width:1180px; margin:0 auto; padding:14px 32px;
+    display:flex; align-items:center; gap:24px; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:11px; font-size:22px; letter-spacing:-.01em}
+  .brand .e{font-weight:500; color:var(--ink)}
+  .brand .g{font-weight:800; color:var(--accent)}
+  .ds-nav{display:flex; gap:4px; flex-wrap:wrap}
+  .ds-nav a{
+    font-size:13px; font-weight:600; color:var(--muted); text-decoration:none;
+    padding:6px 11px; border-radius:999px; transition:.16s;
+  }
+  .ds-nav a:hover{color:var(--accent); background:var(--soft)}
+
+  /* ---------- Layout ---------- */
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px}
+  section.block{padding:64px 0; border-bottom:1px solid var(--line-soft)}
+  .block-head{max-width:760px; margin-bottom:40px}
+  .block-head h2{
+    font-size:34px; font-weight:800; letter-spacing:-.02em; line-height:1.1;
+    margin:14px 0 12px; color:var(--ink-strong);
+  }
+  .block-head p{color:var(--muted); font-size:16px; max-width:62ch}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:84px 0 64px; position:relative; overflow:hidden}
+  .hero-orbits{position:absolute; right:-120px; top:-60px; opacity:.5; pointer-events:none}
+  .hero h1{
+    font-size:clamp(40px,6.4vw,76px); font-weight:800; letter-spacing:-.035em;
+    line-height:.98; color:var(--ink-strong); max-width:16ch; margin:18px 0 22px;
+  }
+  .hero h1 .pull{color:var(--accent); font-style:italic; font-family:var(--serif); font-weight:700}
+  .hero .lede{font-size:19px; color:var(--muted); max-width:60ch; line-height:1.55}
+  .hero .meta{
+    display:flex; gap:28px; flex-wrap:wrap; margin-top:34px;
+    padding-top:26px; border-top:1px solid var(--line);
+  }
+  .hero .meta div{display:flex; flex-direction:column; gap:3px}
+  .hero .meta .lab{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .hero .meta .val{font-size:15px; font-weight:600; color:var(--ink)}
+
+  /* ---------- Specimen scaffolding ---------- */
+  .specimen{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg);
+    overflow:hidden; box-shadow:var(--shadow);
+  }
+  .specimen + .specimen{margin-top:28px}
+  .specimen-body{padding:28px}
+  .specimen-foot{
+    border-top:1px dashed var(--line); padding:13px 28px; background:var(--soft-2);
+    display:flex; gap:16px; flex-wrap:wrap; align-items:baseline;
+  }
+  .specimen-foot .cls{font-family:var(--mono); font-size:12px; color:var(--accent-deep); font-weight:600}
+  .specimen-foot .desc{font-size:12.5px; color:var(--muted)}
+  .spec-label{
+    font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--faint); margin-bottom:16px;
+  }
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:24px}
+
+  /* ---------- Color swatches ---------- */
+  .swatch-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px}
+  .swatch{
+    border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--panel);
+  }
+  .swatch .chip{height:88px; display:flex; align-items:flex-end; justify-content:space-between; padding:10px 12px}
+  .swatch .chip .ratio{
+    font-family:var(--mono); font-size:11px; font-weight:600; padding:2px 7px;
+    border-radius:5px; background:rgba(255,255,255,.85); color:var(--ink);
+  }
+  .swatch .meta{padding:12px 13px 14px}
+  .swatch .meta .name{font-weight:700; font-size:14px}
+  .swatch .meta .var{font-family:var(--mono); font-size:12px; color:var(--accent-deep); margin-top:2px}
+  .swatch .meta .use{font-size:12.5px; color:var(--muted); margin-top:7px; line-height:1.45}
+  .group-label{
+    font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); margin:30px 0 14px; display:flex; align-items:center; gap:10px;
+  }
+  .group-label::after{content:""; flex:1; height:1px; background:var(--line)}
+  .group-label:first-child{margin-top:0}
+  .chart-ramp{display:flex; gap:0; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-top:6px}
+  .chart-ramp div{flex:1; height:56px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px}
+  .chart-ramp div span{font-family:var(--mono); font-size:10px; color:rgba(255,255,255,.92); font-weight:600}
+
+  /* ---------- Type specimens ---------- */
+  .type-row{
+    display:grid; grid-template-columns:160px 1fr; gap:28px; padding:20px 0;
+    border-top:1px solid var(--line-soft); align-items:baseline;
+  }
+  .type-row:first-child{border-top:none}
+  .type-row .tmeta{font-size:12.5px; color:var(--muted); line-height:1.5}
+  .type-row .tmeta b{display:block; color:var(--ink); font-size:13px; font-weight:700; margin-bottom:4px}
+  .type-row .tmeta code{font-size:11.5px; color:var(--accent-deep)}
+
+  /* ---------- Stat cards ---------- */
+  .card-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px}
+  .card{
+    background:var(--soft); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; position:relative; overflow:hidden;
+  }
+  .card .label{font-size:13px; font-weight:600; color:var(--muted); line-height:1.3}
+  .card .value{font-size:30px; font-weight:800; letter-spacing:-.02em; margin-top:8px; color:var(--ink-strong)}
+  .card .value .u{font-size:14px; font-weight:600; color:var(--muted); letter-spacing:0}
+
+  /* ---------- Data table ---------- */
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius)}
+  table.data-table{border-collapse:collapse; width:100%; min-width:680px; font-size:13.5px}
+  .data-table thead th{
+    text-align:left; padding:11px 14px; background:var(--soft); color:var(--accent);
+    font-weight:700; font-size:12px; letter-spacing:.03em; cursor:pointer;
+    border-bottom:1px solid var(--line); white-space:nowrap; user-select:none;
+  }
+  .data-table thead th.num{text-align:right}
+  .data-table thead th .arr{opacity:.45; font-size:10px; margin-left:4px}
+  .data-table thead th.active{color:var(--accent-deep)}
+  .data-table thead th.active .arr{opacity:1}
+  .data-table tbody td{padding:10px 14px; border-bottom:1px solid var(--line-soft)}
+  .data-table tbody td.num{text-align:right; font-variant-numeric:tabular-nums}
+  .data-table tbody tr:last-child td{border-bottom:none}
+  .data-table tbody tr:hover{background:var(--soft)}
+  .code-cell{font-family:var(--mono); font-weight:600; color:var(--accent-deep); font-size:12.5px}
+
+  /* ---------- Badges / pills ---------- */
+  .sent{font-weight:800; font-variant-numeric:tabular-nums}
+  .sent.pos{color:var(--positive)} .sent.neu{color:var(--neutral)} .sent.neg{color:var(--negative)}
+  .scope-pill{
+    display:inline-flex; align-items:center; gap:8px; border-radius:999px;
+    border:1px solid #c9d7d5; background:var(--soft); color:var(--accent);
+    font-size:12px; font-weight:700; padding:6px 14px; letter-spacing:.01em;
+  }
+  .status{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.02em}
+  .status.built{color:var(--accent)} .status.planned{color:var(--muted)}
+
+  /* ---------- Variable cards ---------- */
+  .var-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px}
+  .var-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px; position:relative;
+  }
+  .var-card .top{display:flex; align-items:center; gap:8px; margin-bottom:12px}
+  .var-card .sym{
+    font-family:var(--serif); font-style:italic; font-size:17px; font-weight:700; color:var(--ink-strong);
+  }
+  .var-card h4{font-size:18px; font-weight:700; letter-spacing:-.01em; margin-bottom:8px}
+  .var-card .vmeta{font-size:12.5px; color:var(--muted); line-height:1.5}
+  .var-card .vmeta b{color:var(--ink); font-weight:600}
+
+  /* ---------- Tooltip ---------- */
+  .tooltip{
+    display:inline-block; background:rgba(31,41,51,.94); color:#fff; padding:7px 9px;
+    border-radius:6px; font-size:12.5px; line-height:1.45; max-width:260px; box-shadow:0 6px 20px -8px rgba(0,0,0,.5);
+  }
+  .tooltip b{font-weight:700}
+  .tooltip .t-title{font-weight:700; margin-bottom:2px}
+  .tooltip .t-row{color:rgba(255,255,255,.82)}
+
+  /* ---------- Map markers ---------- */
+  .marker-stage{display:flex; gap:40px; align-items:center; flex-wrap:wrap}
+  .pin{border-radius:50%; border:2px solid #fff; box-shadow:0 2px 8px -2px rgba(17,24,31,.4)}
+  .pin.teal{background:var(--accent)} .pin.coral{background:var(--accent-2)}
+  .cluster{
+    border-radius:50%; background:var(--accent); color:#fff; border:2px solid #fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;
+    box-shadow:0 3px 12px -3px rgba(17,24,31,.5); width:54px; height:54px;
+  }
+  .dotleg{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:13px}
+
+  /* ---------- Equation ---------- */
+  .equation{
+    font-family:var(--serif); font-size:18px; line-height:2.05; color:var(--ink-strong);
+    background:var(--soft); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:var(--radius); padding:22px 26px; overflow-x:auto;
+  }
+  .equation .gk{font-style:italic}
+  .equation .fx{color:var(--accent-deep); font-weight:600}
+
+  /* ---------- Spacing scale ---------- */
+  .space-row{display:flex; align-items:center; gap:16px; margin-bottom:12px}
+  .space-row .bar{background:var(--accent); height:16px; border-radius:3px}
+  .space-row .lab{font-family:var(--mono); font-size:12.5px; color:var(--muted); width:70px}
+  .layout-demo{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:24px}
+  .layout-demo .lblock{background:var(--soft); border:1px dashed var(--line); border-radius:var(--radius); height:90px; display:flex; align-items:center; justify-content:center; color:var(--faint); font-size:12px; font-family:var(--mono)}
+
+  /* ---------- Interaction notes ---------- */
+  .inter-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+  .inter{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px}
+  .inter h4{font-size:14px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:8px}
+  .inter p{font-size:13px; color:var(--muted); line-height:1.5}
+  .inter .dot{width:8px; height:8px; border-radius:50%; background:var(--accent-2)}
+
+  /* ---------- Brand explorations ---------- */
+  .brand-explore{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+  .brand-opt{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px 22px; display:flex; flex-direction:column; gap:16px; align-items:flex-start;
+  }
+  .brand-opt .tag{font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--soft); border-top:1px solid var(--line); padding:40px 0; color:var(--muted); font-size:13px}
+  footer .wrap{display:flex; flex-direction:column; gap:5px}
+  footer b{color:var(--ink); font-weight:700}
+
+  @media(max-width:760px){
+    .topbar-inner{flex-direction:column; align-items:flex-start; gap:12px}
+    .wrap{padding:0 18px}
+    .type-row{grid-template-columns:1fr; gap:8px}
+    .block-head h2{font-size:27px}
+    section.block{padding:44px 0}
+  }
+</style>
+</head>
+<body>
+<!-- ============ TOPBAR ============ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <svg class="orbit" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/>
+        <circle cx="13" cy="13" r="3.1" fill="#b44e5a"/>
+        <circle cx="23.2" cy="9.4" r="1.7" fill="#2f6f73"/>
+      </svg>
+      <span><span class="e">Erasmus</span><span class="g">Gravity</span></span>
+    </div>
+    <nav class="ds-nav">
+      <a href="#color">Color</a>
+      <a href="#type">Type</a>
+      <a href="#brand">Brand</a>
+      <a href="#components">Components</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#motion">Motion</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="wrap">
+  <div class="hero">
+    <svg class="hero-orbits" width="440" height="380" viewBox="0 0 440 380" aria-hidden="true">
+      <g fill="none" stroke="#2f6f73" stroke-width="1.2" opacity="0.6">
+        <ellipse cx="240" cy="190" rx="200" ry="78" transform="rotate(-18 240 190)"/>
+        <ellipse cx="240" cy="190" rx="150" ry="55" transform="rotate(-18 240 190)"/>
+        <ellipse cx="240" cy="190" rx="96" ry="34" transform="rotate(-18 240 190)"/>
+      </g>
+      <circle cx="240" cy="190" r="9" fill="#b44e5a"/>
+      <circle cx="56" cy="150" r="5" fill="#2f6f73"/>
+      <circle cx="420" cy="232" r="4" fill="#c98a2b"/>
+    </svg>
+    <div class="kicker"><span class="num">DS</span> Design System · v1</div>
+    <h1>The visual grammar of <span class="pull">gravity</span> &amp; mobility.</h1>
+    <p class="lede">Tokens, type, and components for a data-journalism dashboard that reads Erasmus+ student flows through a gravity-model lens. Academic footing, expressive surface — built on the system font stack alone.</p>
+    <div class="meta">
+      <div><span class="lab">Aesthetic</span><span class="val">Pudding.cool × Our World in Data</span></div>
+      <div><span class="lab">Fonts</span><span class="val">System stack only</span></div>
+      <div><span class="lab">Constraint</span><span class="val">One file · WCAG AA · &lt;100 KB</span></div>
+      <div><span class="lab">Deploys to</span><span class="val">unilife.ellep.it</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COLOR ============ -->
+<section class="block" id="color">
+  <div class="wrap">
+    <div class="block-head">
+      <div class="kicker"><span class="num">01</span> Color</div>
+      <h2>A teal pull, a coral push, on warm paper.</h2>
+      <p>Primary is gravity-teal — the attracting mass. Coral is its semantic opposite: deterrence, negative sentiment, fallback. Everything sits on a warm off-white so the page reads as printed matter, not a screen UI.</p>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="chip" style="background:#f7f7f4"><span></span><span class="ratio">base</span></div>
+        <div class="meta"><div class="name">Paper</div><div class="var">--paper · #f7f7f4</div><div class="use">Page background. Warm off-white — the editorial canvas.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#ffffff; border-bottom:1px solid var(--line)"><span></span><span class="ratio">base</span></div>
+        <div class="meta"><div class="name">Panel</div><div class="var">--panel · #ffffff</div><div class="use">Card and section-card background.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#eef3f1"><span></span><span class="ratio">base</span></div>
+        <div class="meta"><div class="name">Soft</div><div class="var">--soft · #eef3f1</div><div class="use">Tinted fill: stat cards, scope pills, hover rows.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#f3f5f5"><span></span><span class="ratio">base</span></div>
+        <div class="meta"><div class="name">Soft-2</div><div class="var">--soft-2 · #f3f5f5</div><div class="use">Empty heatmap cells, footnote strips.</div></div>
+      </div>
+    </div>
+
+    <div class="group-label">Text</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="chip" style="background:#1f2933"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.25)">12.6:1</span></div>
+        <div class="meta"><div class="name">Ink</div><div class="var">--ink · #1f2933</div><div class="use">Primary text on paper. AAA.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#5f6b76"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">5.1:1</span></div>
+        <div class="meta"><div class="name">Muted</div><div class="var">--muted · #5f6b76</div><div class="use">Labels, notes, secondary text. AA.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#11181f"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.25)">16.8:1</span></div>
+        <div class="meta"><div class="name">Ink strong</div><div class="var">--ink-strong · #11181f</div><div class="use">Display headings and stat values.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#d8dee4"><span></span><span class="ratio">1px</span></div>
+        <div class="meta"><div class="name">Line</div><div class="var">--line · #d8dee4</div><div class="use">Borders and dividers.</div></div>
+      </div>
+    </div>
+
+    <div class="group-label">Accents</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="chip" style="background:#2f6f73"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">4.9:1</span></div>
+        <div class="meta"><div class="name">Accent — gravity teal</div><div class="var">--accent · #2f6f73</div><div class="use">Primary. Bars, links, sort headers, "attracts flows".</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#234f52"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">7.6:1</span></div>
+        <div class="meta"><div class="name">Accent deep</div><div class="var">--accent-deep · #234f52</div><div class="use">Code, active states, mono accents.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#b44e5a"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">4.6:1</span></div>
+        <div class="meta"><div class="name">Accent-2 — muted coral</div><div class="var">--accent-2 · #b44e5a</div><div class="use">Secondary. "Deters flows", fallback pins, negatives.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#8f3b46"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">6.6:1</span></div>
+        <div class="meta"><div class="name">Accent-2 deep</div><div class="var">--accent-2-deep · #8f3b46</div><div class="use">Coral text on light where AA needs more contrast.</div></div>
+      </div>
+    </div>
+
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="chip" style="background:#2f6f73"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">teal</span></div>
+        <div class="meta"><div class="name">Positive</div><div class="var">--positive · #2f6f73</div><div class="use">Positive sentiment · "attracts flows".</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#5f6b76"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">grey</span></div>
+        <div class="meta"><div class="name">Neutral</div><div class="var">--neutral · #5f6b76</div><div class="use">Neutral sentiment · no clear pull.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#b44e5a"><span></span><span class="ratio" style="color:#fff;background:rgba(0,0,0,.22)">coral</span></div>
+        <div class="meta"><div class="name">Negative</div><div class="var">--negative · #b44e5a</div><div class="use">Negative sentiment · "deters flows".</div></div>
+      </div>
+    </div>
+
+    <div class="group-label">Chart palette · 6 series</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="chip" style="background:#2f6f73"></div><div class="meta"><div class="name">Teal</div><div class="var">--c1 · #2f6f73</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#b44e5a"></div><div class="meta"><div class="name">Coral</div><div class="var">--c2 · #b44e5a</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#c98a2b"></div><div class="meta"><div class="name">Amber</div><div class="var">--c3 · #c98a2b</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#4a6fa5"></div><div class="meta"><div class="name">Slate-blue</div><div class="var">--c4 · #4a6fa5</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#6b8f3a"></div><div class="meta"><div class="name">Olive</div><div class="var">--c5 · #6b8f3a</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#8a5a9e"></div><div class="meta"><div class="name">Purple</div><div class="var">--c6 · #8a5a9e</div></div></div>
+    </div>
+    <div style="margin-top:18px">
+      <div class="spec-label">Heatmap / flow ramp — rgba(47,111,115, α)</div>
+      <div class="chart-ramp">
+        <div style="background:#f3f5f5"><span style="color:#8a949d">0</span></div>
+        <div style="background:rgba(47,111,115,.15)"></div>
+        <div style="background:rgba(47,111,115,.3)"></div>
+        <div style="background:rgba(47,111,115,.5)"></div>
+        <div style="background:rgba(47,111,115,.7)"></div>
+        <div style="background:rgba(47,111,115,.88)"><span>4,000+</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TYPE ============ -->
+<section class="block" id="type">
+  <div class="wrap">
+    <div class="block-head">
+      <div class="kicker"><span class="num">02</span> Typography</div>
+      <h2>One stack, pushed hard.</h2>
+      <p>No web fonts. Hierarchy comes entirely from weight, size, tracking, and case — with a system <em>serif</em> reserved for editorial moments and the model equation, where it lends textbook authority.</p>
+    </div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <div class="type-row">
+          <div class="tmeta"><b>Page title · h1</b>30px / 700 / 1.2<br><code>--sans</code></div>
+          <div style="font-size:30px;font-weight:700;line-height:1.2;letter-spacing:-.02em;color:var(--ink-strong)">What pulls a student across a border?</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Section · h2</b>20px / 600 / 1.3<br><code>--sans</code></div>
+          <div style="font-size:20px;font-weight:600;line-height:1.3">Mobility over time, 2014–2023</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Subsection · h3</b>16px / 600 / 1.4</div>
+          <div style="font-size:16px;font-weight:600">Italy — top destinations</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Body</b>15px / 400 / 1.5</div>
+          <div style="font-size:15px;line-height:1.5;max-width:58ch">We model each origin–destination flow as a gravity-style regression: bilateral flows are attracted by salary gaps and quality of life, and dampened by distance and cost.</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Label</b>13px / 600 / 1.2</div>
+          <div style="font-size:13px;font-weight:600">Sending country</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Small note</b>13px / 400 / 1.5<br><code>.note · --muted</code></div>
+          <div style="font-size:13px;line-height:1.5;color:var(--muted)">The 2020 drop reflects COVID-19 disruption.</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Stat value</b>22px / 700 / 1.1<br>(elevated to 30 in cards)</div>
+          <div style="font-size:22px;font-weight:700;line-height:1.1;color:var(--ink-strong);font-variant-numeric:tabular-nums">12,847</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Mono / code</b>14px / 400 / 1.5<br><code>--mono</code></div>
+          <div style="font-family:var(--mono);font-size:14px;color:var(--accent-deep)">flow_share = flow_ij / Σ flow_i</div>
+        </div>
+        <div class="type-row">
+          <div class="tmeta"><b>Editorial serif</b>system serif<br><code>--serif</code></div>
+          <div style="font-family:var(--serif);font-size:22px;font-style:italic;color:var(--ink-strong)">log(1 + flow<sub>ij</sub>) = β₁·salary_gap…</div>
+        </div>
+      </div>
+      <div class="specimen-foot">
+        <span class="cls">font-family: var(--sans)</span>
+        <span class="desc">-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif · tabular-nums on all data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BRAND ============ -->
+<section class="block" id="brand">
+  <div class="wrap">
+    <div class="block-head">
+      <div class="kicker coral"><span class="num">03</span> Brand mark</div>
+      <h2>Four ways to set ErasmusGravity.</h2>
+      <p>System fonts only, so distinction is typographic. Each treatment keeps "Erasmus" quieter and lets "Gravity" carry the mass. Pick one for the sticky topbar.</p>
+    </div>
+    <div class="brand-explore">
+      <div class="brand-opt">
+        <span class="tag">A · Weight split</span>
+        <span style="font-size:24px;letter-spacing:-.01em"><span style="font-weight:500;color:var(--ink)">Erasmus</span><span style="font-weight:800;color:var(--accent)">Gravity</span></span>
+        <span style="font-size:12.5px;color:var(--muted)">Regular + bold, single teal accent. The recommended default — quiet, legible, scalable.</span>
+      </div>
+      <div class="brand-opt">
+        <span class="tag">B · Color split</span>
+        <span style="font-size:24px;font-weight:800;letter-spacing:-.01em"><span style="color:var(--accent)">Erasmus</span><span style="color:var(--accent-2)">Gravity</span></span>
+        <span style="font-size:12.5px;color:var(--muted)">Teal pull, coral push — the two semantic forces, stated in the wordmark itself.</span>
+      </div>
+      <div class="brand-opt">
+        <span class="tag">C · Tracked + rule</span>
+        <span style="display:inline-flex;flex-direction:column;gap:5px">
+          <span style="font-size:21px;font-weight:700;letter-spacing:.04em;text-transform:uppercase">Erasmus<span style="color:var(--accent)">Gravity</span></span>
+          <span style="height:2px;width:100%;background:linear-gradient(90deg,var(--accent),transparent)"></span>
+        </span>
+        <span style="font-size:12.5px;color:var(--muted)">Uppercase, tracked, with a thin teal rule fading right — editorial masthead energy.</span>
+      </div>
+      <div class="brand-opt">
+        <span class="tag">D · Orbital accent ★</span>
+        <span style="display:inline-flex;align-items:center;gap:10px">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <ellipse cx="14" cy="14" rx="12.5" ry="5.5" fill="none" stroke="#2f6f73" stroke-width="1.5" transform="rotate(-22 14 14)"/>
+            <circle cx="14" cy="14" r="3.4" fill="#b44e5a"/>
+            <circle cx="25" cy="10" r="1.9" fill="#2f6f73"/>
+          </svg>
+          <span style="font-size:23px;letter-spacing:-.01em"><span style="font-weight:500">Erasmus</span><span style="font-weight:800;color:var(--accent)">Gravity</span></span>
+        </span>
+        <span style="font-size:12.5px;color:var(--muted)">Weight split plus a tiny orbital glyph — a body on an elliptical path. Used across the dashboard.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPONENTS ============ -->
+<section class="block" id="components">
+  <div class="wrap">
+    <div class="block-head">
+      <div class="kicker"><span class="num">04</span> Components</div>
+      <h2>Specimens, rendered.</h2>
+      <p>Every building block of the dashboard, shown as the real thing with its class names and key decisions. All SVG charts are hand-built and static.</p>
+    </div>
+
+    <!-- 3.1 Stat cards -->
+    <div class="spec-label">3.1 · Stat cards</div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <div class="card-row">
+          <div class="card"><div class="label">Outgoing students</div><div class="value">12,847</div></div>
+          <div class="card"><div class="label">Destinations</div><div class="value">31</div></div>
+          <div class="card"><div class="label">Share to richer countries</div><div class="value">62.4<span class="u">%</span></div></div>
+          <div class="card"><div class="label">HE grants, EUR</div><div class="value">421.5<span class="u">M</span></div></div>
+          <div class="card"><div class="label">Grant / participant</div><div class="value">1,842</div></div>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">.card</span><span class="desc">--soft bg · 1px --line · radius 8 · grid auto-fit minmax(180px,1fr) · value elevated to 30px/800</span></div>
+    </div>
+
+    <!-- 3.2 Data table -->
+    <div class="spec-label">3.2 · Data table</div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr>
+              <th>Code</th><th>Destination</th>
+              <th class="num active">Students <span class="arr">▼</span></th>
+              <th class="num">Flow share <span class="arr">▾</span></th>
+              <th class="num">GDP pc US$ <span class="arr">▾</span></th>
+              <th class="num">GDP gap <span class="arr">▾</span></th>
+              <th class="num">Price gap <span class="arr">▾</span></th>
+              <th class="num">Earnings gap <span class="arr">▾</span></th>
+            </tr></thead>
+            <tbody>
+              <tr><td class="code-cell">ES</td><td>Spain</td><td class="num">4,231</td><td class="num">14.2%</td><td class="num">33,090</td><td class="num">+8,420</td><td class="num">−6.1</td><td class="num">+412</td></tr>
+              <tr><td class="code-cell">DE</td><td>Germany</td><td class="num">2,108</td><td class="num">7.1%</td><td class="num">52,820</td><td class="num">+28,150</td><td class="num">+12.4</td><td class="num">+1,190</td></tr>
+              <tr><td class="code-cell">FR</td><td>France</td><td class="num">1,876</td><td class="num">6.3%</td><td class="num">44,410</td><td class="num">+19,740</td><td class="num">+7.8</td><td class="num">+860</td></tr>
+              <tr><td class="code-cell">PT</td><td>Portugal</td><td class="num">1,542</td><td class="num">5.2%</td><td class="num">24,560</td><td class="num">−110</td><td class="num">−9.4</td><td class="num">−240</td></tr>
+              <tr><td class="code-cell">NL</td><td>Netherlands</td><td class="num">987</td><td class="num">3.3%</td><td class="num">57,430</td><td class="num">+32,760</td><td class="num">+15.1</td><td class="num">+1,420</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">.data-table</span><span class="desc">sort headers in --accent, cursor pointer · numeric cols right-aligned · row hover --soft · active header bold + filled arrow</span></div>
+    </div>
+
+    <!-- 3.3 Horizontal bar -->
+    <div class="spec-label">3.3 · Horizontal bar chart</div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <svg width="100%" viewBox="0 0 700 300" role="img" aria-label="Top destinations bar chart">
+          <!-- bars: ES DE FR PT NL UK PL AT -->
+          <g font-family="-apple-system,sans-serif" font-size="13">
+            <!-- max 4231 -> scale; bar area x 70..600 width 530 -->
+            <g><text x="60" y="28" text-anchor="end" font-weight="700" fill="#234f52">ES</text><rect x="70" y="16" width="530" height="18" rx="3" fill="#2f6f73"/><text x="608" y="29" fill="#1f2933" font-weight="600">4,231</text></g>
+            <g><text x="60" y="62" text-anchor="end" font-weight="700" fill="#234f52">DE</text><rect x="70" y="50" width="264" height="18" rx="3" fill="#2f6f73"/><text x="342" y="63" fill="#1f2933" font-weight="600">2,108</text></g>
+            <g><text x="60" y="96" text-anchor="end" font-weight="700" fill="#234f52">FR</text><rect x="70" y="84" width="235" height="18" rx="3" fill="#2f6f73"/><text x="313" y="97" fill="#1f2933" font-weight="600">1,876</text></g>
+            <g><text x="60" y="130" text-anchor="end" font-weight="700" fill="#234f52">PT</text><rect x="70" y="118" width="193" height="18" rx="3" fill="#2f6f73"/><text x="271" y="131" fill="#1f2933" font-weight="600">1,542</text></g>
+            <g><text x="60" y="164" text-anchor="end" font-weight="700" fill="#234f52">NL</text><rect x="70" y="152" width="124" height="18" rx="3" fill="#2f6f73"/><text x="202" y="165" fill="#1f2933" font-weight="600">987</text></g>
+            <g><text x="60" y="198" text-anchor="end" font-weight="700" fill="#234f52">UK</text><rect x="70" y="186" width="110" height="18" rx="3" fill="#2f6f73"/><text x="188" y="199" fill="#1f2933" font-weight="600">876</text></g>
+            <g><text x="60" y="232" text-anchor="end" font-weight="700" fill="#234f52">PL</text><rect x="70" y="220" width="82" height="18" rx="3" fill="#2f6f73"/><text x="160" y="233" fill="#1f2933" font-weight="600">654</text></g>
+            <g><text x="60" y="266" text-anchor="end" font-weight="700" fill="#234f52">AT</text><rect x="70" y="254" width="68" height="18" rx="3" fill="#2f6f73"/><text x="146" y="267" fill="#1f2933" font-weight="600">543</text></g>
+          </g>
+        </svg>
+      </div>
+      <div class="specimen-foot"><span class="cls">svg · rect rx=3</span><span class="desc">bars --accent · code label left · value right · hover brightens (see Motion)</span></div>
+    </div>
+
+    <!-- 3.4 + 3.6 side by side -->
+    <div class="grid2">
+      <div>
+        <div class="spec-label">3.4 · Scatter plot</div>
+        <div class="specimen">
+          <div class="specimen-body">
+            <svg width="100%" viewBox="0 0 360 300" role="img" aria-label="GDP gap vs flow share scatter">
+              <!-- axes -->
+              <line x1="40" y1="260" x2="345" y2="260" stroke="#d8dee4"/>
+              <line x1="40" y1="20" x2="40" y2="260" stroke="#d8dee4"/>
+              <!-- zero line -->
+              <line x1="180" y1="20" x2="180" y2="260" stroke="#b44e5a" stroke-width="1.2" stroke-dasharray="4 3"/>
+              <text x="180" y="284" text-anchor="middle" font-size="10" fill="#8a949d" font-family="-apple-system,sans-serif">GDP pc gap →</text>
+              <text x="48" y="32" font-size="10" fill="#8a949d" font-family="-apple-system,sans-serif">flow share</text>
+              <g fill="#5d6f9f" fill-opacity="0.68" stroke="#fff" stroke-width="1.5">
+                <circle cx="120" cy="90" r="18"/>
+                <circle cx="250" cy="150" r="13"/>
+                <circle cx="235" cy="170" r="11"/>
+                <circle cx="165" cy="120" r="16"/>
+                <circle cx="285" cy="200" r="9"/>
+                <circle cx="300" cy="185" r="8"/>
+                <circle cx="210" cy="210" r="10"/>
+                <circle cx="140" cy="200" r="9"/>
+                <circle cx="270" cy="220" r="7"/>
+                <circle cx="195" cy="160" r="12"/>
+              </g>
+            </svg>
+          </div>
+          <div class="specimen-foot"><span class="cls">svg · circle</span><span class="desc">#5d6f9f @ .68 · white stroke · size = flow · dashed coral zero-line</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="spec-label">3.6 · Line chart · multi-series</div>
+        <div class="specimen">
+          <div class="specimen-body">
+            <svg width="100%" viewBox="0 0 360 300" role="img" aria-label="Destination trends line chart">
+              <!-- grid -->
+              <g stroke="#e7ebef"><line x1="40" y1="60" x2="345" y2="60"/><line x1="40" y1="120" x2="345" y2="120"/><line x1="40" y1="180" x2="345" y2="180"/><line x1="40" y1="240" x2="345" y2="240"/></g>
+              <line x1="40" y1="20" x2="40" y2="240" stroke="#d8dee4"/>
+              <line x1="40" y1="240" x2="345" y2="240" stroke="#d8dee4"/>
+              <!-- 3 series -->
+              <polyline fill="none" stroke="#2f6f73" stroke-width="2.4" points="55,150 120,130 185,90 250,75 315,55"/>
+              <polyline fill="none" stroke="#b44e5a" stroke-width="2.4" points="55,200 120,185 185,170 250,155 315,150"/>
+              <polyline fill="none" stroke="#c98a2b" stroke-width="2.4" points="55,220 120,200 185,205 250,180 315,175"/>
+              <g fill="#2f6f73"><circle cx="55" cy="150" r="3.4"/><circle cx="120" cy="130" r="3.4"/><circle cx="185" cy="90" r="3.4"/><circle cx="250" cy="75" r="3.4"/><circle cx="315" cy="55" r="3.4"/></g>
+              <g fill="#b44e5a"><circle cx="55" cy="200" r="3.4"/><circle cx="120" cy="185" r="3.4"/><circle cx="185" cy="170" r="3.4"/><circle cx="250" cy="155" r="3.4"/><circle cx="315" cy="150" r="3.4"/></g>
+              <g fill="#c98a2b"><circle cx="55" cy="220" r="3.4"/><circle cx="120" cy="200" r="3.4"/><circle cx="185" cy="205" r="3.4"/><circle cx="250" cy="180" r="3.4"/><circle cx="315" cy="175" r="3.4"/></g>
+              <g font-size="10" fill="#8a949d" font-family="-apple-system,sans-serif"><text x="55" y="256">2014</text><text x="295" y="256">2023</text></g>
+            </svg>
+            <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--muted)">
+              <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#2f6f73;border-radius:2px"></span>Spain</span>
+              <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#b44e5a;border-radius:2px"></span>Germany</span>
+              <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#c98a2b;border-radius:2px"></span>France</span>
+            </div>
+          </div>
+          <div class="specimen-foot"><span class="cls">svg · polyline + circle</span><span class="desc">chart palette · grid --line · dot markers · legend swatches below</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.5 Heatmap -->
+    <div class="spec-label" style="margin-top:28px">3.5 · Heatmap</div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <svg width="100%" viewBox="0 0 520 360" role="img" aria-label="Flow heatmap">
+          <g font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#234f52">
+            <text x="44" y="40">ES</text><text x="44" y="76">DE</text><text x="44" y="112">FR</text><text x="44" y="148">IT</text><text x="44" y="184">PL</text><text x="44" y="220">NL</text><text x="44" y="256">PT</text><text x="44" y="292">AT</text>
+            <text x="78" y="320" text-anchor="middle">ES</text><text x="114" y="320" text-anchor="middle">DE</text><text x="150" y="320" text-anchor="middle">FR</text><text x="186" y="320" text-anchor="middle">IT</text><text x="222" y="320" text-anchor="middle">PL</text><text x="258" y="320" text-anchor="middle">NL</text><text x="294" y="320" text-anchor="middle">PT</text><text x="330" y="320" text-anchor="middle">AT</text>
+          </g>
+          <g id="heat-cells"></g>
+          <script>
+            (function(){
+              var codes=['ES','DE','FR','IT','PL','NL','PT','AT'];
+              // pseudo flows matrix, diagonal empty
+              var m=[
+                [0,.62,.55,.7,.35,.3,.5,.28],
+                [.48,0,.5,.42,.6,.38,.22,.45],
+                [.4,.45,0,.5,.3,.35,.32,.26],
+                [.85,.6,.7,0,.4,.5,.55,.42],
+                [.3,.7,.25,.35,0,.28,.2,.3],
+                [.32,.4,.3,.45,.22,0,.26,.24],
+                [.7,.3,.4,.6,.18,.24,0,.2],
+                [.26,.5,.28,.4,.3,.22,.18,0]
+              ];
+              var g=document.getElementById('heat-cells'),x0=60,y0=24,cs=34;
+              for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+                var v=m[r][c],ns='http://www.w3.org/2000/svg';
+                var rect=document.createElementNS(ns,'rect');
+                rect.setAttribute('x',x0+c*cs);rect.setAttribute('y',y0+r*cs);
+                rect.setAttribute('width',cs-2.5);rect.setAttribute('height',cs-2.5);
+                rect.setAttribute('rx','2');
+                rect.setAttribute('fill', v===0?'#f3f5f5':'rgba(47,111,115,'+v+')');
+                g.appendChild(rect);
+              }
+            })();
+          </script>
+        </svg>
+        <div style="margin-top:8px">
+          <div class="chart-ramp" style="max-width:360px">
+            <div style="background:#f3f5f5"><span style="color:#8a949d">0</span></div>
+            <div style="background:rgba(47,111,115,.2)"></div>
+            <div style="background:rgba(47,111,115,.4)"></div>
+            <div style="background:rgba(47,111,115,.6)"></div>
+            <div style="background:rgba(47,111,115,.85)"><span>4,000+</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">svg 8×8</span><span class="desc">rgba(47,111,115, α) log-scaled · empty/diagonal #f3f5f5 · ramp legend below · same country order both axes</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPONENTS PART 2 ============ -->
+<section class="block" style="padding-top:0;border-bottom:none">
+  <div class="wrap">
+
+    <!-- 3.8 Sticky topbar -->
+    <div class="spec-label">3.8 · Sticky topbar</div>
+    <div class="specimen">
+      <div style="background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 8px -6px rgba(17,24,31,.4)">
+        <div style="padding:14px 20px;display:grid;grid-template-columns:auto 1fr 1fr 1fr auto;gap:16px;align-items:end">
+          <div style="display:flex;align-items:center;gap:9px">
+            <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/><circle cx="13" cy="13" r="3.1" fill="#b44e5a"/><circle cx="23.2" cy="9.4" r="1.7" fill="#2f6f73"/></svg>
+            <span style="font-size:20px;letter-spacing:-.01em"><span style="font-weight:500">Erasmus</span><span style="font-weight:800;color:var(--accent)">Gravity</span></span>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:13px;font-weight:600">Sending country</span><input placeholder="Search country or code" style="font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:#fff"></label>
+          <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:13px;font-weight:600">Flow level</span><select style="font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:#fff"><option>Country → university</option><option>University → country</option><option>University → university</option></select></label>
+          <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:13px;font-weight:600">University / place</span><input placeholder="Search university, city, country" style="font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:#fff"></label>
+          <button style="font:inherit;font-size:13px;font-weight:600;padding:9px 16px;border:1px solid var(--line);border-radius:7px;background:var(--soft);color:var(--accent);cursor:pointer">Clear</button>
+        </div>
+        <div style="padding:0 20px 14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <span class="scope-pill">KA1 study mobility · cross-border country pairs</span>
+          <select style="font:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff"><option>Selected sending country</option><option>All countries aggregate</option></select>
+          <select style="font:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff"><option>Salary country: Spain</option></select>
+          <select style="font:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff"><option>Euro (EUR)</option><option>Purchasing power standard (PPS)</option></select>
+          <span style="font-size:13px;color:var(--muted);margin-left:auto">Italy: <b style="color:var(--ink)">12,847</b> outgoing students</span>
+          <nav style="display:flex;gap:3px">
+            <a href="#" style="font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;padding:4px 9px;border-radius:999px;background:var(--soft)">Map</a>
+            <a href="#" style="font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:4px 9px">Trends</a>
+            <a href="#" style="font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:4px 9px">Universities</a>
+            <a href="#" style="font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:4px 9px">Economics</a>
+            <a href="#" style="font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:4px 9px">Salary</a>
+            <a href="#" style="font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:4px 9px">Reddit</a>
+          </nav>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">.topbar</span><span class="desc">position sticky · white · bottom border + shadow · row 1 = 5-col grid · row 2 flex-wrap · stacks under 700px</span></div>
+    </div>
+
+    <div class="grid2">
+      <!-- 3.7 Map markers -->
+      <div>
+        <div class="spec-label">3.7 · Map pins + cluster</div>
+        <div class="specimen">
+          <div class="specimen-body" style="background:var(--soft)">
+            <div class="marker-stage">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="pin teal" style="width:30px;height:30px"></div><span style="font-size:12px;color:var(--muted)">city-matched</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="pin coral" style="width:22px;height:22px"></div><span style="font-size:12px;color:var(--muted)">fallback</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="cluster">2,341</div><span style="font-size:12px;color:var(--muted)">cluster badge</span></div>
+            </div>
+            <div style="display:flex;gap:24px;margin-top:22px">
+              <span class="dotleg"><span class="pin teal" style="width:10px;height:10px"></span> smaller flow</span>
+              <span class="dotleg"><span class="pin teal" style="width:24px;height:24px"></span> larger flow</span>
+            </div>
+          </div>
+          <div class="specimen-foot"><span class="cls">.pin · .cluster</span><span class="desc">radius ∝ flow · teal = matched, coral = fallback · cluster white-on-teal, white border + shadow</span></div>
+        </div>
+      </div>
+      <!-- 3.9 Tooltip + 3.10 badge -->
+      <div>
+        <div class="spec-label">3.9 · Tooltip &nbsp;·&nbsp; 3.10 · Sentiment badge</div>
+        <div class="specimen">
+          <div class="specimen-body" style="display:flex;flex-direction:column;gap:24px;align-items:flex-start;background:var(--soft)">
+            <div class="tooltip">
+              <div class="t-title">Spain → Germany</div>
+              <div class="t-row"><b>4,231</b> students</div>
+              <div class="t-row">Flow share: 14.2%</div>
+              <div class="t-row">GDP gap: +8,420 US$</div>
+            </div>
+            <div style="display:flex;gap:26px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 18px">
+              <span style="display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)">Positive<span class="sent pos" style="font-size:18px">+0.42</span></span>
+              <span style="display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)">Neutral<span class="sent neu" style="font-size:18px">+0.02</span></span>
+              <span style="display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)">Negative<span class="sent neg" style="font-size:18px">−0.31</span></span>
+            </div>
+          </div>
+          <div class="specimen-foot"><span class="cls">.tooltip · .sent</span><span class="desc">tooltip rgba(31,41,51,.94) · 7×9 pad · radius 6 · badges bold, colour-coded text, no background</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.11 + 3.12 -->
+    <div class="grid2" style="margin-top:28px">
+      <div>
+        <div class="spec-label">3.11 · Section card</div>
+        <div class="specimen">
+          <div class="specimen-body">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px">
+              <h3 style="font-size:20px;font-weight:600">University Flow Map</h3>
+              <p style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5">Points represent university endpoints; circle size scales with the size of the flow. This is the recurring container for every dashboard module.</p>
+            </div>
+          </div>
+          <div class="specimen-foot"><span class="cls">.section-card</span><span class="desc">--panel · 1px --line · radius 8 · padding 22 · h2 + .note</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="spec-label">3.12 · Scope pill</div>
+        <div class="specimen">
+          <div class="specimen-body" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+            <span class="scope-pill">KA1 study mobility · cross-border country pairs</span>
+            <span class="scope-pill"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="2" fill="#2f6f73"/><ellipse cx="6" cy="6" rx="5" ry="2.4" fill="none" stroke="#2f6f73" stroke-width="1"/></svg> Higher Education</span>
+          </div>
+          <div class="specimen-foot"><span class="cls">.scope-pill</span><span class="desc">radius 999 · 1px #c9d7d5 · --soft bg · --accent text · 12px/700</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.13 Variable cards -->
+    <div class="spec-label" style="margin-top:28px">3.13 · Variable cards</div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <div class="var-grid">
+          <div class="var-card">
+            <div class="top"><span class="sym">β₁</span><span class="status built">· built</span></div>
+            <h4>Salary gap</h4>
+            <div class="vmeta"><b>Role:</b> labour-market pull · <b>Source:</b> Eurostat net earnings · <b>Sign:</b> +</div>
+          </div>
+          <div class="var-card">
+            <div class="top"><span class="sym">β₂</span><span class="status built">· built</span></div>
+            <h4>Quality of life</h4>
+            <div class="vmeta"><b>Role:</b> perceived liveability · <b>Source:</b> Reddit r/Erasmus · <b>Sign:</b> +</div>
+          </div>
+          <div class="var-card">
+            <div class="top"><span class="sym">β₃</span><span class="status planned">· planned</span></div>
+            <h4>Institution quality</h4>
+            <div class="vmeta"><b>Role:</b> academic pull · <b>Source:</b> university ranking · <b>Sign:</b> +</div>
+          </div>
+          <div class="var-card">
+            <div class="top"><span class="sym" style="font-style:normal;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted)">control</span><span class="status built">· built</span></div>
+            <h4>GDP gap</h4>
+            <div class="vmeta"><b>Role:</b> income difference · <b>Source:</b> World Bank · <b>Sign:</b> ±</div>
+          </div>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">.var-card</span><span class="desc">symbol in serif italic · status: built teal / planned muted · title 18/700 · role·source·sign as note</span></div>
+    </div>
+
+    <!-- Equation -->
+    <div class="spec-label" style="margin-top:28px">Editorial · the model equation</div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <div class="equation">
+          <span class="fx">log</span>(1 + flow<sub>ij</sub>) = <span class="gk">β₁</span>·salary_gap<sub>ij</sub> + <span class="gk">β₂</span>·quality_of_life<sub>j</sub> + <span class="gk">β₃</span>·institution_quality<sub>j</sub><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;+ controls(gdp_gap, price_level_gap, distance, language_affinity)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;+ origin FE + destination FE + <span class="gk">ε</span><sub>ij</sub>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">.equation</span><span class="desc">system serif · Greek as Unicode · &lt;sub&gt; subscripts · left teal rule · --soft block · line-height 2</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPACING ============ -->
+<section class="block" id="spacing">
+  <div class="wrap">
+    <div class="block-head">
+      <div class="kicker coral"><span class="num">05</span> Spacing &amp; layout</div>
+      <h2>An 8-point grid, two-column rhythm.</h2>
+      <p>All spacing steps off an 8px base. Content sits in a centered column; modules are section cards stacked with a 24px gap, content padding 28×42×48.</p>
+    </div>
+    <div class="specimen">
+      <div class="specimen-body">
+        <div class="space-row"><span class="lab">8px</span><span class="bar" style="width:8px"></span></div>
+        <div class="space-row"><span class="lab">16px</span><span class="bar" style="width:16px"></span></div>
+        <div class="space-row"><span class="lab">24px</span><span class="bar" style="width:24px"></span></div>
+        <div class="space-row"><span class="lab">32px</span><span class="bar" style="width:32px"></span></div>
+        <div class="space-row"><span class="lab">48px</span><span class="bar" style="width:48px"></span></div>
+        <div style="margin-top:24px" class="spec-label">2-column grid · repeat(auto-fit, minmax(380px, 1fr)) · gap 24</div>
+        <div class="layout-demo">
+          <div class="lblock">section card</div>
+          <div class="lblock">section card</div>
+        </div>
+      </div>
+      <div class="specimen-foot"><span class="cls">.grid · .section-card</span><span class="desc">main padding 28 42 48 · cards gap 24 · stat/var grids minmax(180px,1fr) gap 12 · mobile &lt;700 single column, padding 18</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOTION ============ -->
+<section class="block" id="motion" style="border-bottom:none">
+  <div class="wrap">
+    <div class="block-head">
+      <div class="kicker"><span class="num">06</span> Micro-interactions</div>
+      <h2>Restrained, legible feedback.</h2>
+      <p>Motion clarifies, never decorates. Each interaction is documented below.</p>
+    </div>
+    <div class="inter-grid">
+      <div class="inter"><h4><span class="dot"></span>Table sort</h4><p>Click a header to toggle ascending/descending. Active header goes bold; its arrow fills (▲/▼).</p></div>
+      <div class="inter"><h4><span class="dot"></span>Tooltip</h4><p>Appears on hover, 12px right &amp; below the cursor. Max-width 260px. Dark overlay, white text.</p></div>
+      <div class="inter"><h4><span class="dot"></span>Bar hover</h4><p>Subtle brightness increase on the hovered bar — no layout shift.</p></div>
+      <div class="inter"><h4><span class="dot"></span>Scatter point hover</h4><p>Radius grows +2px and the white stroke thickens to lift the point forward.</p></div>
+      <div class="inter"><h4><span class="dot"></span>Map cluster click</h4><p>Zooms in and expands the cluster into its constituent markers.</p></div>
+      <div class="inter"><h4><span class="dot"></span>View mode</h4><p>Free view ⇄ Explore: the topbar's full control surface folds away in Free view and unfolds in Explore.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSERT -->
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div style="font-size:16px"><b>ErasmusGravity</b> — Economic Attractiveness and Erasmus Mobility</div>
+    <div>Text Analysis and Spatial Data for Economists · SP 2026 · Leonardo Palanca</div>
+    <div>Design system reference · system font stack · teal-petrol family · warm paper</div>
+  </div>
+</footer>
+</body>
+</html>

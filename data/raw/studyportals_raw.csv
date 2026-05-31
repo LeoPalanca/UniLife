@@ -1,0 +1,901 @@
+uid,slug,score,city,country
+1,eindhoven-university-of-technology,4.3,Eindhoven,Netherlands
+10,lund-university,4.4,Lund,Sweden
+1000,sabanci-university,4.4,Tuzla,Turkey
+10032,technical-university-of-kaiserslautern,4.7,Kaiserslautern,Germany
+1005,national-aviation-university,3.8,Kiev,Ukraine
+1008,politehnica-university-timisoara,4.4,Timisoara,Romania
+10107,cole-polytechnique,4.3,Palaiseau,France
+1014,boston-university,4.1,Boston,United States
+102,technical-university-of-denmark,,,
+10201,heinrich-heine-university-dsseldorf,3.5,Düsseldorf,Germany
+1029,ozyegin-university,4.6,Sancaktepe,Turkey
+10294,iscte-university-institute-of-lisbon,4.4,Lisbon,Portugal
+10322,university-of-the-balearic-islands,,,
+10352,university-of-bradford,4.2,Bradford,United Kingdom
+10396,walden-university,4.4,Minneapolis,United States
+10427,vilnius-tech,,,
+10447,nova-ims,,,
+10458,esdi-higher-school-of-design,,,
+1046,university-of-malaga,,,
+10497,samara-university,,,
+1056,savonia-university-of-applied-sciences,,,
+1058,medical-university-of-graz,,,
+10606,nankai-university,,,
+1064,west-university-of-timisoara,,,
+10703,charles-darwin-university,,,
+10732,massey-university,,,
+10755,university-of-guadalajara,,,
+10768,the-university-of-the-west-indies,,,
+10777,tecnolgico-de-monterrey,,,
+10780,university-of-botswana,,,
+10786,university-of-southern-queensland,,,
+10798,west-virginia-university,,,
+108,university-of-luxembourg,,,
+1082,istanbul-technical-university,,,
+10865,inholland-university-of-applied-sciences,,,
+11,uppsala-university,,,
+110,university-of-glasgow,,,
+11000,deakin-university,,,
+11025,upec-university-paris-est-crteil,,,
+11058,ural-federal-university,,,
+11072,charles-sturt-university,,,
+11122,university-of-cantabria,,,
+11145,simon-fraser-university,,,
+11164,macquarie-university,4.6,Sydney,Australia
+11174,university-of-canberra,4.0,Canberra,Australia
+11227,arizona-state-university,4.3,Tempe,United States
+11237,iae-lyon-school-of-management,,,
+11238,northeastern-university,,,
+11253,drexel-university,,,
+11257,colorado-state-university,,,
+1128,via-university-college,4.3,Aarhus,Denmark
+113,university-of-antwerp,4.4,Antwerpen,Belgium
+11313,la-trobe-university,4.3,Melbourne,Australia
+1133,university-of-agricultural-sciences-and-veterinary-medicine-cluj-napoca,,,
+11333,university-paris-nanterre,,,
+11345,northern-arizona-university,4.6,Flagstaff,United States
+11372,sakarya-university,4.0,Adapazari,Turkey
+11377,university-of-otago,4.5,Dunedin,New Zealand
+11393,university-of-queensland,4.2,Saint Lucia,Australia
+114,lancaster-university,4.4,Lancaster,United Kingdom
+11419,university-of-nebraska-lincoln,4.5,Lincoln,United States
+11429,university-of-salamanca,3.6,Salamanca,Spain
+11436,clarkson-university,,,
+1144,buda-university,4.0,Budapest,Hungary
+11463,university-of-notre-dame,4.6,South Bend,United States
+11464,the-university-of-vermont,,,
+11465,royal-roads-university,4.4,Victoria,Canada
+11471,michigan-state-university,,,
+11474,university-of-south-florida,,,
+11503,purdue-university,,,
+11506,london-south-bank-university,,,
+11523,gabriele-dannunzio-university,,,
+1155,university-politehnica-of-bucharest,,,
+11551,case-western-reserve-university,,,
+1162,ihe-delft-institute-for-water-education,,,
+11656,yeungnam-university,,,
+11701,south-dakota-state-university,,,
+11711,australian-national-university,,,
+11712,california-institute-of-technology-caltech,,,
+11714,carnegie-mellon-university,,,
+11717,columbia-university,,,
+11720,duke-university,,,
+11721,washington-university-in-st-louis,,,
+11725,georgia-institute-of-technology,,,
+11728,university-of-wisconsin-madison,,,
+11730,university-of-washington,,,
+11731,harvard-university,,,
+11733,hong-kong-university-of-science-and-technology,,,
+11734,university-of-toronto,,,
+11735,university-of-texas-at-austin,,,
+11739,kyoto-university,,,
+11740,massachusetts-institute-of-technology,4.3,Cambridge,United States
+11742,mcgill-university,4.4,Montréal,Canada
+11746,university-of-pennsylvania,4.4,Philadelphia,United States
+11747,university-of-pittsburgh,4.0,Pittsburgh,United States
+11748,nanyang-technological-university,4.4,Southeast Asia,Singapore is one of the smallest countries
+1175,scuola-normale-superiore-of-pisa,,,
+11750,university-of-paris-sud,,,
+11751,national-university-of-singapore,,,
+11753,new-york-university,4.4,New York City,United States
+11757,the-ohio-state-university,4.1,Upper Arlington,United States
+11760,peking-university,4.2,Beijing,China
+11768,princeton-university,4.2,Princeton,United States
+11775,the-state-university-of-new-jersey,,,
+11783,university-of-california-santa-cruz,,,
+11787,the-university-of-hong-kong,4.3,,
+11789,university-of-california-san-diego,4.5,San Diego,United States
+11792,rmit-university,4.2,Melbourne,Australia
+11796,the-university-of-tokyo,,,
+11798,the-university-of-western-australia,,,
+118,university-of-kent,,,
+1180,university-of-wolverhampton,,,
+11800,university-of-california-davis,,,
+11801,university-of-california-berkeley,,,
+11803,tsinghua-university,,,
+11804,university-of-british-columbia,,,
+11805,tufts-university,,,
+11827,university-of-maryland,,,
+11828,oklahoma-state-university,,,
+11863,auburn-university,,,
+11868,university-of-arkansas,,,
+1187,european-university-institute,,,
+1188,university-of-genoa,,,
+11894,boston-college,,,
+119,university-of-east-london,,,
+11901,dalhousie-university,,,
+11904,brigham-young-university,,,
+11911,curtin-university,,,
+11921,york-university,,,
+11922,carleton-university,4.3,Ottawa,Canada
+11927,concordia-university-montral,4.1,Montréal-Ouest,Canada
+11941,university-of-wyoming,,,
+11944,flinders-university,4.6,Adelaide,Australia
+11945,university-of-wollongong,4.5,Wollongong,Australia
+11946,yonsei-university,4.3,Seoul,South Korea
+11947,college-of-william-mary,,,
+11953,western-sydney-university,3.8,Paramatta,Australia
+11958,university-of-waterloo,4.1,Waterloo,Canada
+11964,illinois-institute-of-technology,4.4,Chicago,United States
+11968,memorial-university-of-newfoundland,,,
+11969,university-of-western-ontario,4.2,London,Canada
+11975,university-of-the-sunshine-coast,,,
+11976,james-cook-university,4.3,Townsville,Australia
+11978,queensland-university-of-technology,3.9,Brisbane,Australia
+11992,griffith-university,4.0,Southport,Australia
+11999,swinburne-university-of-technology,,,
+12003,louisiana-state-university,,,
+12007,city-university-of-hong-kong,3.4,,
+1202,national-university-of-ireland-galway,4.4,Galway,Ireland
+1203,halmstad-university,,,
+12034,yeshiva-university,,,
+12035,michigan-technological-university,,,
+12039,george-mason-university,,,
+12040,university-of-san-diego,,,
+12052,dalian-university-of-technology,,,
+12057,georgia-state-university,,,
+12058,fudan-university,,,
+12062,florida-international-university-online,,,
+12069,the-university-of-notre-dame-australia,,,
+12074,the-new-school,,,
+12095,university-of-kansas,,,
+12100,rochester-institute-of-technology,,,
+12115,university-of-virginia,,,
+12116,university-of-california-irvine,,,
+12117,university-of-alberta,,,
+12138,university-of-tulsa,,,
+12153,xidian-university,,,
+12155,xian-jiaotong-university,,,
+12158,xiamen-university,,,
+12168,the-university-of-texas-at-arlington,,,
+12169,weizmann-institute-of-science,,,
+1218,university-of-santiago-de-compostela,,,
+12185,university-of-tennessee-knoxville,,,
+122,university-of-leicester,,,
+12214,unicamp-university-of-campinas,4.6,Campinas,Brazil
+12217,temple-university,4.1,Philadelphia,United States
+12249,prince-of-songkla-university,4.6,Hat Yai,Thailand
+12266,texas-tech-university,4.3,Lubbock,United States
+1227,aston-university,4.3,Birmingham,United Kingdom
+12282,university-of-new-hampshire,,,
+12290,nanjing-university,,,
+12292,university-of-oklahoma,3.9,Norman,United States
+12294,university-of-illinois-at-chicago,,,
+12295,university-of-massachusetts-amherst,,,
+12296,university-of-miami,4.5,South Miami,United States
+12302,university-of-science-and-technology-of-china,,,
+12304,kyushu-university,,,
+12306,mississippi-state-university,,,
+1232,tomsk-polytechnic-university,4.6,Tomsk,Russia
+12324,queens-university,4.3,Kingston,Canada
+12328,university-of-manitoba,4.2,Winnipeg,Canada
+12332,university-of-guelph,4.3,Guelph,Canada
+12333,keio-university,,,
+12343,american-university-of-sharjah,,,
+12351,iqs-ramon-llull-university,,,
+12354,university-of-connecticut,,,
+12355,medical-college-of-wisconsin,,,
+12361,university-of-cape-town,,,
+12369,the-american-university-in-cairo,,,
+12378,university-of-ottawa,,,
+12390,university-of-montreal,,,
+12392,tongji-university,,,
+12393,national-central-university,,,
+12396,tohoku-university,,,
+12400,texas-christian-university,,,
+12403,national-chiao-tung-university,,,
+12405,national-sun-yat-sen-university,,,
+12407,shanghai-jiao-tong-university,,,
+12409,the-chinese-university-of-hong-kong,,,
+1241,northumbria-university,,,
+12419,national-taiwan-university,,,
+1242,university-of-greenwich,,,
+12422,nagoya-university,4.5,Nagoya-shi,Japan
+12432,ningbo-university,3.8,Ningbo,China
+12443,baku-state-university,3.8,Badamdar,Azerbaijan
+12465,paris-saclay-university,4.2,Bures-sur-Yvette,France
+12493,university-of-birmingham-online,,,
+125,karlsruhe-institute-of-technology,,,
+12506,the-university-of-maine,,,
+12542,purdue-university-online,,,
+12552,western-kentucky-university,,,
+12607,addis-ababa-university,3.7,Addis Ababa,Ethiopia
+1262,cy-tech,4.0,Cergy,France
+12621,university-of-canterbury,4.3,Christchurch,New Zealand
+12638,liverpool-john-moores-university,4.0,Liverpool,United Kingdom
+12655,alexandria-university,3.5,Alexandria,Egypt
+12659,james-madison-university,,,
+12672,victoria-university-of-wellington,4.4,Wellington,New Zealand
+12749,hong-kong-baptist-university,,,
+12786,singapore-management-university,,,
+12825,national-university,,,
+12863,hamad-bin-khalifa-university,,,
+12878,national-taipei-university-of-technology,,,
+12882,marche-polytechnic-university,4.3,Ancona,Italy
+12883,national-research-nuclear-university-mephi,4.6,Moscow,Russia
+12899,national-university-of-defense-technology,,,
+12905,national-chengchi-university,,,
+12906,tehran-university-of-medical-sciences,,,
+12907,national-tsing-hua-university,,,
+12924,kimep-university,,,
+12974,university-of-the-peloponnese,,,
+13,university-of-oslo,,,
+13017,nyu-tandon-school-of-engineering,,,
+13029,cairo-university,,,
+13035,china-agricultural-university,,,
+13051,creighton-university,,,
+13058,federal-university-of-rio-grande-do-sul,,,
+13068,huazhong-university-of-science-and-technology,,,
+13071,indian-institute-of-technology-bombay,,,
+13072,indian-institute-of-technology-delhi,,,
+13074,indian-institute-of-technology-kharagpur,,,
+13075,indian-institute-of-technology-roorkee,,,
+13079,isfahan-university-of-technology,,,
+13086,king-mongkuts-university-of-technology-thonburi,,,
+13088,kobe-university,,,
+13089,kyungpook-national-university,,,
+13098,national-yang-ming-university,,,
+13099,niigata-university,,,
+131,charit-universittsmedizin-berlin,,,
+13100,novosibirsk-state-university,3.8,Akademgorodok,Russia
+13101,okayama-university,,,
+13102,old-dominion-university,,,
+13103,panjab-university,3.9,Chandigarh,India
+13107,pusan-national-university,4.1,Yangsan,South Korea
+13109,royal-college-of-surgeons-in-ireland,,,
+13110,rush-university,,,
+13115,soochow-university,,,
+13116,south-china-university-of-technology,,,
+13118,sungkyunkwan-university,4.0,Seoul,South Korea
+13123,ut-health-san-antonio,,,
+13125,the-university-of-texas-medical-branch-at-galveston,,,
+13128,tokyo-institute-of-technology,,,
+13131,university-of-arkansas-at-little-rock,,,
+13132,university-of-buenos-aires,4.4,Buenos Aires,Argentina
+13134,university-of-chile,4.2,Lo Prado,Chile
+13135,university-of-crete,,,
+13141,cadi-ayyad-university,,,
+13145,university-of-missouri-columbia,,,
+13150,university-of-palermo,,,
+13154,roma-tre-university,,,
+13155,university-of-salento,,,
+13163,university-of-tsukuba,,,
+13167,university-of-georgia,,,
+13179,new-mexico-institute-of-mining-and-technology,,,
+13188,sun-yat-sen-university,,,
+13190,laval-university,,,
+13191,kasetsart-university,,,
+1320,uic-barcelona,,,
+13200,itmo-university,,,
+13221,qatar-university,,,
+13226,universidad-de-castilla-la-mancha,,,
+13243,universit-de-versailles-saint-quentin-en-yvelines,,,
+1325,rudn-university,,,
+1326,the-university-of-milan,4.0,Sesto San Giovanni,Italy
+13324,american-university-of-beirut,4.2,Beirut,Lebanon
+13349,texas-am-university-at-qatar,,,
+13364,university-of-pretoria,,,
+13367,jinan-university,,,
+13371,federal-university-of-santa-catarina,,,
+1338,esade,4.2,Sant Cugat del Vallès,Spain
+13405,university-putra-malaysia,,,
+13425,tamkang-university,,,
+13428,southwest-university-china,,,
+13429,southern-illinois-university,,,
+13451,university-of-costa-rica,4.3,San Pedro,Costa Rica
+13452,beijing-institute-of-technology,,,
+13454,harvard-kennedy-school,,,
+135,university-of-rostock,,,
+13603,university-of-texas-el-paso,,,
+13605,academies-australasia,3.8,Sydney,Australia
+137,university-of-oradea,4.0,Oradea,Romania
+13763,pontifical-catholic-university-of-chile,4.5,,
+13779,university-of-new-brunswick,,,
+1379,ivan-franko-national-university-of-lviv,3.9,L'viv,Ukraine
+13807,ankara-university,,,
+13811,savoie-mont-blanc-university,4.0,Chambéry,France
+13819,feng-chia-university,,,
+13862,illinois-state-university,,,
+13897,university-of-extremadura,,,
+13908,institute-of-technology-bandung,,,
+1391,university-of-seville,,,
+13914,brawijaya-university,,,
+13922,konkuk-university,,,
+13928,shaanxi-normal-university,,,
+13929,south-china-agricultural-university,,,
+1393,glasgow-caledonian-university,,,
+13931,guangdong-university-of-technology,,,
+13932,chongqing-university,,,
+13933,belarusian-state-university,,,
+13937,zhejiang-university-of-technology,,,
+13940,henan-university,,,
+13941,beijing-university-of-chemical-technology,,,
+13947,southwest-jiaotong-university,,,
+13949,university-of-science-and-technology-beijing,,,
+13951,moscow-institute-of-physics-and-technology,,,
+13954,northwest-a-f-university,,,
+13977,north-dakota-state-university,,,
+13981,university-of-shanghai-for-science-and-technology,,,
+13985,qingdao-university-of-science-and-technology,,,
+13991,chung-yuan-christian-university,,,
+13995,central-university-of-finance-and-economics,,,
+13996,northwestern-polytechnical-university,,,
+14,norwegian-university-of-science-and-technology,,,
+14011,national-taiwan-university-of-science-and-technology,,,
+14018,east-tennessee-state-university,,,
+14019,missouri-university-of-science-and-technology,4.1,Rolla,United States
+14025,university-of-strathclyde-business-school,4.3,Glasgow,United Kingdom
+14037,ming-chuan-university,,,
+14045,fu-jen-catholic-university,,,
+14048,yuan-ze-university,,,
+14049,kaohsiung-medical-university,,,
+14051,grand-valley-state-university,,,
+14055,the-universidade-estadual-paulista,,,
+14059,kumamoto-university,,,
+14062,asia-university-taiwan,,,
+14066,chaoyang-university-of-technology,,,
+14068,university-college-cork-online,,,
+14071,university-of-calabria,,,
+14074,university-of-ioannina,4.0,Anatolí,Greece
+14077,international-school-for-advanced-studies,,,
+14083,university-of-north-carolina-wilmington,,,
+14094,kinki-university,,,
+14096,shinshu-university,,,
+14098,srinakharinwirot-university,,,
+14099,taipei-medical-university,,,
+14116,mara-technological-university,,,
+14120,university-kebangsaan-malaysia,,,
+14133,university-teknologi-malaysia,,,
+14159,san-jos-state-university,,,
+14180,trinity-western-university,,,
+14184,university-of-regina,,,
+14188,university-of-dayton,,,
+14190,western-washington-university,,,
+14199,ritsumeikan-university,,,
+142,university-of-st-gallen,4.4,Sankt Gallen,Switzerland
+14202,nihon-university,,,
+14213,indiana-university-kokomo,,,
+14218,brock-university,,,
+14234,university-of-massachusetts-boston,,,
+14239,depaul-university,,,
+14245,shahid-beheshti-university-of-medical-sciences,3.8,Tehran,Iran
+14355,tarbiat-modares-university,,,
+1438,university-of-verona,3.9,Verona,Italy
+1442,university-of-split,4.5,Split,Croatia
+14465,gwangju-institute-of-science-and-technology,,,
+14471,makerere-university,3.6,Kampala,Uganda
+14475,university-of-ulsan,,,
+14477,amirkabir-university-of-technology,3.9,Tehran,Iran
+14478,bauman-moscow-state-technical-university,4.2,Moscow,Russia
+1448,national-research-university-higher-school-of-economics,,,
+14482,semmelweis-university,4.9,Budapest,Hungary
+14492,chonnam-national-university,4.2,Kwangju,South Korea
+14498,gifu-university,,,
+145,swansea-university,4.2,Swansea,United Kingdom
+14500,inha-university,3.8,Tsche-mul-p-ho,South Korea
+14505,oakland-university,,,
+14506,ocean-university-of-china,,,
+14511,university-of-santiago-de-chile,,,
+14512,savitribai-phule-pune-university,,,
+14513,sejong-university,,,
+14518,sultan-qaboos-university,4.0,As Sib,Oman
+14520,tokai-university,,,
+14522,tomsk-state-university,,,
+14526,yokohama-city-university,,,
+14531,national-university-of-sciences-and-technology,,,
+14546,north-university-of-china,,,
+14549,nanjing-university-of-technology,,,
+14550,changan-university,,,
+14553,hubei-university-of-technology,,,
+14578,chengdu-university-of-information-technology,,,
+14595,jiangxi-agricultural-university,,,
+14607,henan-university-of-science-technology,,,
+14623,hunan-university-of-arts-science,,,
+14624,chongqing-university-of-technology,,,
+1463,swps-university-of-social-sciences-and-humanities,,,
+14652,pontificia-universidad-javeriana,4.5,Jamundí,Colombia
+14672,east-china-institute-of-technology,,,
+14715,trent-university,4.2,Peterborough,Canada
+14724,catholic-university-of-america,,,
+14726,university-at-buffalo-suny-school-of-engineering-and-applied-sciences,,,
+14742,ain-shams-university,,,
+14745,university-of-louisiana-at-lafayette,,,
+14753,university-of-bahrain,3.6,Dar Kulayb,Bahrain
+148,cardiff-university,4.4,Cardiff,United Kingdom
+1480,university-of-camerino,,,
+14810,the-universiti-brunei-darussalam,3.8,Bandar Seri Begawan,Brunei
+14831,central-michigan-university,,,
+1493,european-university-cyprus,,,
+14953,towson-university,,,
+14959,universit-paris-sorbonne,,,
+1496,university-of-modena-and-reggio-emilia-unimore,4.1,Modena,Italy
+15,university-of-bergen,4.1,Bergen,Norway
+150,university-of-the-west-of-england,,,
+15007,university-of-campania-luigi-vanvitelli,3.4,San Nicola la Strada,Italy
+15057,augusta-university,,,
+15060,shahid-beheshti-university,3.8,Tehran,Iran
+15061,meiji-university,,,
+15091,university-of-colorado-colorado-springs,,,
+15098,saint-marys-university,4.3,Halifax,Canada
+151,university-of-leeds,4.3,Leeds,United Kingdom
+15109,rhodes-university,4.0,Grahamstown,South Africa
+15111,lincoln-university-canterbury,,,
+1513,lomonosov-moscow-state-university,4.1,Moscow,Russia
+15133,florida-agricultural-and-mechanical-university,3.8,Orlando,United States
+15209,upstate-medical-university-suny,,,
+15213,universidad-de-las-amricas-puebla,,,
+15246,university-utara-malaysia,,,
+15260,lingnan-university,,,
+15262,universidade-presbiteriana-mackenzie,,,
+15293,doshisha-university,,,
+15296,lakehead-university,,,
+15320,university-of-pau-and-pays-de-ladour,,,
+15349,university-tenaga-nasional,,,
+15352,superior-technology-school,,,
+15361,polytechnic-university-of-bari,,,
+15362,polytechnic-of-porto,,,
+15365,universidad-nacional-mayor-de-san-marcos,,,
+15369,marmara-university,,,
+15377,atatrk-university,3.8,Erzurum,Turkey
+15381,universit-degli-studi-della-tuscia,4.2,Viterbo,Italy
+15389,the-education-university-of-hong-kong,,,
+15400,airlangga-university,,,
+15402,chungbuk-national-university,,,
+15409,university-of-tabriz,,,
+15417,universiti-tun-hussein-onn-malaysia,4.2,Parit Raja,Malaysia
+15430,university-of-the-philippines-diliman,4.5,Bagong Pagasa,Philippines
+15431,cochin-university-of-science-technology,4.5,Elur,India
+15437,banaras-hindu-university,3.9,Ramnagar,India
+15447,kagawa-university,,,
+15449,hitotsubashi-university,,,
+155,university-of-reading,4.2,Reading,United Kingdom
+15517,moscow-pedagogical-state-university,,,
+15538,melbourne-business-school,,,
+1554,universidad-nacional-de-educacin-a-distancia,,,
+15554,adelphi-university,3.7,Garden City,United States
+15569,thomas-jefferson-university,,,
+15753,istanbul-bilgi-university,4.2,Sisli,Turkey
+15783,nottingham-trent-university-online,,,
+15784,management-and-science-university,4.1,Shah Alam,Malaysia
+158,bournemouth-university,,,
+15864,arden-university,4.1,Coventry,United Kingdom
+15872,perm-state-university,,,
+159,jagiellonian-university,4.4,Kraków,Poland
+16,university-of-twente,4.2,Enschede,Netherlands
+160,university-of-vaasa,,,
+1604,university-of-huelva,,,
+1606,university-paris-dauphine,,,
+1607,sciences-po,4.4,Paris,France
+16144,erasmus-university-college,4.3,Rotterdam,Netherlands
+16220,universit-cte-dazur,4.0,Nice,France
+1624,wmg-university-of-warwick,,,
+16291,western-norway-university-of-applied-sciences,,,
+16359,scotlands-rural-college,,,
+16362,institute-for-european-studies-universite-libre-de-bruxelles,,,
+1637,university-of-patras,4.0,Ríon,Greece
+16381,gebze-technological-university,,,
+16394,tobb-university-of-economics-and-technology,4.2,Ankara,Turkey
+16398,eskisehir-osmangazi-university,,,
+164,kings-college-london,,,
+1640,schmalkalden-university-of-applied-sciences,,,
+1642,poznan-university-of-technology,,,
+1644,istanbul-aydin-university,4.1,Istanbul,Turkey
+165,university-of-birmingham,4.6,Birmingham,United Kingdom
+16508,new-york-medical-college,,,
+16549,university-of-hartford,,,
+16583,california-state-university-fresno,,,
+166,university-of-nottingham,4.3,Nottingham,United Kingdom
+1661,medical-university-of-silesia,,,
+16678,ilia-state-university,4.1,Tbilisi,Georgia
+167,abo-akademi-university,4.5,Turku,Finland
+16725,de-la-salle-university,,,
+16749,thunderbird-school-of-global-management,,,
+16777,university-of-central-oklahoma,,,
+168,norwegian-university-of-life-sciences,,,
+1682,peter-the-great-st-petersburg-polytechnic-university,,,
+16821,university-of-minnesota-twin-cities,,,
+17,university-of-helsinki,,,
+17008,the-university-of-texas-rio-grande-valley,,,
+17054,university-of-oklahoma-health-sciences-center,,,
+17060,university-of-jinan,,,
+1708,anhalt-university-of-applied-sciences,,,
+17091,an-najah-national-university,,,
+17099,university-of-zambia,4.0,Lusaka,Zambia
+17106,university-of-the-punjab,4.2,Lahore,Pakistan
+17112,university-of-technology-of-troyes,,,
+1712,university-of-evry-val-dessonne,,,
+17137,university-of-life-sciences-in-lublin,,,
+1715,national-university-of-science-and-technology,4.2,Moscow,Russia
+17163,university-of-sharjah,,,
+172,swedish-university-of-agricultural-sciences,,,
+17209,university-teknologi-petronas,4.3,Batu Gajah,Malaysia
+17226,tianjin-university,,,
+17231,ulsan-national-institute-of-science-and-technology,4.3,Ulsan,South Korea
+17232,university-of-santo-tomas,,,
+17243,university-of-perugia,,,
+17255,university-of-moratuwa,4.5,Moratuwa,Sri Lanka
+17258,university-tunku-abdul-rahman,3.9,Tanjung Tokong,Malaysia
+17289,lahore-university-of-management-sciences,,,
+173,oxford-brookes-university,,,
+175,tallinn-university,,,
+176,lut-university,4.8,Lappeenranta,Finland
+17640,seneca-college,,,
+1770,angers-university,,,
+1773,university-of-plymouth,,,
+178,university-of-eastern-finland,4.3,Kuopio,Finland
+17864,northeastern-university-london,,,
+179,newcastle-university,4.4,Newcastle upon Tyne,United Kingdom
+180,university-of-southern-denmark,3.9,Neder Holluf,Denmark
+1804,eastern-mediterranean-university,4.0,Famagusta,Northern Cyprus
+181,saint-petersburg-university,4.1,Saint Petersburg,Russia
+1811,istanbul-sehir-university,4.2,Maltepe,Turkey
+183,university-of-warwick,,,
+1834,polytechnic-institute-of-bragana,,,
+184,university-of-chester,,,
+185,riga-technical-university,,,
+18560,school-of-the-museum-of-fine-arts-at-tufts-university,,,
+18578,gasma-gastronomy-and-culinary-management-campus,,,
+18584,teachers-college-at-columbia-university,,,
+1865,the-open-university-uk,4.5,Milton Keynes,United Kingdom
+18660,taylors-university,4.1,Subang Jaya,Malaysia
+1867,toulouse-school-of-economics,,,
+18702,sofia-university,,,
+18754,azerbaijan-state-university-of-economics,4.1,Badamdar,Azerbaijan
+1879,university-of-montpellier,4.0,Montpellier,France
+188,university-of-tbingen,4.4,Tübingen,Germany
+18957,vancouver-island-university,,,
+19,university-of-jyvaskyla,4.6,Jyväskylä,Finland
+190,imperial-college-london,3.7,London,United Kingdom
+19009,heriot-watt-university-dubai,,,
+191,warsaw-university-of-life-sciences,4.3,Warsaw,Poland
+19179,ritsumeikan-asia-pacific-university,4.5,Beppu,Japan
+192,kingston-university,4.1,Sutton,United Kingdom
+19235,rutgers-university-newark,,,
+19243,humanitas-university,,,
+1930,university-of-miskolc,,,
+19366,hamburg-university-of-technology,,,
+194,university-of-south-wales,4.3,Cardiff,United Kingdom
+19495,saint-joseph-university-of-beirut,4.0,Beirut,Lebanon
+195,universit-della-svizzera-italiana,4.4,Lugano,Switzerland
+1956,riga-stradins-university,4.3,Riga,Latvia
+19576,university-of-miami-school-of-law,,,
+196,university-of-derby,3.9,Derby,United Kingdom
+19803,brunel-university-london-online,,,
+19925,asia-europe-business-school,,,
+19978,torcuato-di-tella-university,,,
+2,kth-royal-institute-of-technology,,,
+20,university-of-oulu,,,
+200,the-brandenburg-university-of-technology-cottbus-senftenberg,,,
+20092,brunel-university-london-pathway-college,,,
+201,mary-immaculate-college,,,
+20104,fraser-international-college,,,
+20142,kazakh-british-technical-university,,,
+20204,toulouse-inp-insa-toulouse-and-ensfea,,,
+20228,iscte-business-school-university-institute-of-lisbon,,,
+20309,the-university-of-aizu,,,
+20310,university-of-delhi,4.3,New Delhi,India
+20370,china-pharmaceutical-university,,,
+20396,north-china-electric-power-university,,,
+20438,soochow-university,,,
+20451,shandong-university-of-traditional-chinese-medicine,,,
+20492,shanghai-university-of-traditional-chinese-medicine,,,
+20504,uni-eiffel,,,
+20539,jamia-millia-islamia,3.9,Noida,India
+20542,mae-fah-luang,,,
+20569,rwth-business-school,,,
+20570,the-university-of-jordan,,,
+20578,lebanese-american-university,,,
+20583,vellore-institute-of-technology,,,
+20589,tribhuvan-university,,,
+20591,bharathiar-university,,,
+20596,guru-jambheshwar-university-of-science-and-technology,,,
+20609,kerman-university-of-medical-sciences,,,
+20625,indian-institute-of-technology-ropar,,,
+20632,university-of-peradeniya,4.3,Kandy,Sri Lanka
+20671,university-of-birmingham-dubai,,,
+20707,institute-of-chemical-technology,,,
+20717,rutgers-university-camden,,,
+20720,beni-suef-university,,,
+20722,aligarh-muslim-university,,,
+20739,government-college-university-faisalabad,,,
+20783,duke-nus-medical-school,,,
+20794,tel-aviv-university-online-programs,,,
+20837,university-of-mumbai,,,
+20991,tlcom-paris,,,
+21,university-of-gothenburg,4.3,Göteborg,Sweden
+210,university-of-hohenheim,4.6,Ostfildern,Germany
+212,university-of-limerick,,,
+213,vienna-university-of-technology,,,
+21305,istanbul-university-cerrahpasa,4.3,Istanbul,Turkey
+21314,tokat-gaziosmanpasa-university,4.1,Tokat,Turkey
+21349,technical-university-of-sofia,,,
+21351,tokyo-university-of-agriculture,,,
+21352,transilvania-university-of-brasov,,,
+21354,university-of-toyama,,,
+21378,hazara-university-mansehra,4.4,Mansehra,Pakistan
+21390,international-islamic-university-islamabad,4.3,Islamabad,Pakistan
+21411,indian-institute-of-technology-patna,,,
+21434,university-of-concepcin,,,
+21441,indian-institute-of-technology-mandi,,,
+21454,pondicherry-university,,,
+21468,al-farabi-kazakh-national-university,4.2,Almaty,Kazakhstan
+21481,hanoi-university-of-science-and-technology,,,
+21492,ming-chi-university-of-technology,,,
+21493,moscow-polytechnic-university,,,
+215,university-of-st-andrews,,,
+21504,pirogov-russian-national-research-medical-university,,,
+21512,pontifical-catholic-university-of-minas-gerais,,,
+21517,sathyabama-institute-of-science-and-technology,,,
+21518,satbayev-university,,,
+21525,national-aerospace-university-kharkiv-aviation-institute,,,
+21566,federal-university-of-itajub,,,
+21587,fluminense-federal-university,,,
+21595,immanuel-kant-baltic-federal-university,,,
+216,wu,4.5,Vienna,Austria
+21615,ufa-state-aviation-technical-university,,,
+21617,yanshan-university,,,
+21618,yarmouk-university,,,
+21656,university-of-murcia,4.3,Murcia,Spain
+217,university-of-central-lancashire,,,
+21730,kochi-university-of-technology,,,
+218,ludwig-maximilians-university-munich,4.4,München,Germany
+21815,ecole-centrale-de-lyon,,,
+21850,university-of-rijeka,4.2,Rijeka,Croatia
+219,university-college-cork,4.4,Cork,Ireland
+21982,care-graduate-school-at-university-toulouse-iii-paul-sabatier,,,
+220,anglia-ruskin-university,4.3,Cambridge,United Kingdom
+226,university-of-barcelona,3.8,Barcelona,Spain
+227,robert-gordon-university,,,
+231,university-of-portsmouth,,,
+232,university-of-sheffield,,,
+233,university-of-bayreuth,,,
+235,universit-commerciale-luigi-bocconi,,,
+24,czech-technical-university,4.7,Prague,Czech Republic
+240,sheffield-hallam-university,4.1,Sheffield,United Kingdom
+241,leipzig-university,4.1,Leipzig,Germany
+243,jaume-i-university,4.0,Castelló de la Plana,Spain
+245,de-montfort-university,4.2,Leicester,United Kingdom
+246,university-of-the-west-of-scotland,4.1,High Blantyre,United Kingdom
+247,edinburgh-napier-university,4.4,Edinburgh,United Kingdom
+248,university-of-bedfordshire,4.1,Luton,United Kingdom
+251,the-university-of-winchester,4.7,Winchester,United Kingdom
+252,university-of-salford,4.2,Salford,United Kingdom
+253,keele-university,4.2,Keele,United Kingdom
+255,the-university-of-manchester,4.4,Manchester,United Kingdom
+259,university-of-freiburg,4.6,Freiburg,Germany
+266,justus-liebig-university-giessen,3.8,Gießen,Germany
+269,university-of-orleans,,,
+271,ucl,4.2,London,United Kingdom
+272,heriot-watt-university,4.4,Edinburgh,United Kingdom
+275,university-of-sussex,,,
+278,tu-berlin,4.5,Berlin,Germany
+28,national-technical-university-of-athens,,,
+280,university-of-westminster,,,
+286,university-of-roehampton,,,
+289,rebro-university,,,
+291,queen-mary-university-of-london,,,
+293,soas-university-of-london,4.3,London,United Kingdom
+295,university-of-klagenfurt,4.2,Velden am Wörthersee,Austria
+3,karolinska-institute,4.2,Stockholm,Sweden
+300,city-university-of-london,4.3,London,United Kingdom
+301,aalborg-university,4.1,Aalborg,Denmark
+302,the-university-of-exeter,4.4,Exeter,United Kingdom
+307,royal-holloway-university-of-london,,,
+309,university-of-dundee,4.3,Dundee,United Kingdom
+31,freie-universitat-berlin,4.3,Berlin Steglitz Zehlendorf,Germany
+310,university-of-hertfordshire,4.4,Hatfield,United Kingdom
+312,jnkping-university,4.1,Jönköping,Sweden
+316,university-of-poitiers,,,
+318,ecole-normale-suprieure,4.3,Paris,France
+323,university-of-ferrara,4.2,Ferrara,Italy
+326,university-of-granada,4.5,Granada,Spain
+33,utrecht-university,4.2,Utrecht,Netherlands
+330,university-of-minho,4.1,Braga,Portugal
+333,oslo-metropolitan-university,3.8,Oslo,Norway
+335,panthon-sorbonne-university,3.9,Paris,France
+34,university-of-cambridge,4.7,Cambridge,United Kingdom
+348,jean-moulin-university-lyon-iii,,,
+349,kaunas-university-of-technology,,,
+35,university-of-oxford,,,
+350,vytautas-magnus-university,,,
+355,vilnius-university,,,
+356,university-toulouse-jean-jaurs,,,
+357,university-of-southampton,,,
+359,mykolas-romeris-university,,,
+36,eth-zurich-swiss-federal-institute-of-technology,,,
+363,university-of-latvia,,,
+365,john-paul-ii-catholic-university-of-lublin,,,
+367,university-of-warsaw,,,
+368,university-of-turku,,,
+37,university-of-groningen,,,
+372,university-of-valencia,,,
+38,ku-leuven,4.2,Leuven,Belgium
+381,technical-university-of-ostrava,,,
+382,prague-university-of-economics-and-business,4.3,Prague,Czech Republic
+385,national-and-kapodistrian-university-of-athens,,,
+386,london-metropolitan-university,3.9,City of London,United Kingdom
+387,university-of-bari-aldo-moro,3.8,Bari,Italy
+39,university-of-amsterdam,3.8,Amsterdam,Netherlands
+392,falmouth-university,4.4,Falmouth,United Kingdom
+393,tampere-university-of-technology,,,
+399,birkbeck-university-of-london,3.7,London,United Kingdom
+4,stockholm-school-of-economics,4.3,Stockholm,Sweden
+403,university-of-boras,4.0,Borås,Sweden
+405,university-of-salzburg,4.4,Salzburg,Austria
+408,constructor-university,4.2,Lemwerder,Germany
+41,technical-university-of-munich,4.3,München,Germany
+410,grenoble-inp-graduate-schools-of-engineering-and-management-universit-grenoble-alpes,,,
+411,university-of-namur,3.9,Namur,Belgium
+415,esiee-paris-universit-gustave-eiffel,,,
+417,university-of-maribor,4.5,Maribor,Slovenia
+424,leibniz-university-hannover,4.1,Hannover,Germany
+427,bangor-university,4.3,Bangor,United Kingdom
+428,ecole-polytechnique-federale-de-lausanne,4.7,Lausanne,Switzerland
+43,the-university-of-edinburgh,4.3,Edinburgh,United Kingdom
+44,humboldt-university-berlin,,,
+440,alexandru-ioan-cuza-university-of-iasi,4.1,Iasi,Romania
+444,university-of-stirling,,,
+448,canterbury-christ-church-university,,,
+449,university-of-graz,,,
+451,university-of-natural-resources-and-life-sciences-vienna,,,
+452,loughborough-university,,,
+458,university-of-laquila,,,
+46,friedrich-alexander-universitt-erlangen-nrnberg,,,
+460,bogazici-university,,,
+467,university-of-pannonia,,,
+469,university-of-potsdam,,,
+47,rwth-aachen-university,,,
+471,etvs-lornd-university,4.2,Budapest,Hungary
+472,nord-university,,,
+48,university-of-stuttgart,,,
+482,leeds-beckett-university,3.9,Leeds,United Kingdom
+484,university-of-vienna,4.0,Vienna,Austria
+492,universit-cattolica-del-sacro-cuore,4.3,Milano,Italy
+493,university-of-lausanne,4.3,Lausanne,Switzerland
+5,stockholm-university,4.2,Bergshamra,Sweden
+50,tu-dresden,4.3,Dresden,Germany
+501,university-of-pisa,,,
+508,johannes-kepler-university-linz,4.1,Linz,Austria
+513,queens-university-belfast,4.5,Belfast,United Kingdom
+518,university-of-padova,,,
+519,university-of-innsbruck,4.2,Innsbruck,Austria
+521,goldsmiths-university-of-london,,,
+524,university-of-brighton,,,
+527,bielefeld-university,4.4,Bielefeld,Germany
+529,warsaw-school-of-economics,4.0,Warsaw,Poland
+53,darmstadt-university-of-technology,,,
+530,university-of-west-london,,,
+537,munich-university-of-applied-sciences,4.4,München,Germany
+538,babes-bolyai-university,4.0,Cluj-Napoca,Romania
+545,university-of-nicosia,4.3,Nicosia,Cyprus
+550,university-of-paderborn,,,
+554,university-of-gttingen,,,
+558,university-of-basel,,,
+559,university-of-turin,,,
+56,leiden-university,,,
+57,university-of-mannheim,,,
+577,friedrich-schiller-university-jena,,,
+578,universit-grenoble-alpes,,,
+59,university-of-kiel,,,
+599,university-of-coimbra,,,
+60,tu-dortmund-university,,,
+601,politecnico-di-milano,,,
+608,university-of-cologne,,,
+609,university-of-szeged,4.4,Szeged,Hungary
+614,bi-norwegian-business-school,4.7,Oslo,Norway
+615,university-of-siegen,,,
+616,school-of-business,,,
+620,university-of-essex,4.4,Colchester,United Kingdom
+622,university-of-milano-bicocca,4.2,Sesto San Giovanni,Italy
+623,university-of-debrecen,4.1,Debrecen,Hungary
+636,technical-university-of-cluj-napoca,3.8,Cluj-Napoca,Romania
+638,hult-international-business-school,4.4,Boston,United States
+642,sapienza-university-of-rome,4.1,Roma,Italy
+645,insead-the-business-school-for-the-world,,,
+660,university-of-zurich,4.0,Zürich (Kreis 1),Switzerland
+662,university-of-kassel,4.0,Kassel,Germany
+663,wroclaw-university-of-science-and-technology,3.9,Wroclaw,Poland
+67,sofia-university-stkliment-ohridski,4.2,Sofia,Bulgaria
+673,mip-politecnico-di-milano,4.2,Milano,Italy
+677,nhh-norwegian-school-of-economics,,,
+68,university-of-cyprus,,,
+684,universit-de-paris,4.0,Paris,France
+685,university-of-zagreb,3.9,Zagreb,Croatia
+688,universitt-witten-herdecke,,,
+69,university-of-tartu,4.6,Tartu,Estonia
+696,university-of-siena,,,
+7,chalmers-university-of-technology,,,
+70,tallinn-university-of-technology,,,
+700,university-of-cordoba,,,
+703,roskilde-university,,,
+706,carlos-iii-university-of-madrid,,,
+71,politecnico-di-torino,,,
+713,manchester-metropolitan-university,,,
+716,malm-university,,,
+72,london-school-of-economics-and-political-science,,,
+724,cork-institute-of-technology,,,
+73,trinity-college-dublin,4.2,Dublin,Ireland
+74,erasmus-university-rotterdam,4.0,Rotterdam,Netherlands
+740,university-of-passau,,,
+743,university-of-gaziantep,,,
+745,university-of-stavanger,3.8,Stavanger,Norway
+748,miguel-hernndez-university-of-elche,,,
+75,vrije-universiteit-brussel,,,
+753,universit-de-mons,,,
+76,university-of-iceland,,,
+77,wageningen-university-and-research,,,
+770,insa-toulouse-institut-national-des-sciences-appliques,,,
+773,agh-university-of-science-technology,,,
+778,agroparistech-institut-des-sciences-et-industries-du-vivant-et-de-lenvironnement,,,
+780,dublin-city-university,4.3,Dublin,Ireland
+786,university-of-strasbourg,4.2,Strasbourg,France
+789,university-of-cassino-and-southern-lazio,,,
+79,central-european-university,4.7,Vienna,Austria
+790,university-of-thessaly,4.1,Vólos,Greece
+795,university-of-navarra,4.7,Pamplona,Spain
+80,tilburg-university,4.2,Tilburg,Netherlands
+81,vrije-universiteit-amsterdam,4.2,Amsterdam,Netherlands
+819,taras-shevchenko-national-university-of-kyiv,3.9,Kiev,Ukraine
+82,radboud-university,4.1,Nijmegen,Netherlands
+833,rhine-waal-university-of-applied-sciences,3.8,Kleve,Germany
+837,ceu,3.8,Valencia,Spain
+841,czech-university-of-life-sciences-prague,4.3,Prague,Czech Republic
+846,aix-marseille-university,,,
+85,maastricht-university,,,
+851,university-of-sarajevo,,,
+852,university-of-koblenz-landau,,,
+854,nhl-stenden-university-of-applied-sciences,,,
+859,university-of-bamberg,,,
+861,university-of-pcs,,,
+862,maynooth-university,4.4,Maynooth,Ireland
+868,cyprus-university-of-technology,3.9,Limassol,Cyprus
+876,university-of-salerno,,,
+882,haaga-helia-university-of-applied-sciences,,,
+884,university-of-veterinary-medicine-vienna,,,
+896,comenius-university-in-bratislava,,,
+899,university-of-huddersfield,,,
+90,hu-university-of-applied-sciences-utrecht,3.5,Utrecht,Netherlands
+907,johannes-gutenberg-university-mainz,,,
+908,university-of-trieste,,,
+9209,ucam-catholic-university-of-murcia,,,
+9264,near-east-university,,,
+9291,st-johns-university,,,
+939,university-of-florence,4.0,Florence,Italy
+941,uclouvain,3.9,Louvain-la-Neuve,Belgium
+9431,university-of-haifa,,,
+9465,ben-gurion-university-of-the-negev,,,
+9466,the-hebrew-university-of-jerusalem,,,
+9485,lobachevsky-university,,,
+955,donetsk-national-university,,,
+957,university-of-bucharest,,,
+9612,delft-university-of-technology,4.1,Delft,Netherlands
+9627,lse-asia-research-centre,,,
+969,bau,4.1,Istanbul,Turkey
+978,poznan-university-of-life-sciences,4.6,Poznan,Poland
+9841,king-abdullah-university-of-science-and-technology,,,
+986,istanbul-university,4.0,Istanbul,Turkey
+9881,brunel-university-london,4.1,London Borough of Harrow,United Kingdom
+9910,medical-university-of-vienna,,,
+992,saint-louis-university-madrid,,,
+9951,university-of-auckland,,,

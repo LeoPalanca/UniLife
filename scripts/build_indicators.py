@@ -4,8 +4,8 @@ import sys
 import pandas as pd
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
-from unilife.indicators import fetch_country_indicators, indicator_coverage, join_indicators
-from unilife.grants import grant_coverage, join_sender_grants, load_he_grants
+from erasmusgravity.indicators import fetch_country_indicators, indicator_coverage, join_indicators
+from erasmusgravity.grants import grant_coverage, join_sender_grants, load_he_grants
 
 
 def main() -> None:

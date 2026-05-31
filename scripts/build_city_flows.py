@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
-from unilife.cities import build_ka1_he_studies_city_flows
+from erasmusgravity.cities import build_ka1_he_studies_city_flows
 
 
 def main() -> None:

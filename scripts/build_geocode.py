@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
-from unilife.geocode import build_city_coordinates
+from erasmusgravity.geocode import build_city_coordinates
 
 
 def main() -> None:

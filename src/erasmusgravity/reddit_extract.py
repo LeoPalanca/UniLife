@@ -7,22 +7,75 @@ from pathlib import Path
 from typing import Callable, Literal
 
 import requests
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 DEFAULT_MODEL = "deepseek/deepseek-v4-flash"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 ENV_PATH = Path(".env")
 
 
+ALLOWED_THEMES = {
+    "cost_of_living",
+    "housing",
+    "academics",
+    "social_life",
+    "nightlife",
+    "safety",
+    "bureaucracy",
+    "transport",
+    "food",
+    "weather",
+    "language_barrier",
+    "job_opportunities",
+    "healthcare",
+    "culture",
+    "other",
+}
+
+
 class DestinationMention(BaseModel):
     city: str | None = None
     country: str
     sentiment: Literal["positive", "neutral", "negative"]
+    sentiment_score: float = Field(
+        description="Valence intensity: -1.0 very negative, 0.0 neutral/mixed, +1.0 very positive. "
+        "Sign must agree with the sentiment label."
+    )
     themes: list[str] = Field(
         default_factory=list,
-        description="Examples: cost, housing, nightlife, academics, safety, bureaucracy",
+        description="Only values from ALLOWED_THEMES; use 'other' if none fit.",
     )
-    confidence: float = Field(ge=0.0, le=1.0)
+    confidence: float = Field(
+        description="Certainty (0-1) that this destination is genuinely discussed AND its sentiment "
+        "is correctly captured. <0.5 = ambiguous/passing mention, >0.8 = explicit and unambiguous."
+    )
+
+    @field_validator("themes", mode="before")
+    @classmethod
+    def _clean_themes(cls, v):
+        if not isinstance(v, list):
+            return []
+        cleaned = []
+        for t in v:
+            key = str(t).strip().lower().replace(" ", "_").replace("-", "_")
+            cleaned.append(key if key in ALLOWED_THEMES else "other")
+        return cleaned
+
+    @field_validator("sentiment_score", mode="before")
+    @classmethod
+    def _clamp_score(cls, v):
+        try:
+            return max(-1.0, min(1.0, float(v)))
+        except (TypeError, ValueError):
+            return 0.0
+
+    @field_validator("confidence", mode="before")
+    @classmethod
+    def _clamp_conf(cls, v):
+        try:
+            return max(0.0, min(1.0, float(v)))
+        except (TypeError, ValueError):
+            return 0.5
 
 
 class PostExtraction(BaseModel):
@@ -47,15 +100,24 @@ def load_api_key() -> str:
 PROMPT = (
     "You extract structured information from a Reddit post or comment about the "
     "Erasmus exchange programme. Identify every distinct destination (a European "
-    "city and/or country) the author talks about. For each, give the sentiment the "
-    "author expresses toward it and the themes discussed (e.g. cost, housing, "
-    "nightlife, academics, safety, bureaucracy, social life, weather). Only include "
-    "destinations actually discussed, not passing geographic mentions.\n\n"
+    "city and/or country) the author actually discusses; ignore passing geographic "
+    "mentions. For each destination report:\n"
+    "- sentiment: the author's overall attitude, one of positive | neutral | negative.\n"
+    "- sentiment_score: a number from -1.0 (very negative) through 0.0 (neutral/mixed) "
+    "to +1.0 (very positive); its sign must match the sentiment label.\n"
+    "- themes: zero or more of EXACTLY these values: cost_of_living, housing, academics, "
+    "social_life, nightlife, safety, bureaucracy, transport, food, weather, language_barrier, "
+    "job_opportunities, healthcare, culture, other. Use 'other' only if nothing fits.\n"
+    "- confidence: a number 0..1 = how certain you are that the destination is genuinely "
+    "discussed AND its sentiment is correctly captured. Use below 0.5 for ambiguous or "
+    "passing mentions, above 0.8 only when explicit and unambiguous.\n"
+    "If the author compares destinations, emit one mention per destination with its own "
+    "sentiment.\n\n"
     "Return ONLY a JSON object of the form "
     '{"mentions": [{"city": str|null, "country": str, '
-    '"sentiment": "positive"|"neutral"|"negative", "themes": [str], '
-    '"confidence": number 0..1}]}. '
-    "If no destination is discussed, return {\"mentions\": []}.\n\nTEXT:\n"
+    '"sentiment": "positive"|"neutral"|"negative", "sentiment_score": number -1..1, '
+    '"themes": [str], "confidence": number 0..1}]}. '
+    'If no destination is discussed, return {"mentions": []}.\n\nTEXT:\n'
 )
 
 
@@ -71,7 +133,7 @@ def extract_text(api_key: str, text: str, model: str = DEFAULT_MODEL, retries: i
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://unilife.ellep.it",
-        "X-Title": "UniLife Erasmus research",
+        "X-Title": "ErasmusGravity research",
     }
     body = {
         "model": model,
@@ -126,7 +188,9 @@ def extract_corpus(
             mentions = []
             results.append(
                 {"id": record["id"], "kind": record["kind"], "score": record.get("score", 0),
-                 "permalink": record.get("permalink"), "error": str(exc), "mentions": []}
+                 "permalink": record.get("permalink"),
+                 "created_utc": record.get("created_utc"),
+                 "error": str(exc), "mentions": []}
             )
             time.sleep(pause)
             if progress_every and (index % progress_every == 0 or index == total):
@@ -140,6 +204,7 @@ def extract_corpus(
                 "kind": record["kind"],
                 "score": record.get("score", 0),
                 "permalink": record.get("permalink"),
+                "created_utc": record.get("created_utc"),
                 "mentions": mentions,
             }
         )

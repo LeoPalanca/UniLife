@@ -3,7 +3,7 @@ set -euo pipefail
 
 REMOTE_HOST="${1:-radice}"
 DOMAIN="${2:-unilife.ellep.it}"
-REMOTE_ROOT="${3:-/var/www/unilife}"
+REMOTE_ROOT="${3:-/var/www/erasmusgravity}"
 
 ssh "$REMOTE_HOST" "sudo mkdir -p '$REMOTE_ROOT' && sudo chown -R debian:www-data '$REMOTE_ROOT'"
 

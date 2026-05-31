@@ -24,3 +24,6 @@ reports/figures/*
 *.log
 *.out
 *.toc
+
+# SQLite build artifact (rebuilt from CSVs via scripts/build_db.py)
+data/*.db

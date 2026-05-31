@@ -1,0 +1,852 @@
+institution,code,score,year
+University of Cambridge,UK,99.78,2014
+UCL,UK,98.69,2014
+University of Oxford,UK,98.57,2014
+Imperial College London,UK,98.31,2014
+ETH Zurich - Swiss Federal Institute of Technology,CH,92.84,2014
+The University of Edinburgh,UK,89.24,2014
+King's College London,UK,87.12,2014
+University of Bristol,UK,85.36,2014
+EPFL,CH,85.08,2014
+The University of Manchester,UK,84.16,2014
+"Ecole normale supérieure, Paris",FR,83.28,2014
+Ecole Polytechnique,FR,79.55,2014
+University of Copenhagen,DK,76.66,2014
+Technical University of Munich,DE,76.43,2014
+University of Glasgow,UK,76.28,2014
+Ruprecht-Karls-Universität Heidelberg,DE,75.5,2014
+The University of Warwick,UK,73.88,2014
+Ludwig-Maximilians-Universität München,DE,72.85,2014
+University of Amsterdam,NL,72.09,2014
+The University of Sheffield,UK,71.34,2014
+"Trinity College Dublin, The University of Dublin",IE,71.26,2014
+The London School of Economics and Political Science (LSE),UK,71.12,2014
+Lund University,SE,70.87,2014
+University of Nottingham,UK,70.68,2014
+University of Southampton,UK,70.66,2014
+University of Geneva,CH,70.61,2014
+Leiden University,NL,70.5,2014
+University of Birmingham,UK,70.26,2014
+University of Helsinki,FI,70.07,2014
+Uppsala University,SE,69.75,2014
+KU Leuven,BE,69.72,2014
+Utrecht University,NL,68.65,2014
+Freie Universitaet Berlin,DE,68.56,2014
+Aarhus University,DK,68.36,2014
+University of Zurich,CH,68.32,2014
+Durham University,UK,67.88,2014
+University of St Andrews,UK,67.64,2014
+University of Leeds,UK,67.26,2014
+Erasmus University Rotterdam,NL,65.87,2014
+Delft University of Technology,NL,65.14,2014
+Albert-Ludwigs-Universitaet Freiburg,DE,64.44,2014
+Maastricht University,NL,64.37,2014
+University of Groningen,NL,64.18,2014
+University of York,UK,63.75,2014
+University of Oslo,NO,63.73,2014
+University of Lausanne,CH,62.35,2014
+University of Göttingen,DE,60.89,2014
+University of Basel,CH,60.54,2014
+University of Liverpool,UK,60.02,2014
+Newcastle University,UK,59.73,2014
+Université catholique de Louvain (UCLouvain),BE,59.65,2014
+Université Pierre et Marie Curie (UPMC),FR,59.58,2014
+Humboldt-Universität zu Berlin,DE,59.39,2014
+University College Dublin,IE,59.05,2014
+Technical University of Denmark,DK,59.03,2014
+Radboud University,NL,58.52,2014
+"KIT, Karlsruhe Institute of Technology",DE,57.86,2014
+KTH Royal Institute of Technology,SE,57.69,2014
+Cardiff University,UK,57.5,2014
+Eberhard Karls Universität Tübingen,DE,57.35,2014
+University of Bergen,NO,57.02,2014
+Queen Mary University of London,UK,56.74,2014
+Ghent University,BE,56.55,2014
+University of Bern,CH,56.5,2014
+RWTH Aachen University,DE,56.33,2014
+Rheinische Friedrich-Wilhelms-Universität Bonn,DE,56.32,2014
+École Normale Supérieure de Lyon,FR,56.09,2014
+Eindhoven University of Technology,NL,54.87,2014
+University of Vienna,AT,54.6,2014
+Wageningen University & Research,NL,54.58,2014
+University of Aberdeen,UK,54.28,2014
+Lancaster University,UK,53.97,2014
+Queen's University Belfast,UK,53.53,2014
+Stockholm University,SE,52.62,2014
+Universite libre de Bruxelles,BE,52.6,2014
+Universitat Autònoma de Barcelona,ES,51.97,2014
+Vrije Universiteit Amsterdam,NL,51.84,2014
+University of Bath,UK,51.82,2014
+The University of Exeter,UK,51.38,2014
+University of Leicester,UK,51.09,2014
+Universitat de Barcelona,ES,50.88,2014
+University of Sussex,UK,50.6,2014
+Vrije Universiteit Brussel (VUB),BE,50.47,2014
+University College Cork,IE,50.24,2014
+University of Gothenburg,SE,50.04,2014
+Alma Mater Studiorum - University of Bologna,IT,49.77,2014
+University of Antwerp,BE,49.49,2014
+Goethe-University Frankfurt am Main,DE,49.11,2014
+University of Dundee,UK,48.92,2014
+Universität Hamburg,DE,48.89,2014
+Universidad Autónoma de Madrid,ES,48.79,2014
+Technische Universität Berlin (TU Berlin),DE,48.42,2014
+University of Turku,FI,48.01,2014
+Sciences Po,FR,47.81,2014
+University of Reading,UK,47.64,2014
+Sapienza University of Rome,IT,47.59,2014
+Université Paris-Sorbonne (Paris IV),FR,47.37,2014
+Université Paris-Saclay,FR,47.09,2014
+Université Paris 1 Panthéon-Sorbonne,FR,47.09,2014
+Aalto University,FI,47.01,2014
+Chalmers University of Technology,SE,46.65,2014
+University of Twente,NL,46.45,2014
+Complutense University of Madrid,ES,46.22,2014
+Universität Stuttgart,DE,45.36,2014
+Université de Strasbourg,FR,44.79,2014
+Université Diderot  Paris 7,FR,44.41,2014
+University of East Anglia (UEA),UK,44.36,2014
+Université de Liège,BE,43.58,2014
+Loughborough University,UK,42.95,2014
+Politecnico di Milano,IT,42.88,2014
+Westfälische Wilhelms-Universität Münster,DE,42.8,2014
+University of Cologne,DE,42.78,2014
+University Ulm,DE,42.18,2014
+University of Strathclyde,UK,41.81,2014
+University of Milan,IT,41.57,2014
+University of Surrey,UK,41.36,2014
+University of Oulu,FI,41.21,2014
+Universität Mannheim,DE,41.12,2014
+Christian-Albrechts-University zu Kiel,DE,41.1,2014
+Universitat Pompeu Fabra,ES,41.08,2014
+Royal Holloway University of London,UK,41.07,2014
+Friedrich-Alexander-Universität Erlangen-Nürnberg,DE,40.96,2014
+Vienna University of Technology,AT,40.58,2014
+Technical University of Darmstadt,DE,40.39,2014
+Universität Innsbruck,AT,40.37,2014
+Universität Konstanz,DE,40.31,2014
+Charles University,CZ,39.87,2014
+National University of Ireland Galway,IE,39.85,2014
+Technische Universität Dresden,DE,39.7,2014
+Norwegian University of Science And Technology,NO,39.67,2014
+Julius-Maximilians-Universität Würzburg,DE,39.34,2014
+SOAS University of London,UK,39.14,2014
+Umea University,SE,39.01,2014
+Università di Padova,IT,38.99,2014
+Ecole des Ponts ParisTech,FR,38.9,2014
+University of Eastern Finland,FI,38.87,2014
+University of Tromsø The Arctic University of Norway,NO,38.53,2014
+University of Bordeaux,FR,38.51,2014
+University of Jyväskylä,FI,38.16,2014
+University of Pisa,IT,37.84,2014
+Université Paris Descartes,FR,37.64,2014
+Johannes Gutenberg Universität Mainz,DE,37.58,2014
+University of Southern Denmark (SDU),DK,37.28,2014
+Universität  Leipzig,DE,36.65,2014
+University of Essex,UK,36.63,2014
+Dublin City University,IE,35.97,2014
+"City, University of London",UK,35.89,2014
+Brunel University London,UK,35.62,2014
+"University of Rome ""Tor Vergata""",IT,35.31,2014
+Ruhr-Universität Bochum,DE,35.17,2014
+Linköping University,SE,35.03,2014
+Universidad Carlos III de Madrid (UC3M),ES,34.58,2014
+"Université Paris-Dauphine, Université PSL",FR,34.57,2014
+Aston University,UK,34.52,2014
+Universität Bremen,DE,34.46,2014
+Université Claude Bernard Lyon 1,FR,34.46,2014
+Universitat Politècnica de Catalunya · BarcelonaTech (UPC),ES,34.33,2014
+Université Paul Sabatier Toulouse III,FR,34.15,2014
+Aalborg University,DK,34.13,2014
+University Duesseldorf,DE,34.11,2014
+University of Navarra,ES,33.64,2014
+Universität des Saarlandes,DE,33.28,2014
+Universität Regensburg,DE,32.91,2014
+Karl-Franzens-Universitaet Graz,AT,32.87,2014
+Universität Jena,DE,32.62,2014
+Université Montpellier 2 Sciences et Techniques,FR,32.5,2014
+"Birkbeck, University of London",UK,32.49,2014
+University of Kent,UK,32.05,2014
+Bielefeld University,DE,32.02,2014
+University of Coimbra,PT,31.98,2014
+Heriot-Watt University,UK,31.87,2014
+University of St.Gallen (HSG),CH,31.49,2014
+University of Tampere,FI,31.44,2014
+"Université Lille 1, Sciences et Technologies",FR,31.38,2014
+University of Warsaw,PL,31.35,2014
+University of Bayreuth,DE,31.33,2014
+Universitat Politècnica de València,ES,29.03,2014
+University of Florence,IT,30.33,2014
+Jagiellonian University,PL,30.5,2014
+University of Porto,PT,30.95,2014
+Leibniz University Hannover,DE,28.77,2014
+University of Turin,IT,28.81,2014
+Philipps-Universität Marburg,DE,29.7,2014
+Swansea University,UK,29.23,2014
+Universidade Nova de Lisboa,PT,31.09,2014
+University Paris 2 Panthéon-Assas,FR,29.18,2014
+"Goldsmiths, University of London",UK,29.76,2014
+Università degli Studi di Pavia,IT,30.82,2014
+Politecnico di Torino,IT,29.21,2014
+Bilkent University,TR,29.11,2014
+Université de Lorraine,FR,29.53,2014
+Tilburg University,NL,30.36,2014
+Oxford Brookes University,UK,30.09,2014
+Abo Akademi University,FI,28.34,2014
+Universität Duisburg-Essen,DE,27.26,2014
+University of Naples - Federico II,IT,28.32,2014
+University of Trento,IT,26.09,2014
+University of Salamanca,ES,26.15,2014
+Université Montpellier 1,FR,26.33,2014
+Johannes Kepler University Linz,AT,26.01,2014
+Bangor University,UK,27.28,2014
+Università Cattolica del Sacro Cuore,IT,25.87,2014
+University of Limerick,IE,27.74,2014
+University of Granada,ES,26.08,2014
+Aristotle University of Thessaloniki,EL,26.69,2014
+Universitat de Valencia,ES,27.65,2014
+Technological University Dublin,IE,27.27,2014
+University of Crete,EL,27.25,2014
+Universidad Politécnica de Madrid,ES,26.13,2014
+Aberystwyth University,UK,26.3,2014
+Universidade de Santiago de Compostela,ES,26.85,2014
+TU Dortmund University,DE,25.99,2014
+University of Cambridge,UK,99.0,2017
+UCL,UK,98.9,2017
+Imperial College London,UK,98.8,2017
+University of Oxford,UK,98.7,2017
+ETH Zurich - Swiss Federal Institute of Technology,CH,94.3,2017
+The University of Edinburgh,UK,91.3,2017
+EPFL - Ecole Polytechnique Federale de Lausanne,CH,90.9,2017
+King's College London,UK,90.9,2017
+"Ecole normale supérieure, Paris",FR,87.8,2017
+University of Bristol,UK,86.6,2017
+The University of Manchester,UK,85.2,2017
+Ecole Polytechnique,FR,81.1,2017
+University of Copenhagen,DK,80.5,2017
+Ruprecht-Karls-Universität Heidelberg,DE,79.3,2017
+University of Glasgow,UK,78.9,2017
+Technical University of Munich,DE,78.5,2017
+University of Amsterdam,NL,76.4,2017
+"Trinity College Dublin, The University of Dublin",IE,75.1,2017
+University of Birmingham,UK,74.9,2017
+The University of Warwick,UK,74.5,2017
+Ludwig-Maximilians-Universität München,DE,74.4,2017
+Lund University,SE,74.0,2017
+The London School of Economics and Political Science (LSE),UK,73.9,2017
+University of Helsinki,FI,73.7,2017
+The University of Sheffield,UK,73.3,2017
+University of Geneva,CH,73.3,2017
+Leiden University,NL,73.2,2017
+University of Nottingham,UK,73.1,2017
+KU Leuven,BE,73.0,2017
+University of Zurich,CH,72.9,2017
+Uppsala University,SE,72.5,2017
+Utrecht University,NL,72.3,2017
+University of St Andrews,UK,71.6,2017
+University of Southampton,UK,71.0,2017
+University of Oslo,NO,70.6,2017
+Durham University,UK,70.4,2017
+Aarhus University,DK,70.3,2017
+Erasmus University Rotterdam,NL,70.2,2017
+Delft University of Technology,NL,69.4,2017
+University of Groningen,NL,69.2,2017
+University of Leeds,UK,69.2,2017
+Albert-Ludwigs-Universitaet Freiburg,DE,67.9,2017
+Freie Universitaet Berlin,DE,66.9,2017
+University of Basel,CH,66.2,2017
+University of Lausanne,CH,66.1,2017
+Université Pierre et Marie Curie (UPMC),FR,65.9,2017
+University of York,UK,65.2,2017
+Queen Mary University of London,UK,64.8,2017
+"KIT, Karlsruhe Institute of Technology",DE,64.7,2017
+KTH Royal Institute of Technology,SE,64.5,2017
+Maastricht University,NL,63.8,2017
+Ghent University,BE,63.7,2017
+Humboldt-Universität zu Berlin,DE,63.1,2017
+University of Göttingen,DE,62.8,2017
+Newcastle University,UK,62.5,2017
+University of Liverpool,UK,62.2,2017
+Eberhard Karls Universität Tübingen,DE,61.8,2017
+Technical University of Denmark,DK,61.8,2017
+Cardiff University,UK,61.7,2017
+Université catholique de Louvain (UCLouvain),BE,61.3,2017
+University College Dublin,IE,61.2,2017
+Radboud University,NL,60.8,2017
+RWTH Aachen University,DE,60.1,2017
+University of Aberdeen,UK,59.9,2017
+Wageningen University & Research,NL,59.4,2017
+University of Bergen,NO,59.2,2017
+University of Bern,CH,58.4,2017
+Lancaster University,UK,58.1,2017
+Eindhoven University of Technology,NL,58.0,2017
+École Normale Supérieure de Lyon,FR,57.7,2017
+University of Vienna,AT,57.7,2017
+Rheinische Friedrich-Wilhelms-Universität Bonn,DE,57.3,2017
+Universite libre de Bruxelles,BE,56.8,2017
+The University of Exeter,UK,56.8,2017
+Stockholm University,SE,56.4,2017
+Queen’s University Belfast,UK,56.1,2017
+Vrije Universiteit Brussel (VUB),BE,56.1,2017
+Universitat Autònoma de Barcelona,ES,55.6,2017
+Universitat de Barcelona,ES,55.4,2017
+Vrije Universiteit Amsterdam,NL,54.8,2017
+Technische Universität Berlin (TU Berlin),DE,54.6,2017
+University of Antwerp,BE,54.2,2017
+Universität Hamburg,DE,54.1,2017
+University of Bath,UK,54.0,2017
+Alma Mater Studiorum - University of Bologna,IT,53.8,2017
+Université Paris-Sud,FR,53.7,2017
+University of Sussex,UK,52.8,2017
+Universidad Autónoma de Madrid,ES,52.7,2017
+Aalto University,FI,52.6,2017
+Sapienza University of Rome,IT,52.6,2017
+Chalmers University of Technology,SE,52.1,2017
+University of Leicester,UK,52.1,2017
+Université Diderot  Paris 7,FR,51.8,2017
+University of Gothenburg,SE,51.8,2017
+University of Turku,FI,51.8,2017
+Universität Frankfurt am Main,DE,51.0,2017
+University College Cork,IE,50.6,2017
+University of Reading,UK,50.4,2017
+Sciences Po,FR,50.2,2017
+Complutense University of Madrid,ES,49.9,2017
+Université Paris-Sorbonne (Paris IV),FR,49.9,2017
+University of Dundee,UK,49.8,2017
+Université Paris 1 Panthéon-Sorbonne,FR,49.1,2017
+Université de Strasbourg,FR,48.5,2017
+University of Twente,NL,48.0,2017
+University of East Anglia (UEA),UK,47.7,2017
+Politecnico di Milano,IT,47.5,2017
+Charles University,CZ,47.1,2017
+University of Milan,IT,46.8,2017
+Westfälische Wilhelms-Universität Münster,DE,46.5,2017
+Université de Liège,BE,45.9,2017
+University of Cologne,DE,45.7,2017
+Loughborough University,UK,45.6,2017
+Universität Stuttgart,DE,45.4,2017
+Norwegian University of Science And Technology,NO,45.0,2017
+University of Oulu,FI,44.7,2017
+University of Strathclyde,UK,44.4,2017
+University Ulm,DE,44.0,2017
+University of Pisa,IT,43.9,2017
+Technische Universität Darmstadt,DE,43.8,2017
+Technische Universität Dresden,DE,43.4,2017
+Vienna University of Technology,AT,43.2,2017
+Royal Holloway University of London,UK,43.1,2017
+Università di Padova,IT,42.9,2017
+Universität Konstanz,DE,42.3,2017
+Université Paris Descartes,FR,42.2,2017
+Friedrich-Alexander-Universität Erlangen-Nürnberg,DE,42.0,2017
+Universität Mannheim,DE,41.8,2017
+Universitat Pompeu Fabra,ES,41.8,2017
+National University of Ireland Galway,IE,41.5,2017
+University of Surrey,UK,41.5,2017
+Umea University,SE,41.3,2017
+Universität Innsbruck,AT,41.3,2017
+University of Eastern Finland,FI,41.2,2017
+Christian-Albrechts-University zu Kiel,DE,40.9,2017
+Johannes Gutenberg Universität Mainz,DE,40.5,2017
+Ecole des Ponts ParisTech,FR,40.2,2017
+University of Jyväskylä,FI,40.2,2017
+University of Tromsø The Arctic University of Norway,NO,39.6,2017
+University of Bordeaux,FR,39.4,2017
+Universität  Leipzig,DE,39.3,2017
+University of Southern Denmark,DK,39.3,2017
+University of Navarra,ES,39.0,2017
+Universidad Carlos III de Madrid (UC3M),ES,38.8,2017
+"University of Rome ""Tor Vergata""",IT,38.7,2017
+Julius-Maximilians-Universität Würzburg,DE,38.4,2017
+Linköping University,SE,38.1,2017
+Aalborg University,DK,38.0,2017
+Ecole Normale Supérieure de Cachan,FR,38.0,2017
+SOAS University of London,UK,37.9,2017
+University of Essex,UK,37.8,2017
+University of Warsaw,PL,37.8,2017
+University of Porto,PT,37.3,2017
+Universitat Politècnica de Catalunya · BarcelonaTech (UPC),ES,37.2,2017
+"City, University of London",UK,37.0,2017
+Dublin City University,IE,36.8,2017
+Universidade Nova de Lisboa,PT,36.1,2017
+Aix-Marseille University,FR,36.0,2017
+"Université Paris-Dauphine, Université PSL",FR,35.9,2017
+University of Coimbra,PT,35.9,2017
+Brunel University London,UK,35.8,2017
+Universität Jena,DE,35.5,2017
+Ruhr-Universität Bochum,DE,35.4,2017
+Heriot-Watt University,UK,35.3,2017
+Politecnico di Torino,IT,35.2,2017
+Universität Bremen,DE,35.2,2017
+Tilburg University,NL,34.8,2017
+"Birkbeck, University of London",UK,34.7,2017
+Oxford Brookes University,UK,34.7,2017
+Jagiellonian University,PL,34.6,2017
+University of Tampere,FI,34.6,2017
+University of Florence,IT,34.5,2017
+Universitat Politècnica de València,ES,34.2,2017
+Université Montpellier 2 Sciences et Techniques,FR,33.9,2017
+Universidad Politécnica de Madrid,ES,33.6,2017
+Université Paul Sabatier Toulouse III,FR,33.5,2017
+Karl-Franzens-Universitaet Graz,AT,33.4,2017
+University Duesseldorf,DE,33.4,2017
+University of Naples - Federico II,IT,33.3,2017
+Aston University,UK,33.2,2017
+University of Turin,IT,33.2,2017
+Universität Regensburg,DE,33.0,2017
+"Université Lille 1, Sciences et Technologies",FR,32.6,2017
+Università degli Studi di Pavia,IT,32.1,2017
+University of Bayreuth,DE,32.0,2017
+Université Claude Bernard Lyon 1,FR,32.4,2017
+University of Kent,UK,32.1,2017
+University of St.Gallen (HSG),CH,32.3,2017
+Universität des Saarlandes,DE,31.8,2017
+Bilkent University,TR,31.0,2017
+Middle East Technical University,TR,30.6,2017
+Philipps-Universität Marburg,DE,31.1,2017
+Swansea University,UK,31.1,2017
+Tampere University of Technology,FI,30.7,2017
+Bielefeld University,DE,31.4,2017
+Tallinn University of Technology (TalTech),EE,30.3,2017
+University of Salamanca,ES,30.4,2017
+University of Trento,IT,30.4,2017
+University Paris 2 Panthéon-Assas,FR,30.3,2017
+Abo Akademi University,FI,30.1,2017
+Czech Technical University in Prague,CZ,30.1,2017
+Leibniz Universität Hannover,DE,29.9,2017
+Università Cattolica del Sacro Cuore,IT,30.1,2017
+University of Genoa,IT,30.2,2017
+Bogaziçi Üniversitesi,TR,29.5,2017
+"Goldsmiths, University of London",UK,29.8,2017
+University of Tartu,EE,29.6,2017
+Aristotle University of Thessaloniki,EL,28.9,2017
+Bangor University,UK,29.1,2017
+"Kingston University, London",UK,29.1,2017
+Universitat de Valencia,ES,29.0,2017
+Université Montpellier 1,FR,28.9,2017
+Universidad de Zaragoza,ES,28.6,2017
+Universität Duisburg-Essen,DE,28.8,2017
+Université Nice Sophia Antipolis,FR,28.5,2017
+University of Crete,EL,28.4,2017
+University of Milano-Bicocca,IT,28.4,2017
+University of Cambridge,UK,99.4,2018
+Imperial College London,UK,99.4,2018
+University of Oxford,UK,99.2,2018
+UCL,UK,99.2,2018
+ETH Zurich - Swiss Federal Institute of Technology,CH,95.3,2018
+King's College London,UK,92.9,2018
+The University of Edinburgh,UK,92.8,2018
+EPFL,CH,92.8,2018
+"Ecole normale supérieure, Paris",FR,90.2,2018
+University of Bristol,UK,88.5,2018
+The University of Manchester,UK,86.9,2018
+Ecole Polytechnique,FR,85.0,2018
+University of Copenhagen,DK,82.0,2018
+Ruprecht-Karls-Universität Heidelberg,DE,81.1,2018
+University of Amsterdam,NL,80.5,2018
+Ludwig-Maximilians-Universität München,DE,79.8,2018
+Technical University of Munich,DE,79.7,2018
+University of Glasgow,UK,79.6,2018
+University of Zurich,CH,78.8,2018
+Lund University,SE,78.3,2018
+The University of Warwick,UK,78.1,2018
+University of Birmingham,UK,76.7,2018
+University of Helsinki,FI,76.4,2018
+The University of Sheffield,UK,75.7,2018
+The London School of Economics and Political Science (LSE),UK,75.3,2018
+"Trinity College Dublin, The University of Dublin",IE,75.3,2018
+Leiden University,NL,75.2,2018
+University of Nottingham,UK,74.9,2018
+Utrecht University,NL,74.5,2018
+Uppsala University,SE,74.2,2018
+KU Leuven,BE,74.1,2018
+University of Geneva,CH,73.1,2018
+Delft University of Technology,NL,72.9,2018
+University of St Andrews,UK,72.7,2018
+University of Groningen,NL,72.1,2018
+Erasmus University Rotterdam,NL,72.1,2018
+Durham University,UK,72.0,2018
+University of Southampton,UK,71.9,2018
+Aarhus University,DK,71.6,2018
+University of Leeds,UK,71.3,2018
+Queen Mary University of London,UK,71.2,2018
+University of Oslo,NO,70.1,2018
+University of Lausanne,CH,68.9,2018
+KTH Royal Institute of Technology,SE,67.9,2018
+Université Pierre et Marie Curie (UPMC),FR,66.2,2018
+University of Basel,CH,66.0,2018
+Maastricht University,NL,65.8,2018
+University of York,UK,65.1,2018
+Albert-Ludwigs-Universitaet Freiburg,DE,64.8,2018
+Cardiff University,UK,64.5,2018
+University of Liverpool,UK,64.5,2018
+Technical University of Denmark,DK,64.5,2018
+"KIT, Karlsruhe Institute of Technology",DE,64.3,2018
+Newcastle University,UK,64.3,2018
+Ghent University,BE,64.2,2018
+Humboldt-Universität zu Berlin,DE,63.7,2018
+University of Aberdeen,UK,62.9,2018
+University College Dublin,IE,62.6,2018
+Eberhard Karls Universität Tübingen,DE,62.0,2018
+University of Bern,CH,61.8,2018
+University of Göttingen,DE,61.5,2018
+RWTH Aachen University,DE,61.2,2018
+Eindhoven University of Technology,NL,61.2,2018
+Freie Universitaet Berlin,DE,61.1,2018
+Wageningen University & Research,NL,61.0,2018
+Université catholique de Louvain (UCLouvain),BE,60.7,2018
+University of Bergen,NO,60.3,2018
+University of Vienna,AT,60.0,2018
+Radboud University,NL,60.0,2018
+Lancaster University,UK,59.7,2018
+The University of Exeter,UK,59.6,2018
+Universitat de Barcelona,ES,58.7,2018
+Queen's University Belfast,UK,57.7,2018
+Vrije Universiteit Amsterdam,NL,57.6,2018
+Universitat Autònoma de Barcelona,ES,57.5,2018
+Universite libre de Bruxelles,BE,57.5,2018
+Chalmers University of Technology,SE,56.9,2018
+Rheinische Friedrich-Wilhelms-Universität Bonn,DE,56.8,2018
+Universidad Autónoma de Madrid,ES,56.5,2018
+École Normale Supérieure de Lyon,FR,56.3,2018
+University of Bath,UK,56.3,2018
+Vrije Universiteit Brussel (VUB),BE,56.2,2018
+Alma Mater Studiorum - University of Bologna,IT,55.8,2018
+Stockholm University,SE,55.8,2018
+Aalto University,FI,55.5,2018
+Technische Universität Berlin (TU Berlin),DE,54.9,2018
+Universität Hamburg,DE,54.9,2018
+University of Sussex,UK,53.9,2018
+Sapienza University of Rome,IT,53.8,2018
+University of Reading,UK,53.8,2018
+University of Antwerp,BE,53.6,2018
+University of Gothenburg,SE,53.5,2018
+University of Turku,FI,53.4,2018
+Université Paris-Saclay,FR,53.3,2018
+Université Diderot  Paris 7,FR,53.0,2018
+University of Leicester,UK,52.7,2018
+Complutense University of Madrid,ES,52.2,2018
+University of Twente,NL,52.2,2018
+Goethe-University Frankfurt am Main,DE,51.6,2018
+Sciences Po,FR,50.7,2018
+Université de Strasbourg,FR,50.4,2018
+Université Paris-Sorbonne (Paris IV),FR,50.3,2018
+Université Paris 1 Panthéon-Sorbonne,FR,50.0,2018
+Politecnico di Milano,IT,49.9,2018
+University College Cork,IE,49.5,2018
+University of Dundee,UK,49.5,2018
+Technische Universität Dresden,DE,49.1,2018
+University of Milan,IT,48.2,2018
+University of East Anglia (UEA),UK,47.4,2018
+Charles University,CZ,47.0,2018
+University of Pisa,IT,46.9,2018
+Norwegian University of Science And Technology,NO,46.4,2018
+Vienna University of Technology,AT,46.4,2018
+University of Strathclyde,UK,46.4,2018
+Westfälische Wilhelms-Universität Münster,DE,46.2,2018
+University Ulm,DE,46.2,2018
+University of Navarra,ES,45.8,2018
+University of Oulu,FI,45.4,2018
+Università di Padova,IT,45.1,2018
+Loughborough University,UK,44.9,2018
+Umea University,SE,44.8,2018
+University of Eastern Finland,FI,44.8,2018
+Technical University of Darmstadt,DE,44.7,2018
+Université de Liège,BE,44.4,2018
+Universität Stuttgart,DE,44.3,2018
+Royal Holloway University of London,UK,44.2,2018
+Université Paris Descartes,FR,44.0,2018
+National University of Ireland Galway,IE,43.6,2018
+Linköping University,SE,43.4,2018
+Friedrich-Alexander-Universität Erlangen-Nürnberg,DE,43.2,2018
+Universität Innsbruck,AT,42.9,2018
+Universität  Leipzig,DE,42.3,2018
+Ecole des Ponts ParisTech,FR,42.2,2018
+University of Porto,PT,42.0,2018
+Universitat Pompeu Fabra,ES,41.7,2018
+Johannes Gutenberg Universität Mainz,DE,41.6,2018
+"University of Rome ""Tor Vergata""",IT,41.3,2018
+University of Cologne,DE,41.3,2018
+University of Southern Denmark (SDU),DK,41.1,2018
+Universität Konstanz,DE,40.9,2018
+Universidade Nova de Lisboa,PT,40.8,2018
+University of Surrey,UK,40.5,2018
+University of Jyväskylä,FI,40.3,2018
+Universität Mannheim,DE,39.9,2018
+SOAS University of London,UK,39.8,2018
+University of Warsaw,PL,39.5,2018
+Universitat Politècnica de Catalunya · BarcelonaTech (UPC),ES,39.3,2018
+ENS Paris-Saclay,FR,39.2,2018
+University of Tromsø The Arctic University of Norway,NO,39.2,2018
+Aix-Marseille University,FR,39.1,2018
+"City, University of London",UK,39.1,2018
+Julius-Maximilians-Universität Würzburg,DE,39.1,2018
+University of Naples - Federico II,IT,39.0,2018
+Universität Bremen,DE,38.5,2018
+University of Coimbra,PT,38.3,2018
+University of Florence,IT,38.1,2018
+Heriot-Watt University,UK,38.1,2018
+Universidad Carlos III de Madrid (UC3M),ES,38.0,2018
+Brunel University London,UK,38.0,2018
+Tampere University of Technology,FI,37.4,2018
+University of Bordeaux,FR,37.3,2018
+Aalborg University,DK,37.3,2018
+Politecnico di Torino,IT,37.1,2018
+Dublin City University,IE,37.0,2018
+Tilburg University,NL,36.9,2018
+"Université Paris-Dauphine, Université PSL",FR,36.9,2018
+University of Essex,UK,36.8,2018
+Jagiellonian University,PL,36.6,2018
+Università degli Studi di Pavia,IT,36.6,2018
+Università Cattolica del Sacro Cuore,IT,36.2,2018
+University of Tartu,EE,36.1,2018
+Oxford Brookes University,UK,36.1,2018
+Universidad Politécnica de Madrid,ES,35.9,2018
+University of Tampere,FI,35.9,2018
+Ruhr-Universität Bochum,DE,35.8,2018
+Aston University,UK,35.6,2018
+University of Turin,IT,35.2,2018
+Universität Regensburg,DE,35.0,2018
+Christian-Albrechts-University zu Kiel,DE,34.9,2018
+Universität Jena,DE,34.8,2018
+Bilkent University,TR,34.7,2018
+Bogaziçi Üniversitesi,TR,34.7,2018
+Université Claude Bernard Lyon 1,FR,34.6,2018
+Middle East Technical University,TR,34.2,2018
+Institut National des Sciences Appliquées de Lyon (INSA),FR,34.3,2018
+Karl-Franzens-Universitaet Graz,AT,33.9,2018
+University of Trento,IT,33.7,2018
+Czech Technical University in Prague,CZ,33.2,2018
+University Duesseldorf,DE,33.3,2018
+Université Montpellier 2 Sciences et Techniques,FR,33.3,2018
+Leibniz University Hannover,DE,33.1,2018
+Universitat Politècnica de València,ES,33.1,2018
+University of St.Gallen (HSG),CH,32.9,2018
+"Birkbeck, University of London",UK,32.4,2018
+Université Paul Sabatier Toulouse III,FR,31.9,2018
+Abo Akademi University,FI,31.7,2018
+National Technical University of Athens,EL,31.7,2018
+Universität des Saarlandes,DE,32.0,2018
+University of Crete,EL,31.6,2018
+University of Kent,UK,31.6,2018
+University of Granada,ES,31.0,2018
+Aristotle University of Thessaloniki,EL,31.0,2018
+Koç University,TR,31.0,2018
+Swansea University,UK,30.8,2018
+Bangor University,UK,30.5,2018
+Sabanci University,TR,30.5,2018
+University of Siena,IT,30.3,2018
+University of Salamanca,ES,29.8,2018
+University of Bayreuth,DE,30.1,2018
+"Université Lille 1, Sciences et Technologies",FR,30.0,2018
+National and Kapodistrian University of Athens,EL,29.7,2018
+Philipps-Universität Marburg,DE,29.7,2018
+TU Dortmund University,DE,29.7,2018
+University of Cambridge,UK,98.8,2023
+University of Oxford,UK,98.4,2023
+Imperial College London,UK,97.0,2023
+UCL,UK,95.0,2023
+ETH Zurich - Swiss Federal Institute of Technology,CH,93.6,2023
+The University of Edinburgh,UK,89.5,2023
+EPFL,CH,89.2,2023
+Université PSL,FR,83.8,2023
+The University of Manchester,UK,82.3,2023
+King's College London,UK,81.2,2023
+Institut Polytechnique de Paris,FR,76.8,2023
+Technical University of Munich,DE,76.4,2023
+The London School of Economics and Political Science (LSE),UK,72.3,2023
+University of Amsterdam,NL,71.1,2023
+Ludwig-Maximilians-Universität München,DE,70.4,2023
+Sorbonne University,FR,70.1,2023
+Delft University of Technology,NL,70.0,2023
+University of Bristol,UK,70.0,2023
+The University of Warwick,UK,69.1,2023
+Ruprecht-Karls-Universität Heidelberg,DE,69.0,2023
+Université Paris-Saclay,FR,68.1,2023
+Lomonosov Moscow State University,RU,66.8,2023
+KU Leuven,BE,66.0,2023
+University of Southampton,UK,65.0,2023
+University of Glasgow,UK,64.6,2023
+University of Copenhagen,DK,64.1,2023
+University of Zurich,CH,63.7,2023
+University of Leeds,UK,62.8,2023
+KTH Royal Institute of Technology ,SE,62.1,2023
+University of Birmingham,UK,61.1,2023
+Durham University,UK,60.9,2023
+Lund University,SE,60.1,2023
+The University of Sheffield,UK,59.5,2023
+University of St Andrews,UK,59.5,2023
+"Trinity College Dublin, The University of Dublin",IE,59.1,2023
+University of Oslo,NO,58.7,2023
+Technical University of Denmark,DK,58.0,2023
+University of Helsinki,FI,57.8,2023
+École Normale Supérieure de Lyon,FR,56.6,2023
+Utrecht University,NL,56.3,2023
+University of Nottingham,UK,56.2,2023
+Aalto University,FI,55.9,2023
+Freie Universitaet Berlin,DE,55.8,2023
+University of Bern,CH,55.7,2023
+Newcastle University,UK,54.8,2023
+Wageningen University & Research,NL,54.6,2023
+Chalmers University of Technology,SE,54.5,2023
+Queen Mary University of London,UK,54.5,2023
+University of Geneva,CH,54.5,2023
+Uppsala University,SE,54.3,2023
+Humboldt-Universität zu Berlin,DE,54.1,2023
+Leiden University,NL,54.1,2023
+University of Basel,CH,53.3,2023
+Eindhoven University of Technology,NL,52.7,2023
+Politecnico di Milano,IT,52.4,2023
+"KIT, Karlsruhe Institute of Technology",DE,51.9,2023
+Ghent University,BE,51.6,2023
+University of Groningen,NL,51.4,2023
+Lancaster University,UK,51.2,2023
+RWTH Aachen University,DE,51.1,2023
+University of Vienna,AT,50.6,2023
+Stockholm University,SE,50.1,2023
+Technische Universität Berlin (TU Berlin),DE,49.3,2023
+Aarhus University,DK,48.6,2023
+University of York,UK,48.4,2023
+The University of Exeter,UK,48.2,2023
+Cardiff University,UK,47.8,2023
+Alma Mater Studiorum - University of Bologna,IT,47.5,2023
+Eberhard Karls Universität Tübingen,DE,47.2,2023
+Sapienza University of Rome,IT,46.8,2023
+Ecole des Ponts ParisTech,FR,46.5,2023
+Universitat Autònoma de Barcelona,ES,45.8,2023
+Technische Universität Wien,AT,45.7,2023
+University of Bath,UK,45.7,2023
+University College Dublin,IE,45.6,2023
+Universitat de Barcelona,ES,45.5,2023
+University of Gothenburg,SE,45.4,2023
+Albert-Ludwigs-Universitaet Freiburg,DE,45.2,2023
+University of Liverpool,UK,44.6,2023
+Université catholique de Louvain (UCLouvain),BE,44.2,2023
+Ulsan National Institute of Science and Technology (UNIST),SK,44.1,2023
+Technische Universität Dresden,DE,43.6,2023
+Rheinische Friedrich-Wilhelms-Universität Bonn,DE,43.3,2023
+University of Lausanne,CH,43.0,2023
+University of Bergen,NO,42.7,2023
+Erasmus University Rotterdam ,NL,42.6,2023
+Universite libre de Bruxelles,BE,42.5,2023
+University of Twente,NL,42.4,2023
+Vrije Universiteit Amsterdam,NL,42.3,2023
+Universidad Autónoma de Madrid,ES,42.2,2023
+University of Göttingen,DE,42.2,2023
+University of Aberdeen,UK,41.6,2023
+Complutense University of Madrid,ES,41.2,2023
+Universität Hamburg,DE,40.7,2023
+University of Reading,UK,40.4,2023
+Bauman Moscow State Technical University,RU,40.3,2023
+Radboud University ,NL,40.0,2023
+Queen's University Belfast,UK,39.9,2023
+Universitat Pompeu Fabra (Barcelona),ES,39.9,2023
+University of Sussex,UK,39.2,2023
+USI - Università della Svizzera italiana,CH,39.2,2023
+Università di Padova,IT,38.9,2023
+Université Paris Cité,FR,38.7,2023
+Vrije Universiteit Brussel (VUB),BE,38.5,2023
+University of Navarra,ES,38.3,2023
+Loughborough University,UK,38.1,2023
+Sciences Po ,FR,38.0,2023
+Novosibirsk State University,RU,37.9,2023
+Tomsk State University,RU,37.6,2023
+Moscow Institute of Physics and Technology (MIPT / Moscow Phystech),RU,37.3,2023
+National University of Ireland Galway,IE,37.2,2023
+Saint Petersburg State University,RU,37.2,2023
+University of Porto,PT,37.1,2023
+Technical University of Darmstadt,DE,36.9,2023
+Maastricht University ,NL,36.7,2023
+University of Leicester,UK,36.6,2023
+University of Antwerp,BE,36.5,2023
+Heriot-Watt University,UK,36.3,2023
+Graz University of Technology,AT,36.1,2023
+University of Warsaw ,PL,36.1,2023
+Belarusian State University,BY,36.0,2023
+Charles University,CZ,36.0,2023
+University of Turku,FI,35.8,2023
+Jagiellonian University,PL,35.6,2023
+RUDN University,RU,35.5,2023
+University of Tartu,EE,35.4,2023
+Université Paris 1 Panthéon-Sorbonne ,FR,35.2,2023
+University College Cork,IE,35.0,2023
+University of Surrey,UK,34.7,2023
+HSE University,RU,34.3,2023
+National Research Nuclear University MEPhI (Moscow Engineering Physics Institute),RU,34.3,2023
+Universität Innsbruck,AT,34.3,2023
+Université Grenoble Alpes,FR,33.8,2023
+Linköping University,SE,33.7,2023
+Universidad Carlos III de Madrid (UC3M),ES,33.7,2023
+Kazan (Volga region) Federal University,RU,33.4,2023
+University of Milan,IT,33.2,2023
+Politecnico di Torino,IT,33.1,2023
+University of Strathclyde,UK,33.1,2023
+Goethe-University Frankfurt am Main,DE,32.9,2023
+Aalborg University,DK,32.5,2023
+University of Cologne,DE,31.9,2023
+University of Lisbon ,PT,31.9,2023
+Ural Federal University - UrFU,RU,31.9,2023
+Friedrich-Alexander-Universität Erlangen-Nürnberg,DE,31.6,2023
+University of East Anglia (UEA),UK,31.5,2023
+"Birkbeck, University of London",UK,31.4,2023
+Universitat Politècnica de Catalunya · BarcelonaTech (UPC),ES,31.4,2023
+MGIMO University,RU,31.3,2023
+IE University,ES,31.1,2023
+University of Jyväskylä,FI,31.1,2023
+University of Southern Denmark (SDU),DK,31.1,2023
+Johannes Kepler University Linz,AT,31.0,2023
+Norwegian University of Science And Technology,NO,30.9,2023
+Universität Jena,DE,30.9,2023
+ University of Dundee,UK,30.8,2023
+"City, University of London",UK,30.7,2023
+Universität Stuttgart,DE,30.7,2023
+"University of Chemistry and Technology, Prague",CZ,30.6,2023
+ITMO University,RU,30.5,2023
+Umea University,SE,29.9,2023
+Universidade Nova de Lisboa,PT,29.9,2023
+University of Kent,UK,29.8,2023
+University Ulm,DE,29.8,2023
+Czech Technical University in Prague,CZ,29.7,2023
+Peter the Great St. Petersburg Polytechnic University,RU,29.5,2023
+Westfälische Wilhelms-Universität Münster ,DE,29.3,2023
+Lappeenranta-Lahti University of Technology LUT,FI,29.2,2023
+University of Oulu,FI,29.0,2023
+National Research Tomsk Polytechnic University,RU,28.6,2023
+Tilburg University,NL,28.6,2023
+Universitat Politècnica de València,ES,28.4,2023
+Vilnius University ,LT,28.4,2023
+Royal Holloway University of London,UK,28.3,2023
+University of Pisa,IT,28.2,2023
+Julius-Maximilians-Universität Würzburg,DE,27.8,2023
+Brunel University London,UK,27.7,2023
+Tampere University,FI,27.6,2023
+Ruhr-Universität Bochum,DE,27.5,2023
+University of Naples - Federico II,IT,27.5,2023
+Johannes Gutenberg Universität Mainz,DE,27.4,2023
+Universität Leipzig,DE,27.4,2023
+National Technical University of Athens,EL,27.3,2023
+Swansea University,UK,27.2,2023
+Far Eastern Federal University,RU,26.8,2023
+Université de Strasbourg,FR,26.8,2023
+Università Vita-Salute San Raffaele,IT,26.6,2023
+Oxford Brookes University,UK,26.5,2023
+University of Coimbra,PT,26.5,2023
+Universität des Saarlandes,DE,26.4,2023
+SOAS University of London ,UK,26.3,2023
+Hasselt University ,BE,26.2,2023
+University of Tromsø The Arctic University of Norway,NO,26.0,2023
+Institut National des Sciences Appliquées de Lyon (INSA),FR,25.7,2023
+University of Trento,IT,25.7,2023
+University of Florence,IT,25.6,2023
+"Essex, University of",UK,25.4,2023
+The National University of Science and Technology MISIS,RU,25.3,2023
+Dublin City University,IE,25.2,2023
+University of Cyprus (UCY),CY,25.1,2023
+University of Turin,IT,25.0,2023
+Koç University,TR,24.9,2023
+Martin-Luther-Universität Halle-Wittenberg,DE,24.9,2023
+University of Klagenfurt,AT,24.7,2023
+Universidad Politécnica de Madrid (UPM),ES,24.6,2023
+Aix-Marseille University,FR,24.5,2023
+Justus-Liebig-University Giessen,DE,24.5,2023
+University of Granada,ES,24.4,2023
+"University of Rome ""Tor Vergata""",IT,24.2,2023

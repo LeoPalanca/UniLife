@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import json
 import time
 from pathlib import Path
 
 import requests
 
-USER_AGENT = "unilife-research/0.1 (Erasmus mobility study; contact: leo.palanca01@gmail.com)"
+USER_AGENT = "erasmusgravity/0.1 (Erasmus mobility study; contact: leo.palanca01@gmail.com)"
 BASE = "https://www.reddit.com"
 RAW_REDDIT = Path("data/raw/reddit_raw.json")
 
@@ -91,23 +92,65 @@ def fetch_comments(subreddit: str, post_id: str, limit: int = 200) -> list[dict]
     return comments
 
 
+def _key_for(row: dict) -> str:
+    return f"c_{row['id']}" if row.get("kind") == "comment" else row["id"]
+
+
 def build_reddit_corpus(
     subreddit: str = "Erasmus",
     comment_posts: int = 60,
+    merge_existing: bool = True,
 ) -> list[dict]:
-    """Collect a deduplicated corpus of posts plus comments for the busiest posts."""
-    listings = [("top", "all"), ("top", "year"), ("hot", "all")]
+    """Collect a deduplicated corpus of posts plus comments for the busiest posts.
+
+    When ``merge_existing`` and ``RAW_REDDIT`` exists, the prior snapshot is loaded
+    first so re-runs accumulate coverage instead of overwriting it. For each id seen
+    again we keep max(score) and max(num_comments) (Reddit votes only ratchet up
+    meaningfully within the corpus's noise floor), preserve ``first_seen_utc``, and
+    stamp ``last_seen_utc`` to the current run.
+    """
+    now = int(time.time())
     by_id: dict[str, dict] = {}
+
+    if merge_existing and RAW_REDDIT.exists():
+        try:
+            for row in json.loads(RAW_REDDIT.read_text(encoding="utf-8")):
+                by_id[_key_for(row)] = row
+        except (json.JSONDecodeError, KeyError):
+            by_id = {}
+
+    def merge_in(new: dict) -> None:
+        key = _key_for(new)
+        prev = by_id.get(key)
+        if prev:
+            new["first_seen_utc"] = prev.get("first_seen_utc") or prev.get("created_utc")
+            new["score"] = max(int(prev.get("score") or 0), int(new.get("score") or 0))
+            if new.get("kind") == "post":
+                new["num_comments"] = max(
+                    int(prev.get("num_comments") or 0), int(new.get("num_comments") or 0)
+                )
+        else:
+            new["first_seen_utc"] = new.get("created_utc")
+        new["last_seen_utc"] = now
+        by_id[key] = new
+
+    listings = [("top", "all"), ("top", "year"), ("top", "month"), ("hot", "all"), ("new", "all")]
+    fresh_post_ids: set[str] = set()
     for sort, t in listings:
         for post in fetch_posts(subreddit, sort=sort, t=t, pages=4):
-            by_id[post["id"]] = post
+            fresh_post_ids.add(post["id"])
+            merge_in(post)
 
-    posts = list(by_id.values())
-    ranked = sorted(posts, key=lambda p: (p["num_comments"], p["score"]), reverse=True)
+    fresh_posts = [by_id[pid] for pid in fresh_post_ids if pid in by_id]
+    ranked = sorted(
+        fresh_posts,
+        key=lambda p: (int(p.get("num_comments") or 0), int(p.get("score") or 0)),
+        reverse=True,
+    )
     for post in ranked[:comment_posts]:
         try:
             for comment in fetch_comments(subreddit, post["id"]):
-                by_id[f"c_{comment['id']}"] = comment
+                merge_in(comment)
         except Exception:
             continue
 

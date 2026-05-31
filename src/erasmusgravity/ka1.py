@@ -126,3 +126,27 @@ def build_ka1_he_studies_flows(path: str | Path = RAW_KA1) -> tuple[pd.DataFrame
     filtered, diagnostics = filter_he_studies(raw)
     flows = aggregate_country_flows(filtered, include_domestic=False)
     return flows, diagnostics
+
+
+def country_name_to_code(
+    indicators_path: str | Path = "data/processed/ka1_he_studies_flows_with_indicators.csv",
+    sides: tuple[str, ...] = ("sending", "receiving"),
+    lowercase: bool = False,
+) -> dict[str, str]:
+    """Map country name -> ISO2 code from the indicators export.
+
+    `sides` picks which name/code column pairs feed the mapping. When
+    `lowercase` is true, keys are lowercased+stripped (used by panel/OWID
+    builds that join on lowercase keys); otherwise original casing is kept.
+    """
+    f = pd.read_csv(indicators_path)
+    m: dict[str, str] = {}
+    for side in sides:
+        nc, cc = f"{side}_country", f"{side}_code"
+        if nc not in f.columns or cc not in f.columns:
+            continue
+        sub = f.dropna(subset=[nc, cc]).drop_duplicates(nc)
+        for name, code in zip(sub[nc], sub[cc]):
+            key = name.lower().strip() if lowercase else name
+            m[key] = code
+    return m

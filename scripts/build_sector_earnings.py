@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
-from unilife.indicators import fetch_sector_earnings
+from erasmusgravity.indicators import fetch_sector_earnings
 
 
 def main() -> None:
