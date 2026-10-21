@@ -1,215 +1,243 @@
-# ErasmusGravity - Final Project
-
-**Course:** Text Analysis for Economics  
-**Deliverable:** `Palanca_Leonardo.zip` - notebook + report + raw/processed data
-
-## Working Title
+# ErasmusGravity
 
 **Economic Attractiveness and Erasmus Mobility: A Descriptive Analysis of European Student Flows**
 
-## Research Question
+ErasmusGravity combines Erasmus mobility records, spatial analysis, destination ratings and
+LLM-assisted text extraction to explore how destination attractiveness is associated with
+student flows. It was developed for **Text Analysis for Economics** at USI Lugano.
 
-> What explains the size of Erasmus Higher Education mobility flows from one country to another?
+The GitHub repository retains the original **UniLife** name; the research project and Python
+package are named **ErasmusGravity**.
 
-We frame origin-to-destination choice as a gravity-style model in which flow size responds to **perceived quality of life**, **institution quality**, and **language affinity**, controlling for broad destination prosperity and distance.
+**Status:** the flow pipeline, text-analysis layer, interactive dashboard and exploratory
+regressions are implemented. The analysis is descriptive and observational: none of the
+reported associations establishes a causal effect on destination choice.
 
-This is a descriptive and exploratory project. It does **not** claim causal inference. Per the grading rubric, the regression is the project's **step-3 design** (described, not estimated); the executed work is the spatial flow analysis plus the Reddit text layer.
+## Research question
 
-### Model Design
+> How are Erasmus Higher Education study flows associated with destination quality of life,
+> institution quality, language affinity, economic conditions and distance?
 
-| Term | Variable | Source | Status |
-|------|----------|--------|--------|
-| control | GDP-per-capita gap | World Bank WDI | built |
-| β₂ | quality of life | Reddit `r/Erasmus` sentiment/themes (OpenRouter DeepSeek + Pydantic) + Erasmusu city ratings | built (text layer) |
-| β₃ | institution quality | QS World 2023 score, geocoded + snapped to destination city | built |
-| control | distance, language affinity | country centroids / language-family groupings | built |
-| robustness | salary gap, price-level gap | Eurostat | exploratory — see VIF note |
+The project distinguishes three forms of evidence:
+
+- **Spatial description:** where students move and how destinations differ.
+- **Student perceptions:** destination sentiment and themes extracted from Reddit, alongside
+  Erasmusu city ratings.
+- **Exploratory models:** cross-sectional gravity specifications, multi-year panel models and
+  COVID-related diagnostic comparisons.
+
+GDP-per-capita gap is the headline prosperity control. Salary and price-level gaps are
+retained as robustness terms because the monetary indicators overlap; their separate
+coefficients should not be read as independent causal mechanisms.
+
+## Data and analytical layers
+
+| Layer | Source and coverage | Use |
+|-------|---------------------|-----|
+| Detailed mobility flows | Official `Erasmus-KA1-Mobility-Data-2022.xlsx`, sheet `KA1 mobilities 2022` | 2022 country and organisation-level exploration |
+| Multi-year mobility | Väisänen et al. geolocated Erasmus data, 2014–2023 | Country-pair-year and origin-country–destination-city–year panels |
+| Economic indicators | World Bank GDP per capita; Eurostat earnings and price levels | Destination–origin gaps and robustness controls |
+| Perceived city quality of life | Erasmusu ratings and opinion counts | Main city-level QoL regressor and opinion weights where specified |
+| Student discussions | Reddit `r/Erasmus`, with OpenRouter/DeepSeek and Pydantic extraction | Destination sentiment/themes; exploratory Reddit-based comparisons |
+| Institution quality | QS 2023 scores geocoded and matched to destination cities | Academic/institutional attractiveness proxy |
+| Institution-quality cross-checks | StudyPortals student ratings; QS editions 2014/2017/2018/2023 | Alternative proxy and time-varying diagnostics |
+| Time-varying destination indicators | OWID life satisfaction and education expenditure | Country-year panel comparisons |
+| COVID-related sector indicators | Eurostat Labour Cost Index and Labour Force Survey employment | Destination-by-field shock diagnostics |
+| Grant context | Erasmus annual-report annex | Higher Education grant-per-participant summaries |
+
+The detailed KA1 analysis keeps Higher Education learner **study** mobilities, age 18+,
+and cross-border country pairs. Country and organisation views include country→university,
+university→country and university→university flows. Same-country records are excluded from
+the cross-border analysis; they are not presented as a domestic Erasmus programme.
+
+These are distinct datasets and units of analysis. The 2022 KA1 file supplies the detailed
+cross-section; the 2014–2023 temporal analysis uses the separate geolocated mobility dataset.
+
+## Implemented models
+
+The entry point is [`scripts/run_regression.py`](scripts/run_regression.py); estimation code
+is organised under [`src/erasmusgravity/regressions/`](src/erasmusgravity/regressions/).
+
+| Model | Outcome and structure | Interpretation |
+|-------|-----------------------|----------------|
+| Cross-sectional headline, Spec J-main | PPML on origin-country→destination-city flows; sending-country fixed effects; Erasmusu rating, institution quality, GDP gap, log distance and language affinity; city-clustered standard errors | Conditional associations across destinations |
+| Cross-sectional alternatives | OLS/WLS and PPML variants, including Reddit measures, within-country comparisons and additional economic controls | Sensitivity to measurement, sample and specification |
+| Country panel and two-stage comparison | Stage 1 PPML with separate origin, destination and year fixed effects; Stage 2 relates estimated destination effects to QoL and economic indicators | Exploratory comparison of persistent destination attractiveness |
+| City panel and two-stage comparison | Stage 1 PPML with separate origin, destination-city and year fixed effects; Stage 2 opinion-weighted WLS of city effects on Erasmusu ratings, with country-clustered standard errors | Association between ratings and estimated city attractiveness |
+| Time-varying QoL panel | PPML with separate origin, destination and year fixed effects; destination-clustered standard errors | Association with changes in destination life satisfaction over time |
+| Time-varying QS panel | PPML with separate origin, destination-city and year fixed effects; city-clustered standard errors | Diagnostic using the multi-edition QS proxy |
+| COVID sector/field comparisons | PPML DiD and event-study diagnostics with destination×field, sending-country and year fixed effects; destination×field-clustered standard errors | Exploratory comparison of wage- and employment-based shock measures |
+
+The headline cross-sectional specification is:
 
 ```text
-E[flow_ij] = exp(
-    beta2 * quality_of_life_j
-  + beta3 * institution_quality_j
-  + controls(gdp_gap_ij, distance_ij, language_affinity_ij)
-  + sending_country fixed effects
+E[flow_ij | X] = exp(
+    sending_country_FE_i
+  + beta_qol * erasmusu_rating_j
+  + beta_inst * institution_quality_j
+  + beta_gdp * gdp_gap_ij
+  + beta_distance * log_distance_ij
+  + beta_language * language_affinity_ij
 )
-# Robustness only:
-#   + salary_gap_ij + price_level_gap_ij
 ```
 
-`gdp_gap` is the headline economic control because it captures broad destination prosperity more
-cleanly than a salary-specific story. `salary_gap` and `price_level_gap` are reported as robustness:
-all three monetary variables proxy overlapping rich-vs-poor-destination differences. See
-`reports/qol_methodology_notes.md › Why the monetary controls are flat`.
+Here `i` is the sending country and `j` the destination city; country-level economic and
+language indicators are attached through the destination country. Salary and price-level
+gaps enter the separate full-economic-controls robustness specification.
 
-## Core Data
+**Fixed-effects distinction:** the implemented temporal models use additive origin,
+destination and year effects. They do **not** implement the previously proposed combination
+of origin×year and origin–destination-pair fixed effects. Those stronger controls are a
+possible extension, not the identification delivered by the current results. Similarly,
+full destination×year effects would absorb destination-year QoL indicators rather than
+allow their coefficients to be estimated.
 
-The main backbone dataset is:
+The country-panel year-effect series comes from the additive origin + destination + year
+model. Country-panel Stage 1 uses the default GLM covariance; clustering differs across
+subsequent models as specified above. The results should not all be described as coming
+from one uniformly clustered specification.
 
-```text
-data/raw/Erasmus-KA1-Mobility-Data-2022.xlsx
-```
+## Text analysis and quality-of-life measurement
 
-The main sheet is:
+The Reddit pipeline collects destination-related posts/comments and uses
+OpenRouter/DeepSeek with a Pydantic schema to extract city/country mentions, sentiment and
+themes such as housing, cost, academics, safety, nightlife and bureaucracy. It provides
+context on **how students describe destinations**, not a representative survey of students.
 
-```text
-KA1 mobilities 2022
-```
+The measurement roles are separate:
 
-The analysis filters this detailed KA1 file to Higher Education study mobilities:
+- **Erasmusu city ratings** supply the main city-level QoL regressor.
+- **Reddit sentiment and themes** supply the executed text-analysis evidence layer and enter
+  selected exploratory alternative specifications; they are not the main Spec J-main regressor.
+- **OWID life satisfaction** supplies the separate time-varying country-year QoL proxy.
 
-- `Field == "Higher Education"`
-- learner profile only
-- study mobility activity only
-- age 18+
-- cross-border country pairs only
+[`scripts/build_reddit_manual_sample.py`](scripts/build_reddit_manual_sample.py) generates a
+stratified manual-validation workbook. The report describes a 51-mention sample. Sampling
+for human review is not itself an extraction-accuracy result: agreement or accuracy claims
+require completed human labels and an explicit comparison with the LLM output.
 
-The annual report annex remains in `data/raw/` as a reference file.
+## Reported findings and limits
 
-## Unit of Analysis
+The existing [methodology notes](reports/qol_methodology_notes.md) report:
 
-The main analytical dataset is a country-pair table:
+- A positive city-level two-stage association between Erasmusu ratings and estimated
+  destination attractiveness (coefficient about +0.79, country-clustered p<0.001;
+  282 cities across 24 countries). Stage 2 is a cross-sectional comparison of estimated
+  effects; it does not identify a causal response to changes in ratings.
+- A positive association in the time-varying life-satisfaction panel (coefficient +0.227,
+  p=0.035; about +18.5% per sample standard deviation). Destination and year effects
+  absorb stable destination differences and common annual variation, but do not rule out
+  time-varying confounding or reverse causality.
+- Statistically insignificant estimates for the time-varying QS and education-spending
+  proxies in the reported specifications. These are inconclusive about underlying effects;
+  limited variation, coverage and precision are possible explanations, not established causes.
+- Different results for wage-based and employment-based COVID shock measures. This limits
+  confidence in a general sector-to-field mechanism. Wage-subsidy effects are a possible
+  interpretation of the discrepancy, not a demonstrated explanation; an insignificant
+  employment estimate does not establish the absence of a field-specific effect.
 
-```text
-sending_country, sending_code, receiving_country, receiving_code, flow_count
-```
+Institution quality, perceived quality of life and language affinity are central to the
+cross-sectional destination-attractiveness analysis. QS scores may also reflect university
+scale, exchange capacity or partnership networks rather than teaching quality alone.
+Ratings and Reddit coverage are selective; economic indicators and geographical matching
+introduce further measurement limitations. Two-stage results also depend on estimated
+first-stage effects and should be interpreted with that uncertainty in mind.
 
-For the dashboard, the same KA1 file is also aggregated at three organization levels:
+The numerical summaries above refer to the outputs documented in the methodology notes.
+Rebuild the analysis to check them against a new dataset or configuration. See the
+[research report](reports/report.md), [gravity-model notes](reports/gravity_model.md) and
+[QoL methodology notes](reports/qol_methodology_notes.md) for the supporting discussion.
 
-```text
-country -> university
-university -> country
-university -> university
-```
+## Dashboard
 
-These are still Erasmus mobility flows, so the meaningful scope is cross-border country pairs. Same-country rows in the source are extremely rare and look like coding artifacts, not a real domestic Erasmus layer.
+The generated dashboard is [`dashboard/dist/index.html`](dashboard/dist/index.html).
+The documented deployment is <http://unilife.ellep.it>.
 
-Then join country-level indicators:
+It provides flow maps and tables at country/university levels, sending-country destination
+profiles, economic comparisons, heatmaps, grant context, destination sentiment/themes and
+exploratory model results. The temporal and shock views complement the main destination
+analysis rather than establishing a separate causal conclusion.
 
-```text
-sender_gdp_per_capita
-receiver_gdp_per_capita
-gdp_gap = receiver_gdp_per_capita - sender_gdp_per_capita
+## Setup and reproducibility
 
-sender_wage
-receiver_wage
-wage_gap = receiver_wage - sender_wage
-
-sender_cost_of_living
-receiver_cost_of_living
-cost_gap = receiver_cost_of_living - sender_cost_of_living
-
-distance_km
-```
-
-## Setup
-
-This project uses `uv`.
+This project uses `uv`:
 
 ```bash
 uv sync
-```
-
-Then open:
-
-```text
-notebooks/erasmusgravity.ipynb
-```
-
-If needed, create a local environment file:
-
-```bash
 cp .env.example .env
 ```
 
-Do not commit `.env`.
+Configure the local environment only for the sources or extraction steps you intend to run.
+Never commit `.env` or API keys. Re-running external collection or LLM extraction can require
+network access, credentials and API expenditure.
 
-## Analysis Plan
+Producer scripts write CSV exports to `data/processed/`. The database builder loads these
+into an indexed SQLite store at `data/erasmusgravity.db`; regressions and the dashboard read
+from that store. Generated processed files and the database are ignored by Git, so a fresh
+clone does not include a ready-to-run analytical database. Obtain the required source data
+and generate the relevant inputs before running consumers.
 
-1. Build the KA1 Higher Education study-flow table.
-2. Add GDP, net earnings, and cost-of-living indicators.
-3. Compute economic gaps between sending and receiving countries.
-4. Add Higher Education grant-per-participant metrics from the annual annex.
-5. Produce descriptive visualizations:
-   - flow heatmap
-   - Italy vs Luxembourg destination profiles
-   - destination GDP/cost gap vs flow share
-   - flow-weighted destination GDP/cost by sending country
-6. Design (do not estimate) the gravity-style regression — see [Model Design](#model-design).
-7. Build the Reddit text layer for the quality-of-life variable (β₂).
+### Build entry points
 
-## Build Commands
+These are pipeline entry points, **not a complete one-command rebuild**. Run producers in
+the dependency order required by their inputs and refresh the database before consumers
+that read newly generated tables.
 
 ```bash
-# producers -> CSV exports in data/processed/
-.venv/bin/python scripts/build_flows.py
-.venv/bin/python scripts/build_indicators.py
-.venv/bin/python scripts/build_org_flows.py
-.venv/bin/python scripts/build_geocode.py
-.venv/bin/python scripts/build_city_year_panel.py   # HE study city-year panel (from Vaisanen parquet)
-.venv/bin/python scripts/build_institution_quality.py  # beta3: QS unis geocoded -> destination city
-.venv/bin/python scripts/build_user_institution_quality.py  # beta3 cross-check: StudyPortals student ratings (Wayback)
-.venv/bin/python scripts/build_owid_country_year.py  # time-varying terms: OWID life satisfaction + edu spending
-.venv/bin/python scripts/build_field_flow_panel.py   # (o,d,ISCED broad field,year) HE-study panel for the COVID DiD
-.venv/bin/python scripts/build_covid_sector_hit.py   # 2020 LCI wage-hit per (country, NACE)
-.venv/bin/python scripts/build_covid_employment_hit.py  # 2020 LFS employment-hit per (country, NACE), subsidy-free
-.venv/bin/python scripts/build_qs_multiyear.py       # time-varying β₃ panel: QS editions 2014/17/18/23 via Wayback
-.venv/bin/python scripts/build_sector_wage_panel.py  # SES 2018 anchor + LCI growth -> annual (country, NACE, year) wage levels
-.venv/bin/python scripts/build_covid_sector_hit.py   # 2020 LCI wage-deviation per (country, NACE sector)
+# Core flow, economic, spatial and institution inputs
+uv run python scripts/build_flows.py
+uv run python scripts/build_indicators.py
+uv run python scripts/build_org_flows.py
+uv run python scripts/build_geocode.py
+uv run python scripts/build_city_flows.py
+uv run python scripts/build_institution_quality.py
+uv run python scripts/build_user_institution_quality.py
 
-# consolidate every CSV into the SQLite store
-.venv/bin/python scripts/build_db.py                # -> data/erasmusgravity.db (indexed)
+# Multi-year and diagnostic inputs (require their corresponding source data)
+uv run python scripts/build_panel.py
+uv run python scripts/build_city_year_panel.py
+uv run python scripts/build_owid_country_year.py
+uv run python scripts/build_field_flow_panel.py
+uv run python scripts/build_qs_multiyear.py
+uv run python scripts/build_sector_wage_panel.py
+uv run python scripts/build_covid_sector_hit.py
+uv run python scripts/build_covid_employment_hit.py
 
-# analysis / output read from the DB
-.venv/bin/python scripts/run_regression.py
-.venv/bin/python scripts/build_dashboard.py
+# Consolidate generated CSVs, estimate models, then build the dashboard
+uv run python scripts/build_db.py
+uv run python scripts/run_regression.py
+uv run python scripts/build_dashboard.py
 ```
 
-Data layer: producer scripts write CSV exports to `data/processed/`; `build_db.py` loads them
-into a single indexed SQLite file `data/erasmusgravity.db`; analysis (`run_regression.py`) and the
-dashboard read from the DB.
+Additional collection/extraction entry points include `scripts/scrape_reddit.py`,
+`scripts/extract_reddit.py`, `scripts/scrape_erasmusu.py` and
+`scripts/build_reddit_manual_sample.py`. Review their inputs and configuration before running.
+The report and notebook packaging described in earlier planning material is separate from
+this repository's build commands; no notebook is currently tracked in this repository.
 
-The dashboard is generated at:
+## Repository structure
 
 ```text
-dashboard/dist/index.html
+.
+├── README.md
+├── ERASMUSGRAVITY_PROJECT.md      # earlier planning document; not current implementation status
+├── pyproject.toml
+├── data/
+│   ├── raw/
+│   ├── crosswalks/
+│   └── processed/                # generated CSV exports (Git-ignored)
+├── dashboard/dist/index.html    # generated dashboard
+├── reports/
+│   ├── report.md
+│   ├── gravity_model.md
+│   └── qol_methodology_notes.md
+├── scripts/                     # producers, estimation and build/deploy entry points
+└── src/erasmusgravity/           # reusable analysis and dashboard modules
 ```
 
-It is deployed on the VM as:
-
-```text
-http://unilife.ellep.it
-```
-
-Current dashboard features:
-
-- sticky top-bar controls for sending country search, flow level, map aggregation, university/place search, and salary explorer settings
-- selected-country destination chart and GDP-gap scatter
-- destination table sortable by flow count, flow share, GDP gap, price gap, and earnings gap
-- same-order sending/receiving heatmap
-- university-level flow map and table for country→university, university→country, and university→university views
-- sortable flow-weighted destination economics table
-- Higher Education grant-per-participant metric from the annual annex
-- Reddit destination sentiment/themes layer for the quality-of-life variable
-
-VM deployment helpers:
-
-```bash
-./scripts/setup_erasmusgravity_nginx.sh
-./scripts/deploy_dashboard.sh
-```
-
-See [Model Design](#model-design) above for the full gravity specification.
-
-## Text Layer (β₂ quality of life)
-
-The Reddit text layer supplies the quality-of-life variable (β₂) and is the executed text-analysis component. Built after the flow pipeline is clean:
-
-- collect Reddit `r/Erasmus` posts/comments mentioning destinations
-- use OpenRouter (DeepSeek) + Pydantic for structured extraction
-- extract country/city, sentiment, and themes such as cost, housing, nightlife, academics, safety, and bureaucracy
-- manually label 40-50 mentions to evaluate extraction quality
-
-This connects the final project to the course's LLM information-extraction assignment.
+`ERASMUSGRAVITY_PROJECT.md` records the earlier design and includes superseded data-source
+and estimation plans. Use this README and the implementation for current status; consult
+that document for planning context rather than as a reproduction guide.
 
 ## Literature
 
@@ -232,7 +260,7 @@ application to student mobility, and text-as-data methods for economics.
 - **Santos Silva, J. M. C., & Tenreyro, S. (2006).** "The Log of Gravity." *Review of Economics and
   Statistics*, 88(4), 641–658. — Why log-OLS (including `log(1+flow)`) is biased under
   heteroskedasticity and zero flows, and why **Poisson Pseudo-Maximum-Likelihood (PPML)** is the
-  standard estimator. This motivates moving our step-3 design from log-OLS to PPML.
+  standard estimator. The implemented headline gravity specifications use PPML; OLS/WLS specifications are retained as exploratory comparisons.
 
 ### Gravity applied to student and Erasmus mobility
 
@@ -280,146 +308,21 @@ application to student mobility, and text-as-data methods for economics.
   and *government education expenditure (% GDP)* for the time-varying panel terms (CC-BY).
   <https://ourworldindata.org>
 
-## Temporal Extension (panel design)
 
-A single year (2022) only supports a cross-sectional gravity model, which cannot separate the
-quality-of-life and institution-quality signal from omitted bilateral factors. The planned extension stacks the
-Väisänen et al. (2025) data into an origin × destination × year panel and estimates by PPML:
+## Future work
 
-```text
-Flow_ijt = exp[ alpha_it + delta_ij + beta * X_ijt ] * error_ijt
-```
+The following are proposals, not implemented findings:
 
-- `alpha_it` origin × year fixed effects — push factors and origin-side multilateral resistance.
-- `delta_ij` pair fixed effects — absorb distance, language, and all time-invariant bilateral ties.
-- `X_ijt` time-varying terms of interest: life satisfaction, yearly destination sentiment
-  where available, and time-varying institution-quality proxies.
-
-Destination × year fixed effects (full structural gravity) are kept as a robustness check only,
-because they absorb the destination-level economics the project is trying to measure.
-
-### Temporal & shock evidence (built)
-
-The panel extension is wired in `scripts/run_regression.py` and surfaced on the dashboard's
-**Time & Shocks** act. Diagnostic numbers, all PPML with origin + destination/destination-city
-+ year FE, cluster-robust SE:
-
-| Layer | β | p | per-SD | Read |
-|-------|---|---|--------|------|
-| Year FE 2020 vs 2014 baseline | **−0.167** | — | — | sharp COVID dip; 2023 recovers above 2019 |
-| β₂ time-varying (OWID life satisfaction) | **+0.227** | **0.035** | +18.5% | within-destination, over time |
-| Education spending %GDP (OWID) | −0.035 | 0.161 | −4.1% | null — useful control |
-| β₃ time-varying (QS 2014/17/18/23) | −0.004 | 0.567 | −5.5% | null — QS scores too sticky |
-| COVID DiD, LCI wage hit | **−0.0056** | 0.10 | −1.9% | borderline; 2020 event β = −0.010 **p=0.004** |
-| COVID DiD, LFS employment hit | +0.018 | 0.95 | +0.1% | null in every year — clean replication |
-
-Read together: the time-varying β₂ confirms that life-satisfaction-type signal moves Erasmus
-flows even within-destination. The QS null is exactly what the methodology notes predicted
-(QS scores barely vary year-to-year within a city). The LCI vs LFS DiD comparison says
-COVID's 2020 hit on Erasmus mobility was lockdown-wide, not field-of-study selective —
-LCI's signal was wage-subsidy contamination correlated with lockdown intensity, not a real
-sector→field channel.
-
-## Repository Structure
-
-```text
-.
-├── README.md
-├── ERASMUSGRAVITY_PROJECT.md
-├── pyproject.toml
-├── requirements.txt
-├── data/
-│   ├── raw/
-│   │   ├── Erasmus-KA1-Mobility-Data-2022.xlsx
-│   │   ├── Erasmus-KA2-Mobility-Data.xlsx
-│   │   └── annual-report-2024-statistical-annex.xlsx
-│   └── processed/
-├── dashboard/
-│   └── dist/
-│       └── index.html
-├── notebooks/
-│   └── erasmusgravity.ipynb
-├── reports/
-│   └── figures/
-└── src/
-    └── erasmusgravity/
-```
-
-## Future Extensions (parked)
-
-Ideas explored or scoped but not implemented in this submission. Each is well-defined
-enough to pick up later; the reason for parking is recorded so the decision is reviewable.
-
-- **Lightly reframe the dashboard sections** to match the report's three-act arc
-  (free-bird exploration → pull factors → COVID shock); rename Results → "Pull factors we
-  found" and add a small COVID subsection.
-- **Economic-control alternatives.** The headline narrative now uses GDP gap as the broad
-  prosperity control. A later version could compare it with a standardized income/cost index
-  `z(gdp_gap) + z(earnings_gap) - z(price_level_gap)`, but salary and price-level gaps should
-  remain robustness terms unless that index is explicitly justified.
-- **StudyPortals review counts.** Score parsed; the review *count* (which would let us
-  opinion-weight β₃ user-side like Erasmusu) isn't in the meta description — needs a body
-  parser to extract it.
-- **Institution-capacity control for β₃.** The current QS `best_score` term captures
-  academic/institutional attractiveness, but it may also proxy larger universities, denser
-  Erasmus partnership networks, and more available exchange seats. A later version should add
-  a destination-capacity control such as number of receiving institutions, total inbound
-  Erasmus seats, university enrollment, or `n_ranked`/academic-cluster size, then test whether
-  the QS effect remains after scale is separated from quality.
-- **Sector-shock event study using the LCI-spliced wage panel** (`sector_wage_panel.csv`,
-  built). The annual wage-level panel exists for 17 countries × 18 sectors × 10 years;
-  a generic event-study scaffolding to detect idiosyncratic sector × year shocks is
-  scoped but not wired into `run_regression.py`.
-- **DeepSeek chatbot on country/uni selection.** Currently the dashboard surfaces
-  pre-aggregated metrics only. A natural-language Q&A layer over the same data
-  (Reddit mentions, β coefficients, flow tables) would let a reader ask "why is
-  Bocconi over-represented for Spanish economics students?" and get a grounded
-  answer. Three implementation options, ordered from least to most infra:
-  1. **Build-time pre-bake.** One DeepSeek call per (country) and per top-N uni at
-     `build_dashboard.py` time, results inlined into the JS payload as
-     `chatbotBlurbs[code]`. No live key, no infra, deterministic. Loses Q&A —
-     reader can only read a fixed blurb. Cheapest.
-  2. **Bring-your-own-key.** A textarea on the dashboard takes the user's
-     OpenRouter key (stored in `localStorage`) and calls the API directly from
-     the browser. Free to host, but most readers won't have a key.
-  3. **Serverless proxy.** A 30-line Cloudflare Worker / Vercel function holds the
-     `OPENROUTER_API_KEY` and exposes `/api/chat?country=IT&uni=BO`. The dashboard
-     hits the proxy. Cleanest UX, requires one piece of external infra and rate
-     limiting to prevent key abuse.
-
-  Decision deferred — depends on whether the final submission allows live API
-  calls and what budget OpenRouter is left.
-
-## Current Position
-
-KA1 Erasmus Excel is the backbone; the spatial flow pipeline and the Reddit/Erasmusu text layer
-(β₂ quality of life) are built. Per the rubric the gravity regression is a **step-3 design**, but
-we also ran it as exploratory evidence (`scripts/run_regression.py`, results on the dashboard
-**Results** tab). Status of each model term:
-
-| Term | Variable | Status | Headline role |
-|------|----------|--------|-------------------------------------------|
-| β₃ | Institution quality (QS best score) | estimated | Main pull factor; interpret as academic/institutional attractiveness, not pure teaching quality |
-| β₂ | Quality of life (Erasmusu rating + Reddit evidence) | estimated | Main pull factor; Erasmusu is the regression proxy, Reddit is the text-analysis evidence layer |
-| control | Language affinity (shared family) | estimated | Main gravity friction / familiarity control |
-| control | GDP-per-capita gap | estimated | Broad destination-prosperity control, not a causal prosperity effect |
-| control | Distance (origin centroid → dest city) | estimated | Standard gravity friction, retained even if weak |
-| robustness | Salary gap and price-level gap | estimated (exploratory) | Robustness only; monetary gaps overlap and should not drive the story |
-
-The headline cross-sectional PPML should be read as a **descriptive pull-factor model**:
-institution quality, perceived quality of life, and language familiarity are the core signals,
-with GDP gap included only to absorb broad prosperity differences. Salary and price-level gaps
-belong in robustness notes because they create a hard-to-explain economic-controls block rather
-than a clean salary story. A **time-varying** panel test (OWID country-year,
-origin+destination+year FE) adds the project's closest causal-adjacent QoL result:
-**life satisfaction +18.5%/SD, p=0.035**. That panel is stronger than the cross-section because it
-uses within-destination changes over time, but it is still not causal proof.
-
-The cleanest single result remains the **city-level panel two-stage** (Stage-1 PPML
-destination FEs ~ Erasmusu rating): **β=+0.79, p<0.001** over 282 cities / 24 countries.
-
-COVID and QS time-panel specifications are kept as diagnostics/appendix material. They are useful
-checks, but they answer different questions from the core destination-attractiveness narrative.
-Honest claim: a **robust positive association of institution quality, quality of life, and shared
-language with Erasmus flows across destinations**, plus causal-adjacent support from the
-time-varying life-satisfaction panel — not a causal effect from the cross-sectional model.
+- **Stronger panel controls:** investigate origin×year and origin–destination-pair fixed
+  effects, checking which destination indicators remain identifiable.
+- **Institution capacity:** add measures of receiving institutions, exchange seats,
+  enrolment or academic-cluster size to distinguish quality from scale and networks.
+- **Alternative economic controls:** test a justified combined prosperity/affordability
+  measure instead of treating correlated monetary gaps as separate headline mechanisms.
+- **StudyPortals review counts:** add opinion-count information to the existing score proxy.
+- **Further sector event studies:** extend the existing wage panel beyond the implemented
+  COVID diagnostics; the generic sector-shock extension remains unimplemented.
+- **Dashboard presentation:** align the navigation with the report's exploration,
+  destination-attractiveness and shock-diagnostic narrative.
+- **Grounded natural-language explanations:** consider precomputed summaries or a Q&A layer
+  over project evidence. No live DeepSeek chatbot is currently implemented.
