@@ -1467,6 +1467,36 @@ def render_dashboard(payload: dict) -> str:
       .topbar .nav-main.open{display:flex}
     }
 
+
+    /* One stable section menu; sending-country scope stays separate at the right. */
+    .topbar{padding:12px 42px;gap:0}
+    .topbar .tb-row1{grid-template-columns:auto minmax(0,1fr) 210px;gap:24px;padding:0}
+    .topbar .brand{grid-column:1;grid-row:1;padding:0;font-size:22px}
+    .topbar .nav-main{grid-column:2;grid-row:1;display:flex;justify-self:center;justify-content:center;flex-wrap:nowrap;gap:2px;padding:0;background:none;border:0}
+    .topbar .nav-main-link{padding:10px 8px;min-height:40px;box-sizing:border-box;white-space:nowrap;border-radius:0;border-width:0 0 2px;border-style:solid;border-color:transparent;font-size:13px;box-shadow:none}
+    .topbar .nav-main-link.active{background:none;border-color:var(--accent);box-shadow:none;color:var(--accent-deep)}
+    .topbar .nav-main-link:hover{background:var(--soft);text-decoration:none}
+    .topbar .quick-country{grid-column:3;grid-row:1;display:grid;grid-template-columns:1fr;gap:4px;font-size:12px!important;max-width:none;line-height:1.3}
+    .topbar .quick-country input{height:36px;box-sizing:border-box}
+    .topbar .nav-toggle{display:none}
+    @media(max-width:1199px){
+      .topbar{padding:12px 24px}
+      .topbar .tb-row1{grid-template-columns:1fr auto;gap:10px}
+      .topbar .brand{grid-column:1;grid-row:1;font-size:21px}
+      .topbar .nav-toggle{display:inline-flex;grid-column:2;grid-row:1;justify-self:end;min-height:40px}
+      .topbar .quick-country{grid-column:1/-1;grid-row:2;grid-template-columns:115px minmax(0,1fr);align-items:center;gap:8px}
+      .topbar .quick-country input{height:40px}
+      .topbar .nav-main{grid-column:1/-1;grid-row:3;display:none;justify-self:stretch}
+      .topbar .nav-main.open{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding-top:6px}
+      .topbar .nav-main-link{text-align:left;min-height:44px;display:flex;align-items:center}
+    }
+    @media(max-width:640px){
+      .topbar{padding:10px 18px}
+      .topbar .quick-country{grid-template-columns:108px minmax(0,1fr)}
+      .topbar .nav-main.open{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .topbar .nav-main-link{font-size:14px}
+    }
+
   </style>
 </head>
 <body class="mode-free">
@@ -1476,22 +1506,24 @@ def render_dashboard(payload: dict) -> str:
         <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/><circle cx="13" cy="13" r="3.1" fill="#b44e5a"/><circle cx="23.2" cy="9.4" r="1.7" fill="#2f6f73"/></svg>
         <span><span class="e">Erasmus</span><span class="g">Gravity</span></span>
       </div>
-      <label class="quick-country" for="quickCountry">Country<input id="quickCountry" list="countryOptions" autocomplete="off" placeholder="Country or code"></label>
+      <label class="quick-country" for="quickCountry">Sending country<input id="quickCountry" list="countryOptions" autocomplete="off" placeholder="Sending country or code"></label>
       <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">
         <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         Menu
       </button>
-      <nav class="nav-main" id="primaryNav" aria-label="Sections">
-        <a class="nav-main-link" data-group="research" href="#sec-intro">Research</a>
-        <a class="nav-main-link" data-group="model" href="#sec-overview">Model</a>
-        <a class="nav-main-link" data-group="extra" href="#sec-time">Extra</a>
+      <nav class="nav-main" id="primaryNav" aria-label="Dashboard sections">
+        <a class="nav-main-link" data-group="overview" href="#sec-intro">Overview</a>
+        <a class="nav-main-link" data-group="results" href="#sec-results">Results</a>
+        <a class="nav-main-link" data-group="flows" href="#sec-overview">Flows</a>
+        <a class="nav-main-link" data-group="factors" href="#sec-salary">Destination factors</a>
+        <a class="nav-main-link" data-group="time" href="#sec-time">Time &amp; shocks</a>
+        <a class="nav-main-link" data-group="sources" href="#sec-data">Sources</a>
       </nav>
       <div class="modeswitch" role="group" aria-label="View mode" style="display:none">
         <button id="m-free" class="active" type="button">Read</button>
         <button id="m-explore" type="button">Explore</button>
       </div>
     </div>
-    <nav class="nav-subs" id="dynSubnav" aria-label="Subsections"></nav>
     <select id="senderSelect" aria-hidden="true" tabindex="-1" style="display:none"></select>
   </div>
   <header class="pagehead">
@@ -1585,7 +1617,7 @@ __VARIABLE_CARDS__
           <div class="filter-redesign">
             <div class="filter-primary">
               <div class="fp-label">
-                <span class="fp-title"><span class="fp-emoji" aria-hidden="true">🛫</span>Outgoing country</span>
+                <span class="fp-title"><span class="fp-emoji" aria-hidden="true">🛫</span>Sending country</span>
                 <span class="fp-hint">Default: Italy. Drives the summary cards, trend chart, scatter and map.</span>
               </div>
               <div class="fp-controls">
@@ -1899,7 +1931,6 @@ __VARIABLE_CARDS__
   <footer>
     <div style="font-size:16px"><b>ErasmusGravity</b> · Economic Attractiveness and Erasmus Mobility</div>
     <div>Text Analysis and Spatial Data for Economists · SP 2026 · Leonardo Palanca</div>
-    <div>Data vintage: Erasmus KA1 2022, Eurostat 2022, Reddit r/Erasmus</div>
   </footer>
   <div class="tooltip" id="tooltip"></div>
   <script id="dashboard-data" type="application/json">__DATA__</script>
@@ -3314,64 +3345,22 @@ __VARIABLE_CARDS__
     renderRedditTable();
     renderRedditCoverage();
 
-    // ----- Sticky nav: hierarchical sections + scroll-spy -----
-    const NAV_GROUPS = {
-      research: {
-        label: 'Research',
-        subs: [
-          { id: 'sec-intro',       label: 'Overview',                sym: '✱',   variant: 'plain' },
-          { id: 'sec-explanatory', label: 'Explanatory vars',        sym: 'β',   variant: 'plain' },
-          { id: 'sec-results',     label: 'Results',                 sym: '∑',   variant: 'plain' },
-        ],
-      },
-      model: {
-        label: 'Model',
-        subs: [
-          { id: 'sec-overview',    label: 'Flow',                    sym: 'ij',  variant: 'plain' },
-          { id: 'sec-salary',      label: 'GDP gap',                 sym: 'β₁',  variant: 'beta' },
-          { id: 'sec-reddit',      label: 'Quality of life',         sym: 'β₂',  variant: 'beta' },
-          { id: 'sec-institution', label: 'Institution',             sym: 'β₃',  variant: 'beta' },
-          { id: 'sec-controls',    label: 'Controls',                sym: 'ctrl',variant: 'ctrl' },
-        ],
-      },
-      extra: {
-        label: 'Extra',
-        subs: [
-          { id: 'sec-panel',       label: 'Panel',                   sym: 'Σₜ',  variant: 'plain' },
-          { id: 'sec-covid',       label: '2020 Shock',              sym: '2020',variant: 'coral' },
-          { id: 'sec-data',        label: 'Data & measurement',      sym: '𝑖',   variant: 'plain' },
-        ],
-      },
-    };
+    // One navigation model for direct links, scroll position and mobile menu.
     const SECTION_GROUP = {
-      'sec-intro':'research','sec-explanatory':'research','sec-results':'research',
-      'sec-flow-filters':'model','sec-overview':'model','sec-map':'model','sec-trends':'model',
-      'sec-top-destinations':'model','sec-destination-table':'model','sec-heatmap':'model',
-      'sec-controls':'model','sec-gdp-gap':'model','sec-economics':'model',
-      'sec-salary':'model','sec-reddit':'model','sec-institution':'model',
-      'sec-time':'extra','sec-panel':'extra','sec-covid':'extra','sec-data':'extra',
+      'sec-intro':'overview','sec-explanatory':'overview','sec-results':'results',
+      'sec-flow-filters':'flows','sec-overview':'flows','sec-map':'flows','sec-trends':'flows',
+      'sec-top-destinations':'flows','sec-destination-table':'flows','sec-heatmap':'flows',
+      'sec-controls':'flows','sec-gdp-gap':'flows','sec-economics':'flows',
+      'sec-salary':'factors','sec-reddit':'factors','sec-institution':'factors',
+      'sec-time':'time','sec-panel':'time','sec-covid':'time','sec-data':'sources',
     };
-    const _subnavEl = document.getElementById('dynSubnav');
-    let _activeGroup = null, _activeSec = null;
-    function renderSubnav(group, activeSec) {
-      if (!_subnavEl) return;
-      const g = NAV_GROUPS[group];
-      if (!g) { _subnavEl.innerHTML = ''; return; }
-      _subnavEl.innerHTML = g.subs.map(s => {
-        const cls = `sub-link ${s.variant === 'ctrl' ? 'ctrl' : s.variant === 'coral' ? 'coral' : ''} ${s.id === activeSec ? 'active' : ''}`.trim();
-        return `<a class="${cls}" href="#${s.id}"><span class="bsym">${s.sym}</span>${s.label}</a>`;
-      }).join('');
-    }
-    function setActiveGroup(group, sec) {
-      document.querySelectorAll('.nav-main-link').forEach(a => {
-        a.classList.toggle('active', a.dataset.group === group);
+    function setActiveGroup(group) {
+      document.querySelectorAll('.nav-main-link').forEach(link => {
+        const active = link.dataset.group === group;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current','location');
+        else link.removeAttribute('aria-current');
       });
-      if (group !== _activeGroup || sec !== _activeSec) {
-        _activeGroup = group; _activeSec = sec;
-        renderSubnav(group, sec);
-      } else if (sec !== _activeSec) {
-        _activeSec = sec; renderSubnav(group, sec);
-      }
     }
     function scrollSpy() {
       const ids = Object.keys(SECTION_GROUP);
@@ -3383,6 +3372,7 @@ __VARIABLE_CARDS__
         const top = el.getBoundingClientRect().top - offset;
         if (top <= 0 && -top < bestDist) { bestDist = -top; bestId = id; }
       }
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) bestId = 'sec-data';
       if (!bestId) bestId = ids[0];
       const group = SECTION_GROUP[bestId];
       setActiveGroup(group, bestId);
