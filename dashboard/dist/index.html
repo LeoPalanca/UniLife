@@ -418,7 +418,7 @@
       margin-top: 4px;
       border: 1px solid var(--line);
       border-radius: 13px;
-      background: linear-gradient(180deg, #fbfcfc 0%, #f4f7f6 100%);
+      background: var(--paper);
       box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(17,24,31,.03);
       overflow: hidden;
     }
@@ -552,7 +552,7 @@
       display: grid; grid-template-columns: minmax(0,220px) 1fr; gap: 14px 18px;
       align-items: start;
       padding: 14px 16px; border-radius: 12px;
-      background: linear-gradient(135deg, rgba(47,111,115,0.08), rgba(180,78,90,0.05));
+      background: var(--paper);
       border: 1.5px solid rgba(47,111,115,0.28);
     }
     .filter-primary .fp-label { display: flex; flex-direction: column; gap: 3px; }
@@ -854,7 +854,7 @@
       border: 1px solid var(--line-soft);
       border-left: 3px solid var(--accent);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, #fbfcfc 0%, #f6f8f7 100%);
+      background: var(--paper);
       min-width: 0;
     }
     .summary-group .grp-head {
@@ -968,9 +968,9 @@
       display: block;
       height: 100%;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-bright) 100%);
+      background: var(--accent);
     }
-    .rank-bar.warm > span { background: linear-gradient(90deg, var(--accent-2) 0%, #d18290 100%); }
+    .rank-bar.warm > span { background: var(--accent-2); }
     .destination-list { display: grid; gap: 0; margin-top: 12px; }
     .destination-list li {
       display: flex;
@@ -1435,6 +1435,158 @@
       .topbar .nav-main-link{font-size:14px}
     }
 
+
+    /* Research observatory: shared frame, flat surfaces and tabular evidence.
+       1320px frame = 2 x 42px gutters + 1236px usable canvas at desktop. */
+    :root{--paper:#f3f5f4;--line:#dce2df;--line-soft:#e8ecea;--soft:#eef2f0;--faint:#63716d;--radius:6px;--shadow:none}
+    body{line-height:1.6}
+    p{color:var(--ink)}
+    a{color:var(--accent-deep);text-underline-offset:3px}
+    :where(a,button,input,select,summary):focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+    .topbar,.topbar.stuck{background:var(--panel);box-shadow:none}
+    .topbar .tb-row1{max-width:1236px;margin:auto;grid-template-columns:auto minmax(0,1fr) 210px;gap:36px}
+    .topbar .brand{font-size:21px;letter-spacing:-.04em;gap:9px}
+    .brand .g{color:var(--ink-strong)}
+    .nav-stack{gap:3px}
+    .topbar .nav-main{gap:18px}
+    .topbar .nav-main-link{font-size:14px;font-weight:600;color:var(--muted);min-height:38px;padding:7px 8px;transition:color .15s,background .15s}
+    .topbar .nav-main-link.active{color:var(--ink-strong);border-color:var(--ink-strong)}
+    .topbar .nav-subs{gap:3px;min-height:34px}
+    .topbar .nav-subs .sub-link{font-size:12px;font-weight:500;min-height:34px;color:var(--muted);border-radius:4px;padding:6px 8px}
+    .topbar .nav-subs .sub-link.active{background:var(--soft);color:var(--ink-strong);font-weight:600}
+    .topbar .quick-country{font-weight:500;color:var(--muted)}
+    .topbar .quick-country input{background:var(--paper);border-color:transparent;border-radius:4px;height:38px;font-size:14px}
+    .topbar .nav-toggle{color:var(--ink);background:var(--paper);border:0;border-radius:4px}
+    .pagehead{padding:48px 42px 44px;background:var(--panel);border-bottom:1px solid var(--line)}
+    .hero-inner{max-width:1236px;grid-template-columns:minmax(0,1.3fr) minmax(300px,.8fr);gap:70px;align-items:start}
+    .pagehead h1{font-size:clamp(32px,3.4vw,48px);font-weight:600;line-height:1.08;letter-spacing:-.045em;max-width:none}
+    .pagehead .rq{font-size:15px;line-height:1.65;max-width:66ch;margin-top:22px;color:var(--ink)}
+    .meta-strip{gap:8px 16px;margin-top:22px;padding-top:0;border:0}
+    .readout{font-size:12px}
+    .scope-pill{padding:0;background:none;border:0;font-size:12px;font-weight:400;color:var(--muted)}
+    .mobility-brief{padding:24px 26px;background:var(--paper);border-radius:6px;min-width:0}
+    .brief-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;font-weight:600}
+    .brief-heading a{font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap}
+    .brief-heading a:hover{text-decoration:underline}
+    .brief-total{font-size:40px;line-height:1.15;letter-spacing:-.04em;font-weight:500;margin-top:20px;font-variant-numeric:tabular-nums}
+    .brief-caption{font-size:12px;color:var(--muted);margin-top:4px}
+    .brief-destinations{margin-top:22px;display:grid;gap:13px}
+    .brief-destination>div:first-child{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:5px}
+    .brief-destination b{font-weight:500;font-variant-numeric:tabular-nums}
+    .brief-track{height:4px;background:#dce4e0;border-radius:2px;overflow:hidden}
+    .brief-track span{display:block;height:100%;background:var(--accent)}
+    .brief-foot{font-size:11px;color:var(--muted);margin-top:16px}
+    main{gap:24px;padding-top:32px;padding-bottom:48px}
+    main>section,.grid>section,.duo>section{border:1px solid var(--line);border-radius:6px;box-shadow:none;padding:28px 30px;background:var(--panel);min-width:0}
+    main>section.intro{border-left:1px solid var(--line)}
+    main>section>h2,.grid>section>h2,.duo>section>h2,.collapsible summary h2{font-size:24px;font-weight:600;line-height:1.25;letter-spacing:-.025em;gap:10px}
+    h3{font-size:16px;font-weight:600;line-height:1.45}
+    section>p+p{margin-top:12px}
+    .note,.source-list,.sources{font-size:13px;line-height:1.65}
+    .sec-kicker,.sec-kicker.beta,.sec-kicker.dep,.sec-kicker.ctrl{font-family:var(--sans);font-size:12px;font-weight:500;font-style:normal;letter-spacing:0;text-transform:none;background:var(--soft);color:var(--muted);border:0;border-radius:3px;padding:3px 7px;flex:none!important}
+    .sec-kicker .lab{font-size:11px;letter-spacing:0;text-transform:none}
+    .equation{background:var(--paper);border:0;border-radius:4px;font-size:18px;line-height:1.9;padding:20px 24px;margin:20px 0}
+    .card{background:var(--panel);border:1px solid var(--line-soft);border-radius:4px;padding:18px;box-shadow:none}
+    .card .value{font-size:28px;font-weight:500;letter-spacing:-.025em}
+    .card .label,.beta-grid .card .label{font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted);line-height:1.45}
+    #sec-explanatory>.cards{gap:12px;margin-top:22px}
+    #sec-explanatory .card{background:var(--paper);border:0;padding:20px}
+    #sec-explanatory .card .value{font-weight:600;line-height:1.35;margin-top:10px}
+    #sec-explanatory .card .note{font-size:12px;line-height:1.65}
+    .beta-grid .card{min-height:0;padding:20px;background:var(--paper);border:0}
+    .beta-grid .card .value{font-weight:500}
+    .beta-grid .card .value .v-num{font-family:var(--sans);font-size:26px;font-weight:500}
+    .beta-grid .card .effect-row,.beta-grid .card .effect-row .sig-tag{font-family:var(--sans);font-size:12px;letter-spacing:0;text-transform:none}
+    .act{margin:24px 0 0;padding:0 0 12px;border-bottom:1px solid var(--line);gap:14px}
+    .act .gd-role{font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted)}
+    .act h3{font-size:23px;font-weight:600;line-height:1.3;margin-top:4px}
+    .act .gd-sym{font-size:24px;color:var(--muted)}
+    .summary-stack{gap:28px}
+    .summary-group{padding:0;border:0;border-radius:0;background:none;gap:16px}
+    .summary-group .grp-head{gap:5px}
+    .summary-group .grp-head .grp-name{font-size:16px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink)}
+    .summary-group .grp-head .grp-hint{font-family:var(--sans);font-size:13px;font-style:normal;margin:0;color:var(--muted)}
+    .summary-group .cards{gap:12px}
+    .summary-group .cards .card{background:var(--paper);border:1px solid transparent;box-shadow:none;border-radius:4px;padding:18px;transition:border-color .15s}
+    .summary-group .cards .card:hover,.summary-group .cards .card.open{box-shadow:none;transform:none;border-color:var(--accent)}
+    .summary-group .cards .card .value{font-weight:500}
+    .summary-group .grp-foot,.card-sub .card-note{font-size:12px;font-style:normal;color:var(--muted)}
+    .card-sub,.card-sub .rank-pill,.destination-list .dl-rank,.destination-list .dl-code,.ramp-axis,.card-chart-axis{font-family:var(--sans);letter-spacing:0;text-transform:none}
+    .rank-bar>span{background:var(--accent)}
+    .rank-bar.warm>span{background:var(--accent-2)}
+    .destination-list{padding-left:0}
+    .destination-list li{border-bottom-style:solid;padding:10px 0}
+    .destination-list .dl-rank,.destination-list li:nth-child(2) .dl-rank,.destination-list li:nth-child(3) .dl-rank{background:none;color:var(--muted);font-size:12px;border-radius:0;opacity:1}
+    .filter-primary{background:var(--paper);border:0;border-radius:4px;padding:18px}
+    select,input,.dest-filter-input{border-radius:4px;border-color:var(--line);font-family:var(--sans)}
+    button{font-family:var(--sans)}
+    .pill-toggle,.seg-btn{border-radius:4px;font-weight:500;border-width:1px;min-height:38px}
+    .pill-toggle.on,.seg-btn.on{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+    .coverage-badge{background:var(--paper);color:var(--muted);border:0;font-weight:500}
+    .filter-chip{background:var(--paper);color:var(--ink);border:0;border-radius:4px;padding:7px 9px}
+    .filter-chip .lab{font-size:11px;letter-spacing:0;text-transform:none}
+    .collapsible{padding:0!important}
+    .collapsible summary{padding:22px 30px;border-radius:6px}
+    .collapse-toggle{background:var(--paper);color:var(--muted);border:0;border-radius:4px;font-weight:500;min-height:34px}
+    .data-table thead th,.data-table th{background:var(--panel);color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;padding:12px 14px}
+    .data-table tbody td,.data-table td{padding:12px 14px;font-size:13px}
+    .data-table tbody tr:hover{background:var(--paper)}
+    .axis,.gridline{stroke:var(--line-soft)}
+    #map{border-radius:4px;border-color:var(--line-soft)}
+    .legend-dot{box-shadow:none}
+    footer{padding:32px max(42px,calc((100vw - 1236px)/2));background:var(--panel);font-size:13px;gap:8px}
+    @media(max-width:1199px){
+      .topbar .tb-row1{grid-template-columns:1fr auto;gap:10px}
+      .hero-inner{gap:36px;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr)}
+    }
+    @media(max-width:800px){
+      .pagehead{padding:32px 24px}
+      .hero-inner{grid-template-columns:1fr;gap:26px}
+      .mobility-brief{padding:20px 22px}
+      .pagehead .rq{max-width:none}
+      .brief-total{font-size:34px;margin-top:14px}
+      .brief-destinations{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+      .brief-destination>div:first-child{flex-wrap:wrap;gap:4px}
+      main{padding:24px;gap:20px}
+      main>section,.grid>section,.duo>section{padding:24px}
+      .grid,.grid2,.duo{grid-template-columns:1fr}
+    }
+    @media(max-width:640px){
+      .topbar .nav-main-link,.topbar .nav-subs .sub-link{min-height:44px;display:flex;align-items:center}
+      .topbar .quick-country input{height:44px}
+      .topbar .nav-toggle{min-height:44px}
+      .pagehead{padding:28px 18px}
+      .pagehead h1{font-size:34px}
+      .pagehead .rq{font-size:14px;margin-top:18px}
+      .mobility-brief{padding:18px}
+      .brief-destinations{gap:14px}
+      .brief-heading{font-size:13px}
+      .brief-total{font-size:32px}
+      .brief-destination>div:first-child{font-size:12px}
+      main{padding:20px 18px 36px}
+      main>section,.grid>section,.duo>section{padding:22px 18px}
+      main>section>h2,.grid>section>h2,.duo>section>h2,.collapsible summary h2{font-size:22px}
+      .act h3{font-size:20px}
+      .act .gd-sym{font-size:20px}
+      .collapsible summary{padding:20px 18px;gap:12px}
+      .collapse-body{padding:0 18px 22px}
+      .summary-group .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .summary-group .cards .card{padding:14px 12px}
+      .summary-group .cards .card .value{font-size:24px}
+      .summary-group .cards .card .label{font-size:12px}
+      .summary-group .cards .card[data-chartable="0"]{grid-column:1/-1}
+      .summary-group .grp-head .grp-hint{font-size:13px}
+      .card-sub{font-size:12px}
+      .pill-toggle,.seg-btn,select,input,.collapse-toggle{min-height:44px}
+      .equation{padding:16px;font-size:16px;line-height:1.9}
+      footer{padding:26px 18px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+    .ctrl-surface{background:var(--paper);box-shadow:none;border-radius:4px}
+    .field input,.field select{border-radius:4px}
+    .field input:focus,.field select:focus{box-shadow:none;outline:2px solid var(--accent);outline-offset:2px}
+    .field>span:first-child,.cs-head .t{font-size:12px;letter-spacing:0;text-transform:none;font-weight:500}
+    .act .gd-sym{font-family:var(--sans);font-style:normal}
   </style>
 </head>
 <body class="mode-free">
@@ -1467,33 +1619,25 @@
   <header class="pagehead">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="kicker">
-          <svg class="dot" viewBox="0 0 18 18" aria-hidden="true"><ellipse cx="9" cy="9" rx="8" ry="3.4" fill="none" stroke="#2f6f73" stroke-width="1.3" transform="rotate(-22 9 9)"/><circle cx="9" cy="9" r="2.2" fill="#b44e5a"/></svg>
-          ErasmusGravity · unilife.ellep.it
-        </div>
-        <h1>What pulls a student <span class="pull">across a border?</span></h1>
+        <h1>Erasmus mobility,<br>explained.</h1>
         <p class="rq"><b>Research question:</b> what explains the size of Erasmus+ Higher Education flows from one country to another? We explore associations with perceived quality of life, institution quality, language affinity and distance, controlling for broad destination prosperity. These observational results do not establish causal effects.</p>
         <div class="meta-strip">
           <span class="readout" id="topStat"></span>
           <span class="scope-pill">KA1 study mobility · cross-border country pairs</span>
         </div>
       </div>
-      <svg class="hero-orbits" width="440" height="360" viewBox="0 0 440 360" aria-hidden="true">
-        <g fill="none" stroke="#2f6f73" stroke-width="1.2" opacity="0.55">
-          <ellipse cx="230" cy="180" rx="200" ry="78" transform="rotate(-18 230 180)"/>
-          <ellipse cx="230" cy="180" rx="150" ry="56" transform="rotate(-18 230 180)"/>
-          <ellipse cx="230" cy="180" rx="96" ry="35" transform="rotate(-18 230 180)"/>
-        </g>
-        <circle cx="230" cy="180" r="10" fill="#b44e5a"/>
-        <circle cx="44" cy="138" r="5" fill="#2f6f73"/>
-        <circle cx="412" cy="226" r="4.5" fill="#c98a2b"/>
-        <circle cx="352" cy="86" r="3.5" fill="#2f6f73"/>
-      </svg>
+      <aside class="mobility-brief" aria-label="Selected country mobility summary">
+        <div class="brief-heading"><span id="briefCountry">Sending country</span><a href="#sec-overview">Explore flows <span aria-hidden="true">↗</span></a></div>
+        <div class="brief-total" id="briefTotal"></div>
+        <p class="brief-caption">outgoing students in the selected flow sample</p>
+        <div class="brief-destinations" id="briefDestinations"></div>
+        <p class="brief-foot">Top destinations · share of selected outgoing flows</p>
+      </aside>
     </div>
   </header>
   <main>
     <section class="intro" id="sec-intro">
-      <h2><span class="sec-kicker plain">The model</span>A gravity model of student flows</h2>
+      <h2>A gravity model of student flows</h2>
       <p>The implemented headline model is a cross-sectional PPML gravity specification on flow counts. Separate panel and COVID diagnostics examine different questions; they are not terms of one combined model.</p>
       <div class="equation">
         E[flow<sub>ij</sub> | X] = exp(<br>
@@ -1508,7 +1652,7 @@
     </section>
 
     <section id="sec-explanatory">
-      <h2><span class="sec-kicker plain">The &beta;s</span>Explanatory Variables</h2>
+      <h2>Explanatory Variables</h2>
       <p class="note">The implemented variables and their sources. Expected signs describe hypotheses, not findings; the estimates below may differ.</p>
       <div class="cards">
 <div class="card"><div class="label">β₁ · built</div><div class="value" style="font-size:18px">GDP-per-capita gap</div><p class="note" style="margin:8px 0 0">Broad destination-prosperity control<br><strong>Source:</strong> World Bank GDP per capita (gdp_gap_usd_wb)<br><strong>Expected:</strong> + (richer destinations associated with more flow, broad control)</p></div>
@@ -1522,7 +1666,7 @@
     </section>
 
     <section id="sec-results">
-      <h2><span class="sec-kicker plain">Results</span>Model Results</h2>
+      <h2>Model Results</h2>
       <h3>Every coefficient (&beta;) &mdash; headline PPML gravity model
         <button type="button" class="info-btn" aria-expanded="false" aria-controls="ppml-info" onclick="(function(b){var t=document.getElementById('ppml-info');var open=t.style.display!=='block';t.style.display=open?'block':'none';b.setAttribute('aria-expanded',open);})(this)" title="What is Poisson PPML?">&#9432;</button>
       </h3>
@@ -1561,7 +1705,7 @@
           <div class="filter-redesign">
             <div class="filter-primary">
               <div class="fp-label">
-                <span class="fp-title"><span class="fp-emoji" aria-hidden="true">🛫</span>Sending country</span>
+                <span class="fp-title"><span class="fp-emoji" aria-hidden="true"></span>Sending country</span>
                 <span class="fp-hint">Default: Italy. Drives the summary cards, trend chart, scatter and map.</span>
               </div>
               <div class="fp-controls">
@@ -1570,7 +1714,7 @@
                   <input id="countrySearch" list="countryOptions" autocomplete="off" placeholder="Search country or code">
                 </span>
                 <datalist id="countryOptions"></datalist>
-                <button id="mapViewAll" type="button" class="pill-toggle">🌍 All outgoing countries</button>
+                <button id="mapViewAll" type="button" class="pill-toggle"> All outgoing countries</button>
               </div>
             </div>
             <div class="filter-optional">
@@ -1582,24 +1726,24 @@
                 </button>
               </div>
               <p class="fo-explain">
-                Picking an <b>🛫 outgoing university</b> narrows the map and table to flows leaving that institution. Picking an <b>🛬 incoming country</b> or <b>🛬 incoming university</b> keeps only flows arriving there. Filters AND-combine: the more you set, the smaller the view.
+                Picking an <b> outgoing university</b> narrows the map and table to flows leaving that institution. Picking an <b> incoming country</b> or <b> incoming university</b> keeps only flows arriving there. Filters AND-combine: the more you set, the smaller the view.
               </p>
               <div class="fo-grid">
-                <label class="field"><span><span aria-hidden="true">🛫</span>Outgoing university</span>
+                <label class="field"><span><span aria-hidden="true"></span>Outgoing university</span>
                   <span class="ip">
                     <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                     <input id="outUniSearch" list="outUniOptions" autocomplete="off" placeholder="Sending university or city">
                   </span>
                   <datalist id="outUniOptions"></datalist>
                 </label>
-                <label class="field"><span><span aria-hidden="true">🛬</span>Incoming country</span>
+                <label class="field"><span><span aria-hidden="true"></span>Incoming country</span>
                   <span class="ip">
                     <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                     <input id="inCountrySearch" list="inCountryOptions" autocomplete="off" placeholder="Destination country or code">
                   </span>
                   <datalist id="inCountryOptions"></datalist>
                 </label>
-                <label class="field"><span><span aria-hidden="true">🛬</span>Incoming university</span>
+                <label class="field"><span><span aria-hidden="true"></span>Incoming university</span>
                   <span class="ip">
                     <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                     <input id="inUniSearch" list="inUniOptions" autocomplete="off" placeholder="Receiving university or city">
@@ -1623,13 +1767,13 @@
     </section>
 
     <section id="sec-overview">
-      <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Selected Country Overview <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
+      <h2><span class="h2-row">Selected Country Overview <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
       <div id="summaryCards"></div>
       <p class="note">Country-level totals; endpoint filters apply only to the map and university table. Main flow definition: Higher Education learners, study mobility activity, age 18+, cross-border flows only.</p>
     </section>
 
     <section id="sec-map">
-      <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">University Flow Map <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
+      <h2><span class="h2-row">University Flow Map <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
       <div id="mapEmpty" class="map-empty" role="status" hidden>No flows match these filters. <button type="button" onclick="document.getElementById('resetControls').click()">Clear endpoint filters</button></div>
       <div id="map"></div>
       <div class="map-legend">
@@ -1640,7 +1784,7 @@
     </section>
 
     <section id="sec-trends">
-      <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Mobility Over Time (2014&ndash;2023) <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
+      <h2><span class="h2-row">Mobility Over Time (2014&ndash;2023) <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
       <p class="note">Higher Education study mobility by calendar year of mobility start, from the spatially enriched Erasmus+ panel (V&auml;is&auml;nen et al. 2025). This is the temporal backbone for the panel gravity design.</p>
       <div class="grid">
         <div>
@@ -1659,7 +1803,7 @@
     <section id="sec-top-destinations" class="collapsible">
       <details>
         <summary>
-          <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Top Destinations <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
+          <h2><span class="h2-row">Top Destinations <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
           <span class="collapse-toggle" aria-hidden="true"></span>
         </summary>
         <div class="collapse-body">
@@ -1671,7 +1815,7 @@
     <section id="sec-destination-table" class="collapsible">
       <details>
         <summary>
-          <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Destination table <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
+          <h2><span class="h2-row">Destination table <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
           <span class="collapse-toggle" aria-hidden="true"></span>
         </summary>
         <div class="collapse-body">
@@ -1694,7 +1838,7 @@
     <section id="sec-heatmap" class="collapsible">
       <details>
         <summary>
-          <h2><span class="sec-kicker dep">flow<sub>ij</sub></span>Flow Heatmap</h2>
+          <h2>Flow Heatmap</h2>
           <span class="collapse-toggle" aria-hidden="true"></span>
         </summary>
         <div class="collapse-body">
@@ -1716,7 +1860,7 @@
     <section id="sec-gdp-gap" class="collapsible">
       <details>
         <summary>
-          <h2><span class="sec-kicker beta">&beta;&#8321; viz</span>GDP Gap and Flow Share <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></h2>
+          <h2>GDP gap & mobility <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></h2>
           <span class="collapse-toggle" aria-hidden="true"></span>
         </summary>
         <div class="collapse-body">
@@ -1729,7 +1873,7 @@
     <section id="sec-economics" class="collapsible">
       <details>
         <summary>
-          <h2><span class="sec-kicker ctrl">robustness</span>Flow-Weighted Destination Economics &mdash; salary &amp; price-level (robustness)</h2>
+          <h2>Destination economics</h2>
           <span class="collapse-toggle" aria-hidden="true"></span>
         </summary>
         <div class="collapse-body">
@@ -1750,13 +1894,13 @@
     </div>
 
     <section id="sec-salary">
-      <h2><span class="sec-kicker beta">&beta;&#8321;</span>GDP-per-capita gap &mdash; broad prosperity control</h2>
+      <h2>GDP-per-capita gap</h2>
       <p class="note">Destination minus origin GDP per capita (World Bank, current USD). Read as a <strong>broad prosperity control</strong>, not as a causal economic-pull effect. Salary gap and price-level gap are demoted to robustness because they overlap with GDP and produce an unstable monetary block (VIF ~6.5&ndash;7 in the full controls spec).</p>
       <div class="beta-grid">
-        <div class="card"><div class="label">📚 Source</div><div class="value">World Bank GDP per capita (current USD)</div><div class="sub"><code>gdp_gap_usd_wb</code> &middot; pair-level destination minus origin, joined onto the KA1 2022 panel.</div></div>
-        <div class="card"><div class="label">⚙️ Estimation</div><div class="value">PPML on bilateral flows, city-clustered SE</div><div class="sub">Cross-section Poisson with sending-country FE on the 2022 KA1 panel; gdp_gap enters as the only monetary term.</div></div>
-        <div class="card" data-coef-card="GDP-per-capita gap"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
-        <div class="card"><div class="label">🔍 Evidence (robustness)</div><div class="value">NACE-sector earnings explorer</div><div class="sub">Pick a country &amp; unit below to compare monthly earnings by sector &mdash; the salary heterogeneity behind the demoted salary-gap robustness term. See full controls breakdown under <a href="#sec-controls" style="color:var(--accent)">Controls</a>.</div></div>
+        <div class="card"><div class="label"> Source</div><div class="value">World Bank GDP per capita (current USD)</div><div class="sub"><code>gdp_gap_usd_wb</code> &middot; pair-level destination minus origin, joined onto the KA1 2022 panel.</div></div>
+        <div class="card"><div class="label"> Estimation</div><div class="value">PPML on bilateral flows, city-clustered SE</div><div class="sub">Cross-section Poisson with sending-country FE on the 2022 KA1 panel; gdp_gap enters as the only monetary term.</div></div>
+        <div class="card" data-coef-card="GDP-per-capita gap"><div class="label"> Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
+        <div class="card"><div class="label"> Evidence (robustness)</div><div class="value">NACE-sector earnings explorer</div><div class="sub">Pick a country &amp; unit below to compare monthly earnings by sector &mdash; the salary heterogeneity behind the demoted salary-gap robustness term. See full controls breakdown under <a href="#sec-controls" style="color:var(--accent)">Controls</a>.</div></div>
       </div>
       <div class="salary-controls" style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:12px 0 6px">
         <label class="field" style="flex:1;min-width:180px"><span>Salary country</span><div class="selwrap"><select id="earnCountry"></select></div></label>
@@ -1774,26 +1918,26 @@
     </section>
 
     <section id="sec-reddit">
-      <h2><span class="sec-kicker beta">&beta;&#8322;</span>Quality of life &mdash; perceived liveability</h2>
+      <h2>Quality of life</h2>
       <p class="note">A text layer over r/Erasmus and a numeric layer from Erasmusu city ratings. Tests whether students are pulled toward places that read as friendlier, cheaper, livelier in student talk.</p>
       <div class="beta-grid">
-        <div class="card"><div class="label">📚 Source</div><div class="value">Reddit r/Erasmus + Erasmusu city ratings</div><div class="sub"><span id="redditCoverage" class="coverage-badge"></span>Destinations extracted via OpenRouter (DeepSeek) + Pydantic &middot; sentiment, themes, city/country. Weighted-net sentiment uses confidence &times; log(1+upvotes) &times; <em>EWMA age-decay</em> (1-year half-life), so stale opinions fade as fresh ones arrive on re-scrape.</div></div>
-        <div class="card"><div class="label">⚙️ Estimation</div><div class="value">City-level two-stage</div><div class="sub">Stage 1: PPML with separate origin, destination-city and year effects. Stage 2: opinion-weighted regression of city effects on Erasmusu ratings, with country-clustered standard errors. The coefficient is on estimated log-attractiveness, not a causal flow response.</div></div>
-        <div class="card" data-coef-card="Two-stage CITY: Erasmusu rating"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
-        <div class="card"><div class="label">🔍 Evidence</div><div class="value">Per-country sentiment table</div><div class="sub">Net sentiment = (pos &minus; neg) / mentions &middot; small per-country counts, treat as qualitative signal. See table below.</div></div>
+        <div class="card"><div class="label"> Source</div><div class="value">Reddit r/Erasmus + Erasmusu city ratings</div><div class="sub"><span id="redditCoverage" class="coverage-badge"></span>Destinations extracted via OpenRouter (DeepSeek) + Pydantic &middot; sentiment, themes, city/country. Weighted-net sentiment uses confidence &times; log(1+upvotes) &times; <em>EWMA age-decay</em> (1-year half-life), so stale opinions fade as fresh ones arrive on re-scrape.</div></div>
+        <div class="card"><div class="label"> Estimation</div><div class="value">City-level two-stage</div><div class="sub">Stage 1: PPML with separate origin, destination-city and year effects. Stage 2: opinion-weighted regression of city effects on Erasmusu ratings, with country-clustered standard errors. The coefficient is on estimated log-attractiveness, not a causal flow response.</div></div>
+        <div class="card" data-coef-card="Two-stage CITY: Erasmusu rating"><div class="label"> Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
+        <div class="card"><div class="label"> Evidence</div><div class="value">Per-country sentiment table</div><div class="sub">Net sentiment = (pos &minus; neg) / mentions &middot; small per-country counts, treat as qualitative signal. See table below.</div></div>
       </div>
       <p class="note" style="margin-top:14px">Destination mentions extracted from r/Erasmus posts and comments. <strong>Score-weighted net</strong> also weights by extraction confidence and log Reddit score. Click headers to sort.</p>
       <div id="redditTable"></div>
     </section>
 
     <section id="sec-institution">
-      <h2><span class="sec-kicker beta">&beta;&#8323;</span>Institution quality &mdash; academic pull</h2>
+      <h2>Institution quality</h2>
       <p class="note">Each destination university enters as a ranking score. The headline cross-sectional model conditions on GDP gap, distance, language affinity and Erasmusu ratings. QS scores proxy academic attractiveness and may also reflect institutional scale and networks.</p>
       <div class="beta-grid">
-        <div class="card"><div class="label">📚 Source</div><div class="value">QS World University Rankings 2023</div><div class="sub">QS <strong>overall score</strong> (0&ndash;100 composite of research, teaching, employability, internationalisation). Each Erasmus city gets its best-ranked university's score. European institutions geocoded via Nominatim and snapped to the nearest Erasmus city within 35&nbsp;km &middot; <code>institution_quality.csv</code>.</div></div>
-        <div class="card"><div class="label">⚙️ Estimation</div><div class="value">PPML, ranking score on destination city</div><div class="sub">Same gravity spec as &beta;&#8321; with the destination's best-ranked university score added as a city-level regressor.</div></div>
-        <div class="card" data-coef-card="Institution quality"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
-        <div class="card"><div class="label">🔍 Evidence</div><div class="value">Crowd cross-check: StudyPortals</div><div class="sub">User ratings of universities, scraped from Wayback. Independent crowd-vs-expert signal &middot; <code>user_institution_quality.csv</code>.</div></div>
+        <div class="card"><div class="label"> Source</div><div class="value">QS World University Rankings 2023</div><div class="sub">QS <strong>overall score</strong> (0&ndash;100 composite of research, teaching, employability, internationalisation). Each Erasmus city gets its best-ranked university's score. European institutions geocoded via Nominatim and snapped to the nearest Erasmus city within 35&nbsp;km &middot; <code>institution_quality.csv</code>.</div></div>
+        <div class="card"><div class="label"> Estimation</div><div class="value">PPML, ranking score on destination city</div><div class="sub">Same gravity spec as &beta;&#8321; with the destination's best-ranked university score added as a city-level regressor.</div></div>
+        <div class="card" data-coef-card="Institution quality"><div class="label"> Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
+        <div class="card"><div class="label"> Evidence</div><div class="value">Crowd cross-check: StudyPortals</div><div class="sub">User ratings of universities, scraped from Wayback. Independent crowd-vs-expert signal &middot; <code>user_institution_quality.csv</code>.</div></div>
       </div>
       <p class="note" style="margin-top:14px">Comparing specifications can change both the sample and the controls, so coefficient differences alone do not isolate an institution-quality effect. See <a href="#sec-results" style="color:var(--accent)">Model Results</a> for the full coefficient table.</p>
     </section>
@@ -1808,7 +1952,7 @@
     </div>
 
     <section id="sec-panel">
-      <h2><span class="sec-kicker plain">panel</span>Panel gravity &mdash; year fixed effects (2014&ndash;2023)</h2>
+      <h2>Panel gravity, 2014&ndash;2023</h2>
       <p class="note">
         We refit the gravity PPML on the <strong>panel</strong> of country-pair flows by year (2014&ndash;2023), with separate <strong>origin, destination and year fixed effects</strong>. These absorb stable origin/destination differences and common annual variation, not all bilateral ties. The plotted series shows year effects relative to 2014. This Stage-1 fit uses default GLM covariance; subsequent models have their own clustering choices.
       </p>
@@ -1845,12 +1989,12 @@
     </section>
 
     <section id="sec-covid">
-      <h2><span class="sec-kicker plain">shock</span>COVID-2020 sector DiD on field-level flows</h2>
+      <h2>The 2020 shock</h2>
       <p class="note">We move from the smooth year-FE path to a real, date-pinned shock. Each ISCED-F broad field of study is mapped to one NACE sector, then we ask: did flows into (destination, field) cells whose mapped sector was hit harder in 2020 fall by more, relative to 2019? We run it twice &mdash; once with wage-based hit (LCI), once with employment-based hit (LFS) &mdash; because wage subsidies may affect the interpretation of the LCI wage series.</p>
       <div class="beta-grid">
-        <div class="card"><div class="label">📚 Source</div><div class="value">Two hit measures, same panel</div><div class="sub"><b>LCI</b> <code>covid_sector_hit.csv</code> &mdash; sector wage growth deviation, 2015&ndash;2019 baseline. <b>LFS</b> <code>covid_employment_hit.csv</code> &mdash; sector employment growth deviation, same baseline. Field &rarr; NACE map in <code>src/erasmusgravity/fields.py</code>.</div></div>
-        <div class="card"><div class="label">⚙️ Estimation</div><div class="value">PPML, dest&times;field + sending + year FE, cell-clustered SE</div><div class="sub">268&ndash;328 (destination, field) cells &middot; 39 origins &middot; 2014&ndash;2023 &middot; Turkey dropped (hyperinflation). Same FE structure across both measures so coefficients are directly comparable.</div></div>
-        <div class="card" data-coef-card="COVID DiD"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div><div class="effect-row" data-emp-row><span>loading employment hit&hellip;</span></div></div>
+        <div class="card"><div class="label"> Source</div><div class="value">Two hit measures, same panel</div><div class="sub"><b>LCI</b> <code>covid_sector_hit.csv</code> &mdash; sector wage growth deviation, 2015&ndash;2019 baseline. <b>LFS</b> <code>covid_employment_hit.csv</code> &mdash; sector employment growth deviation, same baseline. Field &rarr; NACE map in <code>src/erasmusgravity/fields.py</code>.</div></div>
+        <div class="card"><div class="label"> Estimation</div><div class="value">PPML, dest&times;field + sending + year FE, cell-clustered SE</div><div class="sub">268&ndash;328 (destination, field) cells &middot; 39 origins &middot; 2014&ndash;2023 &middot; Turkey dropped (hyperinflation). Same FE structure across both measures so coefficients are directly comparable.</div></div>
+        <div class="card" data-coef-card="COVID DiD"><div class="label"> Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div><div class="effect-row" data-emp-row><span>loading employment hit&hellip;</span></div></div>
         <div class="card"><div class="label">Evidence</div><div class="value">Sensitivity to the shock measure</div><div class="sub">The reported wage-based and employment-based results differ. Wage subsidies are a possible explanation, not an identified mechanism. Insignificant employment estimates do not establish a uniform lockdown effect or rule out field-specific responses. Read these as exploratory diagnostics, with the fitted estimates below.</div></div>
       </div>
       <div class="chart" id="covidEventStudyChart"></div>
@@ -1858,7 +2002,7 @@
     </section>
 
     <section id="sec-data">
-      <h2><span class="sec-kicker plain">Notes</span>Data Sources and Measurement Notes</h2>
+      <h2>Data Sources and Measurement Notes</h2>
       <ul class="source-list">
         <li><strong>Erasmus flows:</strong> <code>Erasmus-KA1-Mobility-Data-2022.xlsx</code>, sheet <code>KA1 mobilities 2022</code>. Filtered to Higher Education study mobility.</li>
         <li><strong>Flow scope:</strong> Erasmus mobility is modeled as cross-border origin&ndash;destination movement. Same-country rows in the KA1 file are extremely rare and treated as coding artifacts, not as a domestic Erasmus layer.</li>
@@ -2242,7 +2386,7 @@
       else sub = rankLine(card.value, card.key, card.fmt);
       const valHTML = card.signed ? valueWithDelta(card.value, card.fmt) : card.fmt(card.value);
       const chart = card.noChart ? '' : distChart(card.value, card.key, card.fmt);
-      return `<div class="card" data-chartable="${chart ? '1' : '0'}"><div class="label"><span class="card-emoji">${card.emoji}</span>${card.label}</div><div class="value">${valHTML}</div>${sub}${chart}</div>`;
+      return `<div class="card" data-chartable="${chart ? '1' : '0'}"><div class="label">${card.label}</div><div class="value">${valHTML}</div>${sub}${chart}</div>`;
     }
 
     function renderTopList(items, emptyMsg) {
@@ -2254,44 +2398,44 @@
 
     function renderGroup(num, total, name, emoji, hint, cardsHTML, footHTML) {
       const foot = footHTML ? `<div class="grp-foot">${footHTML}</div>` : '';
-      return `<div class="summary-group"><div class="grp-head"><span class="kicker-num">${num} / ${total}</span><span class="grp-emoji">${emoji}</span><span class="grp-name">${name}</span><span class="grp-hint">${hint}</span></div><div class="cards">${cardsHTML}</div>${foot}</div>`;
+      return `<div class="summary-group"><div class="grp-head"><span class="grp-name">${name}</span><span class="grp-hint">${hint}</span></div><div class="cards">${cardsHTML}</div>${foot}</div>`;
     }
 
     function renderSummary(rows) {
       const code = senderSelect.value;
       const stats = SENDER_STATS.get(code) || {};
       const flow = [
-        { emoji: '🎓', label: 'Outgoing students', key: 'outgoing', value: stats.outgoing, fmt: fmtInt },
-        { emoji: '🛬', label: 'Incoming students', key: 'incoming', value: stats.incoming, fmt: fmtInt },
-        { emoji: '⚖️', label: 'Net (out − in)', key: 'net', value: stats.net, fmt: fmtSigned, signed: true },
-        { emoji: '🌍', label: 'Destinations reached', key: 'destinations', value: stats.destinations, fmt: fmtInt },
+        { emoji: '', label: 'Outgoing students', key: 'outgoing', value: stats.outgoing, fmt: fmtInt },
+        { emoji: '', label: 'Incoming students', key: 'incoming', value: stats.incoming, fmt: fmtInt },
+        { emoji: '', label: 'Net (out − in)', key: 'net', value: stats.net, fmt: fmtSigned, signed: true },
+        { emoji: '', label: 'Destinations reached', key: 'destinations', value: stats.destinations, fmt: fmtInt },
       ].map(renderCard).join('');
 
       const money = [
-        { emoji: '💰', label: 'Weighted dest. GDP-pc gap, USD', key: 'gdpGapMean', value: stats.gdpGapMean, fmt: fmtSignedMoney, signed: true, subMode: 'vsMean' },
-        { emoji: '💶', label: 'Weighted dest. earnings gap, EUR', key: 'earnGapMean', value: stats.earnGapMean, fmt: fmtSignedMoney, signed: true, subMode: 'vsMean' },
-        { emoji: '🏷️', label: 'Weighted dest. price-level gap', key: 'priceGapMean', value: stats.priceGapMean, fmt: fmtSigned, signed: true, subMode: 'vsMean' },
-        { emoji: '📈', label: 'Share to richer GDP-pc countries', key: 'richerShare', value: stats.richerShare, fmt: fmtPct, subMode: 'vsMean' },
+        { emoji: '', label: 'Weighted dest. GDP-pc gap, USD', key: 'gdpGapMean', value: stats.gdpGapMean, fmt: fmtSignedMoney, signed: true, subMode: 'vsMean' },
+        { emoji: '', label: 'Weighted dest. earnings gap, EUR', key: 'earnGapMean', value: stats.earnGapMean, fmt: fmtSignedMoney, signed: true, subMode: 'vsMean' },
+        { emoji: '', label: 'Weighted dest. price-level gap', key: 'priceGapMean', value: stats.priceGapMean, fmt: fmtSigned, signed: true, subMode: 'vsMean' },
+        { emoji: '', label: 'Share to richer GDP-pc countries', key: 'richerShare', value: stats.richerShare, fmt: fmtPct, subMode: 'vsMean' },
       ].map(renderCard).join('');
 
       const destinations = `
-        <div class="card" data-chartable="0"><div class="label"><span class="card-emoji">🛫</span>Top 3 outflows</div>${renderTopList(stats.topOut, 'No outgoing flows.')}</div>
-        <div class="card" data-chartable="0"><div class="label"><span class="card-emoji">🛬</span>Top 3 inflows</div>${renderTopList(stats.topIn, 'No incoming flows.')}</div>
+        <div class="card" data-chartable="0"><div class="label">Top 3 outflows</div>${renderTopList(stats.topOut, 'No outgoing flows.')}</div>
+        <div class="card" data-chartable="0"><div class="label">Top 3 inflows</div>${renderTopList(stats.topIn, 'No incoming flows.')}</div>
       `;
 
       const grant = [
-        { emoji: '💶', label: 'HE grants, EUR', key: 'grants', value: stats.grants, fmt: fmtMoney, subMode: 'vsMean' },
-        { emoji: '🎁', label: 'Grant per estimated participant', key: 'grantPerEstimated', value: stats.grantPerEstimated, fmt: fmtMoney, subMode: 'vsMean' },
+        { emoji: '', label: 'HE grants, EUR', key: 'grants', value: stats.grants, fmt: fmtMoney, subMode: 'vsMean' },
+        { emoji: '', label: 'Grant per estimated participant', key: 'grantPerEstimated', value: stats.grantPerEstimated, fmt: fmtMoney, subMode: 'vsMean' },
       ].map(renderCard).join('');
 
       const moneyFoot = 'No <em>top X</em> on this group &mdash; each variable lives on its own scale and units, so a ranked position would mislead more than it helps. Compare each card to its own <em>mean</em>; tap a card for the full distribution.';
       const grantFoot = 'Grants are absolute national budgets, so rank reflects country size more than generosity. We show only the gap vs the European mean.';
 
       document.getElementById('summaryCards').innerHTML = `<div class="summary-stack">
-        ${renderGroup('01', '04', 'Flow', '🔁', 'Volume on each side of the gate.', flow)}
-        ${renderGroup('02', '04', 'Money', '💸', 'What students step into &mdash; weighted by where they go.', money, moneyFoot)}
-        ${renderGroup('03', '04', 'Destinations', '📍', 'The top-3 partners on each side of the flow.', destinations)}
-        ${renderGroup('04', '04', 'Grant', '🏦', 'National Erasmus budget &mdash; absolute, not per student.', grant, grantFoot)}
+        ${renderGroup('01', '04', 'Flow', '', 'Volume on each side of the gate.', flow)}
+        ${renderGroup('02', '04', 'Money', '', 'What students step into &mdash; weighted by where they go.', money, moneyFoot)}
+        ${renderGroup('03', '04', 'Destinations', '', 'The top-3 partners on each side of the flow.', destinations)}
+        ${renderGroup('04', '04', 'Grant', '', 'National Erasmus budget &mdash; absolute, not per student.', grant, grantFoot)}
       </div>`;
     }
 
@@ -3095,7 +3239,7 @@ Dropped ${dropped} outside 15-year window.` : '';
         <thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
     }
 
-    const TREND_COLORS = ['#2f6f73', '#b44e5a', '#c98a2b', '#4a6fa5', '#6b8f3a', '#8a5a9e'];
+    const TREND_COLORS = ['#2f6f73', '#b44e5a', '#c98a2b', '#4a6fa5', '#63716d', '#a1aaa6'];
     const trendYears = [...new Set(timeSeries.map(row => row.y))].sort((a, b) => a - b);
 
     function lineChartSvg(series, years) {
@@ -3166,6 +3310,17 @@ Dropped ${dropped} outside 15-year window.` : '';
       document.getElementById('topStat').innerHTML = selected
         ? `Currently showing <b>${escapeHtml(selected.country)}</b> · ${fmtInt(total)} outgoing students${uniLabel}`
         : '';
+      document.getElementById('briefCountry').textContent = selected ? selected.country : senderSelect.value;
+      document.getElementById('briefTotal').textContent = fmtInt(total);
+      const destinations = new Map();
+      rows.forEach(row => {
+        const key = row.receiving_country || row.receiving_code;
+        destinations.set(key, (destinations.get(key) || 0) + row.flow_count);
+      });
+      const leading = [...destinations].sort((a, b) => b[1] - a[1]).slice(0, 3);
+      document.getElementById('briefDestinations').innerHTML = leading.length
+        ? leading.map(([name, count]) => `<div class="brief-destination"><div><span>${escapeHtml(name)}</span><b>${fmtPct(total ? count / total : 0)}</b></div><div class="brief-track"><span style="width:${total ? count / total * 100 : 0}%"></span></div></div>`).join('')
+        : '<p class="note">No outgoing flows match the current filters.</p>';
       const chipLabel = selected ? selected.country : senderSelect.value;
       document.querySelectorAll('.filter-chip .fc-country').forEach(node => {
         node.textContent = chipLabel;
@@ -3264,7 +3419,7 @@ Dropped ${dropped} outside 15-year window.` : '';
       mapViewSelect.value = 'sender';
       orgLevelSelect.value = 'countryUni';
       const btn = document.getElementById('mapViewAll');
-      if (btn) { btn.classList.remove('on'); btn.textContent = '🌍 All outgoing countries'; }
+      if (btn) { btn.classList.remove('on'); btn.textContent = ' All outgoing countries'; }
       setCountry(countries.find(c => c.code === 'IT') ? 'IT' : senderSelect.options[0].value);
       autoPickLevel();
       updateFilterChip();
@@ -3432,7 +3587,7 @@ Dropped ${dropped} outside 15-year window.` : '';
         const next = mapViewSelect.value === 'all' ? 'sender' : 'all';
         mapViewSelect.value = next;
         mapViewAllBtn.classList.toggle('on', next === 'all');
-        mapViewAllBtn.textContent = next === 'all' ? '🌍 Showing all · click for one' : '🌍 All outgoing countries';
+        mapViewAllBtn.textContent = next === 'all' ? ' Showing all · click for one' : ' All outgoing countries';
         populateOrgOptions();
         renderMap();
       });
