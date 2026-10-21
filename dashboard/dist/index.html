@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>unilife.ellep.it</title>
+  <title>ErasmusGravity · Erasmus mobility research</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="">
@@ -1343,6 +1343,64 @@
       .collapsible summary h2 { font-size: 23px; }
       .collapse-body { padding: 0 22px 24px; }
     }
+
+    /* Responsive navigation and analytical presentation share measured offsets. */
+    :root{--nav-offset:150px}
+    main>section[id],section[id],.act[id]{scroll-margin-top:var(--nav-offset)}
+    .topbar .tb-row1{display:grid;grid-template-columns:auto minmax(160px,240px) 1fr;gap:24px;align-items:center}
+    .quick-country{display:flex;align-items:center;gap:10px;font-size:13px!important;white-space:nowrap}
+    .quick-country input{width:100%;min-width:0!important;font-size:14px;padding:8px 10px}
+    .topbar .nav-main{justify-self:end}
+    .topbar .nav-subs{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap}
+    .nav-subs a{flex-shrink:0;min-height:36px;box-sizing:border-box;align-items:center}
+    .map-empty{padding:24px;background:var(--soft);border-radius:10px;line-height:1.6}
+    [hidden]{display:none!important}
+    #sec-explanatory>.cards{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+    #sec-explanatory>.cards>.card{grid-column:span 3;min-width:0}
+    #sec-explanatory>.cards>.card:nth-child(n+5){grid-column:span 4}
+    #coeffTable,#resultsTable,#redditTable{overflow-x:auto}
+    .effect-row{line-height:1.6;overflow-wrap:anywhere}
+    .coverage-badge{display:inline-block;white-space:normal;max-width:100%;line-height:1.5;box-sizing:border-box;overflow-wrap:anywhere}
+    @media(max-width:1000px){
+      .topbar .tb-row1{gap:12px;grid-template-columns:auto minmax(140px,200px) 1fr}
+      #sec-explanatory>.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+      #sec-explanatory>.cards>.card,#sec-explanatory>.cards>.card:nth-child(n+5){grid-column:span 1}
+      #sec-explanatory>.cards>.card:last-child{grid-column:1/-1}
+    }
+    @media(max-width:640px){
+      .topbar .tb-row1{grid-template-columns:1fr auto;padding:10px 18px;gap:10px}
+      .topbar .brand{grid-column:1;grid-row:1;font-size:20px}
+      .topbar .nav-toggle{display:inline-flex;grid-column:2;grid-row:1;min-height:40px}
+      .topbar .quick-country{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:60px minmax(0,1fr);max-width:none}
+      .topbar .nav-main{display:none;grid-column:1/-1;justify-self:stretch;justify-content:space-between;padding:0}
+      .topbar .nav-main.open{display:flex}
+      .nav-subs{padding:4px 18px 8px;min-height:0}
+      .nav-subs .sub-link{font-size:12px;min-height:36px}
+      #sec-explanatory>.cards{grid-template-columns:1fr}
+      .equation{font-size:17px;line-height:1.8;overflow-wrap:anywhere}
+      #coeffTable table,#resultsTable table{min-width:700px}
+      #coeffTable th:nth-child(2),#coeffTable td:nth-child(2),#resultsTable th:first-child,#resultsTable td:first-child{position:sticky;left:0;background:var(--panel);z-index:2;white-space:normal;min-width:145px;max-width:175px}
+      #resultsTable .spec-detail td{position:static;max-width:none}
+      .chart .axis-text{font-size:13px}
+      .beta-grid{gap:14px}
+      h2 .h2-row{display:block}
+      .filter-chip{margin-top:8px}
+    }
+
+
+    #resultsTable table{table-layout:fixed;width:100%}
+    #resultsTable th:first-child{width:30%}
+    #resultsTable th:nth-child(2){width:26%}
+    #resultsTable th:nth-child(3),#resultsTable th:nth-child(4),#resultsTable th:nth-child(5){width:8%}
+    #resultsTable th:nth-child(6){width:20%}
+    #resultsTable td:first-child,#resultsTable td:nth-child(2),#resultsTable td:nth-child(6){white-space:normal;overflow-wrap:anywhere}
+    @media(min-width:641px) and (max-width:1000px){
+      .topbar .tb-row1{grid-template-columns:auto minmax(180px,240px) auto}
+      .topbar .nav-toggle{display:inline-flex;grid-column:3;grid-row:1;justify-self:end;min-height:40px}
+      .topbar .nav-main{display:none;grid-column:1/-1;justify-self:stretch;justify-content:space-between;flex-wrap:nowrap}
+      .topbar .nav-main.open{display:flex}
+    }
+
   </style>
 </head>
 <body class="mode-free">
@@ -1352,6 +1410,7 @@
         <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/><circle cx="13" cy="13" r="3.1" fill="#b44e5a"/><circle cx="23.2" cy="9.4" r="1.7" fill="#2f6f73"/></svg>
         <span><span class="e">Erasmus</span><span class="g">Gravity</span></span>
       </div>
+      <label class="quick-country" for="quickCountry">Country<input id="quickCountry" list="countryOptions" autocomplete="off" placeholder="Country or code"></label>
       <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">
         <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         Menu
@@ -1377,7 +1436,7 @@
           ErasmusGravity · unilife.ellep.it
         </div>
         <h1>What pulls a student <span class="pull">across a border?</span></h1>
-        <p class="rq"><b>Research question:</b> what explains the size of Erasmus+ Higher Education flows from one country to another? We frame destination choice as a gravity-style model where flows respond to the salary gap, perceived quality of life, institution quality, and language affinity between origin and destination.</p>
+        <p class="rq"><b>Research question:</b> what explains the size of Erasmus+ Higher Education flows from one country to another? We explore associations with perceived quality of life, institution quality, language affinity and distance, controlling for broad destination prosperity. These observational results do not establish causal effects.</p>
         <div class="meta-strip">
           <span class="readout" id="topStat"></span>
           <span class="scope-pill">KA1 study mobility · cross-border country pairs</span>
@@ -1399,26 +1458,25 @@
   <main>
     <section class="intro" id="sec-intro">
       <h2><span class="sec-kicker plain">The model</span>A gravity model of student flows</h2>
-      <p>We model each origin&ndash;destination flow as a gravity-style regression. This is the project's <strong>step-3 design</strong>: the specification below describes how the collected text and spatial data would be used to answer the research question. It is documented, not estimated.</p>
+      <p>The implemented headline model is a cross-sectional PPML gravity specification on flow counts. Separate panel and COVID diagnostics examine different questions; they are not terms of one combined model.</p>
       <div class="equation">
-        <span class="fx">log</span>(1 + flow<sub>ij</sub>) =
-        <a class="eq-term" href="#sec-salary"><span class="gk">&beta;&#8321;</span>&middot;gdp_gap<sub>ij</sub></a> +
-        <a class="eq-term" href="#sec-reddit"><span class="gk">&beta;&#8322;</span>&middot;quality_of_life<sub>j</sub></a> +
-        <a class="eq-term" href="#sec-institution"><span class="gk">&beta;&#8323;</span>&middot;institution_quality<sub>j</sub></a><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;+ controls(<a class="eq-term ctrl" href="#sec-controls">distance, language_affinity</a>)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;+ origin FE + destination FE + <a class="eq-term" href="#sec-panel"><span class="gk">&tau;</span><sub>t</sub> (year FE)</a> + <a class="eq-term coral" href="#sec-covid">post<sub>t</sub>&middot;covid_hit<sub>j,s</sub></a> + <span class="gk">&epsilon;</span><sub>ij</sub><br>
-        <span class="note" style="font-size:13px">robustness only (exploratory, multicollinear with &beta;<sub>1</sub>): <a class="eq-term ctrl" href="#sec-controls">+ gdp_gap, price_level_gap</a></span>
+        E[flow<sub>ij</sub> | X] = exp(<br>
+        sending-country FE<sub>i</sub> +
+        <a class="eq-term" href="#sec-salary">&beta;&#8321; &middot; GDP gap<sub>ij</sub></a> +
+        <a class="eq-term" href="#sec-reddit">&beta;&#8322; &middot; Erasmusu rating<sub>j</sub></a> +
+        <a class="eq-term" href="#sec-institution">&beta;&#8323; &middot; institution quality<sub>j</sub></a><br>
+        + controls(<a class="eq-term ctrl" href="#sec-controls">log distance, language affinity</a>))
       </div>
-      <p class="note" style="margin-top:10px"><strong>Tap a term</strong> to jump to its evidence section. The β cards lead to the explanatory variables; the controls link lands on the gravity controls block.</p>
-      <p class="note">The two bilateral frictions <em>distance</em> and <em>language_affinity</em> are the headline gravity controls (low VIF, identifying). <em>gdp_gap</em> and <em>price_level_gap</em> are <strong>not</strong> in the main spec — they proxy the same rich-vs-poor dimension as <em>salary_gap</em> (VIFs ≈ 5–7) and are kept as an exploratory robustness block. Origin and destination FE absorb broad country-level differences; the estimate is descriptive, not causal.</p>
+      <p class="note">The destination j is a city; country-level covariates use its country. GDP gap is the headline prosperity control. Salary and price-level gaps enter a separate robustness specification. Reddit provides supporting text evidence and alternative specifications, not the main QoL regressor.</p>
+      <p class="note"><a href="#sec-panel">Panel models</a> use separate origin, destination and year fixed effects. <a href="#sec-covid">COVID diagnostics</a> use destination&times;field, origin and year effects. Pair fixed effects and origin&times;year effects are proposed extensions, not controls implemented here.</p>
     </section>
 
     <section id="sec-explanatory">
       <h2><span class="sec-kicker plain">The &beta;s</span>Explanatory Variables</h2>
-      <p class="note">Each term in the model and its data source. <strong>built</strong> = data already in the processed pipeline; <strong>planned</strong> = part of the described design (text layer / rankings / language groupings).</p>
+      <p class="note">The implemented variables and their sources. Expected signs describe hypotheses, not findings; the estimates below may differ.</p>
       <div class="cards">
 <div class="card"><div class="label">β₁ · built</div><div class="value" style="font-size:18px">GDP-per-capita gap</div><p class="note" style="margin:8px 0 0">Broad destination-prosperity control<br><strong>Source:</strong> World Bank GDP per capita (gdp_gap_usd_wb)<br><strong>Expected:</strong> + (richer destinations associated with more flow, broad control)</p></div>
-<div class="card"><div class="label">β₂ · built</div><div class="value" style="font-size:18px">Quality of life</div><p class="note" style="margin:8px 0 0">Explanatory – perceived liveability<br><strong>Source:</strong> Reddit r/Erasmus, sentiment + themes via OpenRouter (DeepSeek) + Pydantic (text layer)<br><strong>Expected:</strong> + (better perceived life attracts flows)</p></div>
+<div class="card"><div class="label">β₂ · built</div><div class="value" style="font-size:18px">Quality of life</div><p class="note" style="margin:8px 0 0">Explanatory – perceived liveability<br><strong>Source:</strong> Erasmusu city ratings (headline regressor); Reddit r/Erasmus via DeepSeek + Pydantic (supporting text evidence)<br><strong>Expected:</strong> + (better perceived life attracts flows)</p></div>
 <div class="card"><div class="label">β₃ · built</div><div class="value" style="font-size:18px">Institution quality</div><p class="note" style="margin:8px 0 0">Explanatory – academic pull<br><strong>Source:</strong> QS World University Rankings 2023, geocoded + snapped to destination city (institution_quality.csv)<br><strong>Expected:</strong> + (stronger universities attract flows)</p></div>
 <div class="card"><div class="label">control · built</div><div class="value" style="font-size:18px">Language affinity</div><p class="note" style="margin:8px 0 0">Control – origin–destination language affinity (gravity friction)<br><strong>Source:</strong> Shared language-family dummy (geo.py LANGUAGE_FAMILY)<br><strong>Expected:</strong> + for shared/affine language family</p></div>
 <div class="card"><div class="label">control · built</div><div class="value" style="font-size:18px">Distance</div><p class="note" style="margin:8px 0 0">Control – gravity friction<br><strong>Source:</strong> Origin-country centroid → destination-city great-circle km (geo.py)<br><strong>Expected:</strong> − (farther destinations deter flows)</p></div>
@@ -1435,13 +1493,13 @@
       <div id="ppml-info" class="info-popover" style="display:none">
         <strong>Poisson PPML</strong> fits the multiplicative gravity model on the <em>flow level</em> (number of students), not on log-flow. It handles zero flows and stays consistent under heteroskedasticity (Santos Silva &amp; Tenreyro, 2006). Read each coefficient as a semi-elasticity: a unit change in <em>x</em> multiplies expected flow by <code>exp(&beta;)</code> &mdash; i.e. <code>100&middot;(exp(&beta;&middot;&Delta;x) &minus; 1)%</code> change.
       </div>
-      <p class="note">All estimated terms from the cross-sectional PPML model (Poisson on flow level, city-clustered SEs), plus the planned terms not yet built. Significant (p&lt;0.05) in <strong style="color:var(--accent)">accent</strong>. <strong>Natural-unit effect</strong> is the % change in flow for a tangible unit change &mdash; <code>+€1,000 salary gap</code>, <code>+1 Erasmusu rating point</code>, <code>+10 QS score points</code>, <code>doubling distance</code>.</p>
+      <p class="note">Estimated terms from Spec J-main, the cross-sectional PPML model on flow counts with sending-country fixed effects and city-clustered standard errors. Significant (p&lt;0.05) in <strong style="color:var(--accent)">accent</strong>. <strong>Natural-unit effect</strong> is the % change in flow for a tangible unit change &mdash; <code>+$10,000 GDP gap</code>, <code>+1 Erasmusu rating point</code>, <code>+10 QS score points</code>, <code>doubling distance</code>.</p>
       <div id="coeffTable"></div>
 
       <h3 style="margin-top:24px">Quality-of-life coefficient across specifications</h3>
-      <p class="note">&beta;&#8322; across all specs. Outcome is <code>log(1+flow)</code> (OLS/WLS) or flow level (PPML); p-values cluster-robust. <strong>Headline:</strong> the city-level two-stage (panel destination attractiveness explained by Erasmusu rating).</p>
+      <p class="note">&beta;&#8322; across all specs. Outcome is <code>log(1+flow)</code> (OLS/WLS) or flow level (PPML); covariance choices vary by specification. <strong>Headline:</strong> the city-level two-stage (panel destination attractiveness explained by Erasmusu rating).</p>
       <div id="resultsTable"></div>
-      <p class="note" style="margin-top:24px">The same gravity model run on the year panel and through a 2020 shock lives in the <a href="#sec-time" style="color:var(--accent)">Time &amp; Shocks</a> act below.</p>
+      <p class="note" style="margin-top:24px">Separate panel specifications and exploratory COVID diagnostics appear in the <a href="#sec-time" style="color:var(--accent)">Time &amp; Shocks</a> act below.</p>
     </section>
 
     <div class="act">
@@ -1531,11 +1589,12 @@
     <section id="sec-overview">
       <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">Selected Country Overview <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
       <div id="summaryCards"></div>
-      <p class="note">Use the sending-country selector in the top bar. Main flow definition: Higher Education learners, study mobility activity, age 18+, cross-border flows only.</p>
+      <p class="note">Country-level totals; endpoint filters apply only to the map and university table. Main flow definition: Higher Education learners, study mobility activity, age 18+, cross-border flows only.</p>
     </section>
 
     <section id="sec-map">
       <h2><span class="sec-kicker dep">flow<sub>ij</sub></span><span class="h2-row">University Flow Map <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
+      <div id="mapEmpty" class="map-empty" role="status" hidden>No flows match these filters. <button type="button" onclick="document.getElementById('resetControls').click()">Clear endpoint filters</button></div>
       <div id="map"></div>
       <div class="map-legend">
         <span><span class="legend-dot" style="width:10px;height:10px"></span> smaller flow</span>
@@ -1683,8 +1742,8 @@
       <p class="note">A text layer over r/Erasmus and a numeric layer from Erasmusu city ratings. Tests whether students are pulled toward places that read as friendlier, cheaper, livelier in student talk.</p>
       <div class="beta-grid">
         <div class="card"><div class="label">📚 Source</div><div class="value">Reddit r/Erasmus + Erasmusu city ratings</div><div class="sub"><span id="redditCoverage" class="coverage-badge"></span>Destinations extracted via OpenRouter (DeepSeek) + Pydantic &middot; sentiment, themes, city/country. Weighted-net sentiment uses confidence &times; log(1+upvotes) &times; <em>EWMA age-decay</em> (1-year half-life), so stale opinions fade as fresh ones arrive on re-scrape.</div></div>
-        <div class="card"><div class="label">⚙️ Estimation</div><div class="value">City-level two-stage</div><div class="sub">Stage&nbsp;1: panel destination attractiveness from PPML year FE. Stage&nbsp;2: attractiveness explained by Erasmusu rating, cluster-robust SE.</div></div>
-        <div class="card" data-coef-card="Quality of life"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
+        <div class="card"><div class="label">⚙️ Estimation</div><div class="value">City-level two-stage</div><div class="sub">Stage 1: PPML with separate origin, destination-city and year effects. Stage 2: opinion-weighted regression of city effects on Erasmusu ratings, with country-clustered standard errors. The coefficient is on estimated log-attractiveness, not a causal flow response.</div></div>
+        <div class="card" data-coef-card="Two-stage CITY: Erasmusu rating"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
         <div class="card"><div class="label">🔍 Evidence</div><div class="value">Per-country sentiment table</div><div class="sub">Net sentiment = (pos &minus; neg) / mentions &middot; small per-country counts, treat as qualitative signal. See table below.</div></div>
       </div>
       <p class="note" style="margin-top:14px">Destination mentions extracted from r/Erasmus posts and comments. <strong>Score-weighted net</strong> also weights by extraction confidence and log Reddit score. Click headers to sort.</p>
@@ -1693,14 +1752,14 @@
 
     <section id="sec-institution">
       <h2><span class="sec-kicker beta">&beta;&#8323;</span>Institution quality &mdash; academic pull</h2>
-      <p class="note">Each destination university enters as a ranking score. Tests whether stronger universities pull more inflow once salary gap, distance, and language affinity are held constant.</p>
+      <p class="note">Each destination university enters as a ranking score. The headline cross-sectional model conditions on GDP gap, distance, language affinity and Erasmusu ratings. QS scores proxy academic attractiveness and may also reflect institutional scale and networks.</p>
       <div class="beta-grid">
         <div class="card"><div class="label">📚 Source</div><div class="value">QS World University Rankings 2023</div><div class="sub">QS <strong>overall score</strong> (0&ndash;100 composite of research, teaching, employability, internationalisation). Each Erasmus city gets its best-ranked university's score. European institutions geocoded via Nominatim and snapped to the nearest Erasmus city within 35&nbsp;km &middot; <code>institution_quality.csv</code>.</div></div>
         <div class="card"><div class="label">⚙️ Estimation</div><div class="value">PPML, ranking score on destination city</div><div class="sub">Same gravity spec as &beta;&#8321; with the destination's best-ranked university score added as a city-level regressor.</div></div>
         <div class="card" data-coef-card="Institution quality"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
         <div class="card"><div class="label">🔍 Evidence</div><div class="value">Crowd cross-check: StudyPortals</div><div class="sub">User ratings of universities, scraped from Wayback. Independent crowd-vs-expert signal &middot; <code>user_institution_quality.csv</code>.</div></div>
       </div>
-      <p class="note" style="margin-top:14px">Headline finding: adding institution quality <strong>attenuates &beta;&#8322; by roughly a quarter</strong> &mdash; perceived liveability and academic pull share signal. See <a href="#sec-results" style="color:var(--accent)">Model Results</a> for the full coefficient table.</p>
+      <p class="note" style="margin-top:14px">Comparing specifications can change both the sample and the controls, so coefficient differences alone do not isolate an institution-quality effect. See <a href="#sec-results" style="color:var(--accent)">Model Results</a> for the full coefficient table.</p>
     </section>
 
     <div class="act" id="sec-time">
@@ -1715,15 +1774,15 @@
     <section id="sec-panel">
       <h2><span class="sec-kicker plain">panel</span>Panel gravity &mdash; year fixed effects (2014&ndash;2023)</h2>
       <p class="note">
-        We refit the gravity PPML on the <strong>panel</strong> of country-pair flows by year (2014&ndash;2023), with origin&times;destination fixed effects absorbing all time-invariant bilateral pull (distance, language, history, geography) and <strong>year fixed effects</strong> picking up the common time path. The plotted series is each year's FE relative to 2014 &mdash; read it as the <em>log-change in expected flow</em> for any given pair, holding gravity constants fixed.
+        We refit the gravity PPML on the <strong>panel</strong> of country-pair flows by year (2014&ndash;2023), with separate <strong>origin, destination and year fixed effects</strong>. These absorb stable origin/destination differences and common annual variation, not all bilateral ties. The plotted series shows year effects relative to 2014. This Stage-1 fit uses default GLM covariance; subsequent models have their own clustering choices.
       </p>
       <p class="note" style="margin-top:8px">
-        A flat line would say "Erasmus volume is stable once you control for gravity". Instead we see a steady positive drift through 2019 (program scale-up), the sharp <strong style="color:var(--accent-2)">2020 collapse</strong> when borders closed, a partial 2021 rebound, and a return above the 2019 baseline by 2023 &mdash; the gravity model says the recovery is real, not a composition artifact of which countries reopened first.
+        A flat line would say "Erasmus volume is stable once you control for gravity". Instead we see a steady positive drift through 2019 (program scale-up), the sharp <strong style="color:var(--accent-2)">2020 collapse</strong> when borders closed, a partial 2021 rebound, and a return above the 2019 baseline by 2023 &mdash; this is a descriptive common time pattern, not proof that composition changes or other confounders have been eliminated.
       </p>
       <div class="chart" id="yearChart"></div>
       <p class="note" style="margin-top:8px;font-size:12px"><strong>How to read:</strong> dot = year FE coefficient &middot; dashed line = 2014 baseline (0) &middot; <span style="color:var(--accent-2)">coral 2020 marker</span> = COVID shock year.</p>
 
-      <h3 style="margin-top:24px">Time-varying regressors &mdash; the same gravity model, run year-by-year</h3>
+      <h3 style="margin-top:24px">Time-varying destination indicators</h3>
       <p class="note">When we let a regressor itself vary by year (instead of absorbing time into a single FE), within-destination movement over time identifies it. Three time-varying panels are estimated. Two of the three say something; one says nothing &mdash; that null is itself worth reading.</p>
       <p class="note" style="font-size:12px"><strong>What is a "life-satisfaction point"?</strong> The OWID series uses the <em>Cantril ladder</em> from the Gallup World Poll / World Happiness Report: respondents rate their current life on a 0&ndash;10 scale ("worst possible life" to "best possible life"). The country score is the mean response. A "+1 life-satisfaction point" means moving the destination's annual mean one full rung up the ladder &mdash; e.g. roughly the Spain↔Switzerland gap in 2022. Source: <code>data/processed/owid_country_year.csv</code>.</p>
       <div class="beta-grid">
@@ -1751,12 +1810,12 @@
 
     <section id="sec-covid">
       <h2><span class="sec-kicker plain">shock</span>COVID-2020 sector DiD on field-level flows</h2>
-      <p class="note">We move from the smooth year-FE path to a real, date-pinned shock. Each ISCED-F broad field of study is mapped to one NACE sector, then we ask: did flows into (destination, field) cells whose mapped sector was hit harder in 2020 fall by more, relative to 2019? We run it twice &mdash; once with wage-based hit (LCI), once with employment-based hit (LFS) &mdash; because the LCI 2020 series is contaminated by wage-subsidy schemes.</p>
+      <p class="note">We move from the smooth year-FE path to a real, date-pinned shock. Each ISCED-F broad field of study is mapped to one NACE sector, then we ask: did flows into (destination, field) cells whose mapped sector was hit harder in 2020 fall by more, relative to 2019? We run it twice &mdash; once with wage-based hit (LCI), once with employment-based hit (LFS) &mdash; because wage subsidies may affect the interpretation of the LCI wage series.</p>
       <div class="beta-grid">
         <div class="card"><div class="label">📚 Source</div><div class="value">Two hit measures, same panel</div><div class="sub"><b>LCI</b> <code>covid_sector_hit.csv</code> &mdash; sector wage growth deviation, 2015&ndash;2019 baseline. <b>LFS</b> <code>covid_employment_hit.csv</code> &mdash; sector employment growth deviation, same baseline. Field &rarr; NACE map in <code>src/erasmusgravity/fields.py</code>.</div></div>
         <div class="card"><div class="label">⚙️ Estimation</div><div class="value">PPML, dest&times;field + sending + year FE, cell-clustered SE</div><div class="sub">268&ndash;328 (destination, field) cells &middot; 39 origins &middot; 2014&ndash;2023 &middot; Turkey dropped (hyperinflation). Same FE structure across both measures so coefficients are directly comparable.</div></div>
         <div class="card" data-coef-card="COVID DiD"><div class="label">🎯 Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div><div class="effect-row" data-emp-row><span>loading employment hit&hellip;</span></div></div>
-        <div class="card"><div class="label">🔍 Evidence</div><div class="value">Headline finding: shock identified at <strong>2020-2021</strong>, but channel is uniform</div><div class="sub"><b>LCI:</b> pre-trends pass (2015-2018 all p&gt;0.07), sharp 2020 break (<strong style="color:var(--accent-2)">p=0.004</strong>), persistence 2021 (<strong style="color:var(--accent-2)">p=0.012</strong>), fade by 2022 &mdash; the event-study shape COVID would produce, but the <b>sign is wrong</b> because LCI is contaminated by wage subsidies (NL NOW, Kurzarbeit). <b>Employment replication:</b> sign flips back to positive (consistent prior) <b>but the signal collapses</b> &mdash; no significant year. Read together: <b>COVID's 2020 hit on Erasmus was lockdown-wide, not sector-selective at the field-of-study resolution we observe.</b></div></div>
+        <div class="card"><div class="label">Evidence</div><div class="value">Sensitivity to the shock measure</div><div class="sub">The reported wage-based and employment-based results differ. Wage subsidies are a possible explanation, not an identified mechanism. Insignificant employment estimates do not establish a uniform lockdown effect or rule out field-specific responses. Read these as exploratory diagnostics, with the fitted estimates below.</div></div>
       </div>
       <div class="chart" id="covidEventStudyChart"></div>
       <p class="note" style="margin-top:8px;font-size:12px"><strong>How to read:</strong> two series of year&times;hit interactions (2019 as reference). <span style="color:var(--accent-2)"><b>Coral</b></span> = LCI wage-based hit. <span style="color:var(--accent)"><b>Teal</b></span> = LFS employment-based hit. Filled dots = p&lt;0.05. Dashed horizontal line at zero. Dashed vertical line marks 2019 reference. LCI on a different y-scale from LFS &mdash; coefficients in the Effect card read as "% flow change per 1 pp harder hit sector".</p>
@@ -1771,9 +1830,9 @@
         <li><strong>GDP per capita:</strong> World Bank current US$ is used for the dashboard GDP-gap plot because it covers more Erasmus partner countries; Eurostat GDP remains in the processed dataset.</li>
         <li><strong>Price levels and net earnings:</strong> Eurostat API. Missing values are shown as <code>n/a</code>.</li>
         <li><strong>Scholarship proxy:</strong> grant per participant is applicant-country-level, not the exact grant received by individual students or country pairs. Treat the social-elevator angle as descriptive, not causal.</li>
-        <li><strong>Quality of life (built):</strong> Reddit <code>r/Erasmus</code> posts and comments, with destination, sentiment, and themes extracted via OpenRouter (DeepSeek) + Pydantic. Aggregated to per-country net sentiment. Feeds &beta;&#8322;. Per-country counts are small; treat as a qualitative perception layer.</li>
-        <li><strong>Institution quality (planned):</strong> destination university ranking score. Feeds &beta;&#8323;.</li>
-        <li><strong>Language affinity (planned):</strong> Mediterranean / Anglo-Saxon / Germanic country groupings used as an origin&ndash;destination affinity <strong>control</strong> (gravity friction), not an instrument.</li>
+        <li><strong>Quality of life (built):</strong> Erasmusu city ratings are the main city-level regressor. Reddit destination sentiment and themes extracted via DeepSeek and Pydantic provide supporting text evidence and alternative specifications. OWID life satisfaction is a separate country-year panel proxy. These sources are not interchangeable.</li>
+        <li><strong>Institution quality (built):</strong> QS scores matched to destination cities, with StudyPortals ratings as a cross-check. Scores may reflect capacity and networks as well as academic quality.</li>
+        <li><strong>Language affinity (built):</strong> shared-language-family indicator used as an origin&ndash;destination control, not an instrument or a causal mechanism.</li>
       </ul>
     </section>
   </main>
@@ -1825,6 +1884,16 @@
     const fmtMoney = value => value == null ? 'n/a' : Math.round(value).toLocaleString('en-US');
     const fmtOne = value => value == null ? 'n/a' : Number(value).toLocaleString('en-US', { maximumFractionDigits: 1 });
     const fmtPct = value => value == null ? 'n/a' : (value * 100).toLocaleString('en-US', { maximumFractionDigits: 1 }) + '%';
+
+    function formatCoefficient(value, digits = 3) {
+      if (value == null || !Number.isFinite(Number(value))) return '—';
+      const n = Number(value);
+      return n !== 0 && Math.abs(n) < 0.001 ? n.toExponential(2) : n.toFixed(digits);
+    }
+    function formatP(value) {
+      if (value == null || !Number.isFinite(Number(value))) return 'not reported';
+      return Number(value) < 0.001 ? '&lt;0.001' : Number(value).toFixed(3);
+    }
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -2374,13 +2443,13 @@
       const renderRow = (r, label) => {
         if (!r || r.beta == null) return `<span><b>${label}</b></span><span class="sig-tag pln">not estimated</span>`;
         const beta = +r.beta, p = r.p == null ? null : +r.p;
-        const se = approxSE(beta, p);
+        const se = r.se == null ? null : Number(r.se);
         const sig = p != null && p < 0.05;
         return `
           <span><b>${label}</b></span>
           <span>β <b>${(beta >= 0 ? '+' : '') + beta.toFixed(4)}</b></span>
-          <span>se <b>${se != null ? se.toFixed(4) : 'n/a'}</b></span>
-          <span>p <b>${p != null ? p.toFixed(3) : 'n/a'}</b></span>
+          ${se != null ? `<span>SE <b>${formatCoefficient(se,4)}</b></span>` : ''}
+          <span>p <b>${formatP(p)}</b></span>
           <span class="sig-tag ${sig ? 'sig' : 'nsg'}">${sig ? 'sig p&lt;.05' : 'n.s.'}</span>
         `;
       };
@@ -2429,7 +2498,7 @@
           const sig = +r.p < 0.05;
           const fill = sig ? sigColor : color;
           const radius = sig ? 5 : 3.6;
-          const tip = `${r.year} &middot; β = ${(+r.beta).toFixed(4)} &middot; p = ${(+r.p).toFixed(3)}<br>${sig ? '<b>significant</b> at p&lt;0.05' : 'not significant'}`;
+          const tip = `${r.year} &middot; β = ${formatCoefficient(r.beta, 4)} &middot; p = ${formatP(r.p)}<br>${sig ? '<b>significant</b> at p&lt;0.05' : 'not significant'}`;
           return `<circle cx="${x(+r.year).toFixed(1)}" cy="${y(r[key]).toFixed(1)}" r="${radius}" fill="${fill}" stroke="#fff" stroke-width="1.6" data-tip="${tip}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()"></circle>`;
         }).join('');
       }
@@ -2505,7 +2574,10 @@
         if (key === 'COVID DiD') return;  // filled by fillCovidDiDCard
         // Panel time-varying cards live in regressionResults, keyed by spec
         let c, isPanel = false;
-        if (key.startsWith('Panel time-varying')) {
+        if (key === 'Two-stage CITY: Erasmusu rating') {
+          const r = regressionResults.find(rr => rr.spec === key);
+          if (r) c = {beta:r.beta, p:r.p, term:r.term, se:r.se};
+        } else if (key.startsWith('Panel time-varying')) {
           isPanel = true;
           const r = regressionResults.find(rr => String(rr.spec || '').startsWith(key));
           if (r) c = { beta: r.beta, p: r.p, term: null, note: r.note };
@@ -2520,19 +2592,19 @@
           return;
         }
         const beta = +c.beta, p = c.p == null ? null : +c.p;
-        const se = approxSE(beta, p);
+        const se = c.se == null ? null : Number(c.se);
         const sig = p != null && p < 0.05;
         if (valBox) {
-          valBox.textContent = (beta >= 0 ? '+' : '') + beta.toFixed(3);
+          valBox.textContent = (beta >= 0 ? '+' : '') + formatCoefficient(beta);
           valBox.className = 'v-num ' + (sig ? 'sig' : 'nsg');
         }
-        const eff = isPanel ? panelEffectText(key, beta) : naturalEffectText(c.term, beta);
+        const eff = key === 'Two-stage CITY: Erasmusu rating' ? `${formatCoefficient(beta)} log-attractiveness units per rating point` : isPanel ? panelEffectText(key, beta) : naturalEffectText(c.term, beta);
         const cleanedNote = c.note ? String(c.note).replace(/,?\s*per[-\s]SD[^,;]*/i, '').trim() : '';
         const noteText = (!eff && cleanedNote) ? cleanedNote : '';
         if (row) {
           row.innerHTML = `
-            <span>se <b>${se != null ? se.toFixed(3) : 'n/a'}</b></span>
-            <span>p <b>${p != null ? p.toFixed(3) : 'n/a'}</b></span>
+            ${se != null ? `<span>SE <b>${formatCoefficient(se)}</b></span>` : ''}
+            <span>p <b>${formatP(p)}</b></span>
             ${eff ? `<span>effect <b>${eff}</b></span>` : ''}
             ${noteText ? `<span>${escapeHtml(noteText)}</span>` : ''}
             <span class="sig-tag ${sig ? 'sig' : 'nsg'}">${sig ? 'sig p&lt;.05' : 'n.s.'}</span>
@@ -2548,9 +2620,9 @@
       const body = orderedCoefficients().map(c => {
         const planned = c.beta === null || c.beta === undefined;
         const sig = !planned && c.p < 0.05;
-        const beta = planned ? '&mdash;' : (+c.beta).toFixed(4);
+        const beta = planned ? '&mdash;' : formatCoefficient(c.beta, 4);
         const pCell = planned ? '<span class="note">planned</span>'
-          : (sig ? `<strong style="color:var(--accent)">${(+c.p).toFixed(3)}</strong>` : (+c.p).toFixed(3));
+          : (sig ? `<strong style="color:var(--accent)">${formatP(c.p)}</strong>` : formatP(c.p));
         let eff = '';
         if (!planned) {
           const txt = naturalEffectText(c.term, +c.beta);
@@ -2579,6 +2651,7 @@
       'COVID DiD (employment): sector hit x post-2020',
     ]);
     function specNaturalEff(r) {
+      if (String(r.spec).startsWith('Two-stage')) return `${formatCoefficient(r.beta)} log-attractiveness units per QoL point`;
       const beta = +r.beta;
       if (!isFinite(beta)) return '';
       const u = NATURAL_UNITS[r.term];
@@ -2590,13 +2663,13 @@
     }
     function specRowHtml(r, idx) {
       const sig = r.p < 0.05;
-      const pCell = sig ? `<strong style="color:var(--accent)">${(+r.p).toFixed(3)}</strong>` : (+r.p).toFixed(3);
+      const pCell = sig ? `<strong style="color:var(--accent)">${formatP(r.p)}</strong>` : formatP(r.p);
       const cleanNote = r.note ? String(r.note).replace(/,?\s*per[-\s]SD[^,;]*/i, '').trim() : '';
       const eff = specNaturalEff(r);
       const detailRow = `<tr class="spec-detail" id="spec-detail-${idx}" style="display:none"><td colspan="6">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;padding:6px 2px 2px">
           <div><b>Term</b><div>${escapeHtml(r.term || '—')}</div></div>
-          <div><b>&beta;</b><div>${(+r.beta).toFixed(4)}</div></div>
+          <div><b>&beta;</b><div>${formatCoefficient(r.beta, 4)}</div></div>
           <div><b>p</b><div>${pCell}</div></div>
           <div><b>N</b><div>${fmtInt(r.n)}</div></div>
           ${eff ? `<div><b>Natural-unit effect</b><div>${eff}</div></div>` : ''}
@@ -2607,7 +2680,7 @@
       return `<tr class="spec-row" data-detail="spec-detail-${idx}" style="cursor:pointer">
         <td>${escapeHtml(r.spec)}</td>
         <td>${escapeHtml(r.kind)}</td>
-        <td>${(+r.beta).toFixed(3)}</td>
+        <td>${formatCoefficient(r.beta)}</td>
         <td>${pCell}</td>
         <td>${fmtInt(r.n)}</td>
         <td>${eff ? `<span>${eff}</span>` : `<span class="note">${escapeHtml(cleanNote)}</span>`}</td>
@@ -2623,7 +2696,7 @@
       const headlineBody = headline.map(x => specRowHtml(x.r, x.i)).join('');
       const otherBody = other.map(x => specRowHtml(x.r, x.i)).join('');
       el.innerHTML = `
-        <p class="note" style="margin:0 0 8px"><b>Click any row</b> to see term, &beta;, SE, p, N, natural-unit effect.</p>
+        <p class="note" style="margin:0 0 8px"><b>Click any row</b> for its term, estimate, p-value, sample size and estimator.</p>
         <table class="data-table">${head}<tbody>${headlineBody}</tbody></table>
         ${other.length ? `<details style="margin-top:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent-deep)">More robustness specs (${other.length})</summary>
           <table class="data-table" style="margin-top:8px">${head}<tbody>${otherBody}</tbody></table></details>` : ''}
@@ -2900,7 +2973,12 @@ Dropped ${dropped} outside 15-year window.` : '';
         : levelRecords.points.filter(point => point.s === senderSelect.value);
       const filteredPoints = points.filter(pointMatchesEndpointFilters);
       document.getElementById('mapNote').textContent = mapNotes[level];
-      if (!filteredPoints.length) return;
+      const empty = !filteredPoints.length;
+      document.getElementById('mapEmpty').hidden = !empty;
+      document.querySelector('#sec-map .map-legend').hidden = empty;
+      document.getElementById('map').hidden = empty;
+      if (empty) return;
+      map.invalidateSize();
       const maxFlow = Math.max(...filteredPoints.map(point => point.f), 1);
       const markers = [];
       const bounds = [];
@@ -2946,7 +3024,7 @@ Dropped ${dropped} outside 15-year window.` : '';
       const note = `Showing ${rows.length} ${orgLevelLabels[level]} rows${filteredText} for the selected outgoing country. Organization names come from the Erasmus KA1 file and are normalized only lightly.`;
       document.getElementById('orgFlowNote').textContent = note;
       if (!rows.length) {
-        document.getElementById('orgFlowTable').innerHTML = '<p class="note">No university-level rows for this selected country.</p>';
+        document.getElementById('orgFlowTable').innerHTML = '<p class="note">No university-level flows match this country and the active endpoint filters.</p>';
         return;
       }
       let header = '';
@@ -2986,7 +3064,7 @@ Dropped ${dropped} outside 15-year window.` : '';
     const trendYears = [...new Set(timeSeries.map(row => row.y))].sort((a, b) => a - b);
 
     function lineChartSvg(series, years) {
-      const width = 520, height = 300, left = 54, right = 16, top = 16, bottom = 34;
+      const width = Math.max(280, Math.min(520, document.getElementById('trendTotal').clientWidth)), height = width < 400 ? 220 : 300, left = 54, right = 16, top = 16, bottom = 34;
       const maxY = Math.max(1, ...series.flatMap(s => s.points.map(p => p.y)));
       const minX = years[0], maxX = years[years.length - 1];
       const px = x => scale(x, minX, maxX, left, width - right);
@@ -2998,7 +3076,7 @@ Dropped ${dropped} outside 15-year window.` : '';
         grid += `<line x1="${left}" y1="${yy}" x2="${width - right}" y2="${yy}" stroke="var(--line)" stroke-width="1"></line>`;
         grid += `<text x="${left - 6}" y="${yy + 4}" text-anchor="end" class="axis-text">${fmtInt(v)}</text>`;
       }
-      const xlabels = years.map(yr =>
+      const xlabels = years.filter((yr,i) => width >= 400 || i % 3 === 0 || i === years.length-1).map(yr =>
         `<text x="${px(yr)}" y="${height - bottom + 18}" text-anchor="middle" class="axis-text">${yr}</text>`
       ).join('');
       const lines = series.map(s => {
@@ -3088,7 +3166,7 @@ Dropped ${dropped} outside 15-year window.` : '';
         return;
       }
       const reversed = [...data].reverse();
-      const width = 760, rowH = 26, left = 240, right = 80;
+      const width = Math.max(300, document.getElementById('earningsChart').clientWidth), rowH = 30, left = width < 500 ? 140 : 240, right = 65;
       const height = 30 + reversed.length * rowH;
       const max = Math.max(...reversed.map(row => row[unit]), 1);
       const unitLabel = unit === 'eur' ? 'EUR' : 'PPS';
@@ -3097,7 +3175,7 @@ Dropped ${dropped} outside 15-year window.` : '';
         const w = scale(row[unit], 0, max, 0, width - left - right);
         const tip = `${escapeHtml(row.label)}<br>${fmtMoney(row[unit])} ${unitLabel}/month`;
         return `<g data-tip="${tip}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()">
-          <text x="${left - 8}" y="${y + 14}" text-anchor="end" class="axis-text">${escapeHtml(row.label.length > 38 ? row.label.slice(0, 37) + '…' : row.label)}</text>
+          <text x="${left - 8}" y="${y + 14}" text-anchor="end" class="axis-text">${escapeHtml(row.label.length > (width < 500 ? 20 : 38) ? row.label.slice(0, width < 500 ? 19 : 37) + '…' : row.label)}</text>
           <rect class="bar" x="${left}" y="${y}" width="${w}" height="17" rx="3"></rect>
           <text x="${left + w + 6}" y="${y + 13}" class="axis-text">${fmtMoney(row[unit])}</text>
         </g>`;
@@ -3143,27 +3221,6 @@ Dropped ${dropped} outside 15-year window.` : '';
       nav.addEventListener('click', event => { if (event.target.closest('a')) close(); });
     })();
 
-    (function setupScrollSpy() {
-      const links = document.querySelectorAll('#primaryNav a[href^="#"]');
-      if (!links.length || !('IntersectionObserver' in window)) return;
-      const byId = new Map();
-      links.forEach(a => {
-        const id = a.getAttribute('href').slice(1);
-        const target = document.getElementById(id);
-        if (target) byId.set(target, a);
-      });
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          const link = byId.get(entry.target);
-          if (!link) return;
-          if (entry.isIntersecting) {
-            links.forEach(other => other.classList.remove('active'));
-            link.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-      byId.forEach((_, target) => observer.observe(target));
-    })();
 
     document.getElementById('resetControls')?.addEventListener('click', () => {
       if (outUniSearch) outUniSearch.value = '';
@@ -3262,7 +3319,7 @@ Dropped ${dropped} outside 15-year window.` : '';
     }
     function scrollSpy() {
       const ids = Object.keys(SECTION_GROUP);
-      const offset = 180;
+      const offset = document.querySelector('.topbar').offsetHeight + 20;
       let bestId = null, bestDist = Infinity;
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -3377,6 +3434,36 @@ Dropped ${dropped} outside 15-year window.` : '';
         if (el === outUniSearch) updateCountry();
       });
     });
+
+    const quickCountry = document.getElementById('quickCountry');
+    quickCountry.value = countrySearch.value;
+    quickCountry.addEventListener('change', () => {
+      countrySearch.value = quickCountry.value;
+      countrySearch.dispatchEvent(new Event('change', {bubbles:true}));
+      quickCountry.value = countrySearch.value;
+    });
+    countrySearch.addEventListener('change', () => {quickCountry.value = countrySearch.value;});
+    senderSelect.addEventListener('change', () => {quickCountry.value = countrySearch.value;});
+    function updateNavOffset() {
+      document.documentElement.style.setProperty('--nav-offset', `${document.querySelector('.topbar').offsetHeight + 16}px`);
+    }
+    new ResizeObserver(updateNavOffset).observe(document.querySelector('.topbar'));
+    updateNavOffset();
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href^="#"]');
+      if (!link) return;
+      const id = link.getAttribute('href').slice(1), target = document.getElementById(id);
+      if (!target) return;
+      event.preventDefault();
+      document.getElementById('primaryNav').classList.remove('open');
+      document.getElementById('navToggle').setAttribute('aria-expanded','false');
+      if (SECTION_GROUP[id]) setActiveGroup(SECTION_GROUP[id], id);
+      updateNavOffset();
+      target.scrollIntoView({behavior:'instant',block:'start'});
+      history.replaceState(null,'','#'+id);
+    });
+    window.addEventListener('resize', () => {renderEarnings(); renderTrendTotal(); renderTrendSender(senderSelect.value);});
+
     autoPickLevel();
     updateFilterChip();
     populateOrgOptions();

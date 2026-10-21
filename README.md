@@ -215,6 +215,21 @@ Additional collection/extraction entry points include `scripts/scrape_reddit.py`
 The report and notebook packaging described in earlier planning material is separate from
 this repository's build commands; no notebook is currently tracked in this repository.
 
+### Re-render an existing dashboard snapshot
+
+For interface-only changes, reuse an existing HTML snapshot without rebuilding data or
+re-estimating models:
+
+```bash
+uv run python scripts/build_dashboard.py --snapshot dashboard/dist/index.html --output dashboard/dist/index.html
+node tests/dashboard-presentation.cjs
+```
+
+The renderer preserves the snapshot's embedded analytical payload. A deployed snapshot may
+contain different data from the repository's saved build: use the intended source snapshot
+explicitly and compare payloads before deployment. The presentation checks cover number
+formatting and the binding of the QoL card to the two-stage result.
+
 ## Repository structure
 
 ```text

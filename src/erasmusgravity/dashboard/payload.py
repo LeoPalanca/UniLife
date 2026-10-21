@@ -51,9 +51,7 @@ FLOW_COLUMNS = [
 ]
 
 
-# Step-3 design of the gravity model (see report). Each variable is a term in the
-# regression below; "built" means the data is already in the processed pipeline,
-# "planned" means it is part of the described-but-not-estimated design.
+# Implemented model inputs. Expected signs are hypotheses, not estimated findings.
 MODEL_VARIABLES = [
     {
         "name": "GDP-per-capita gap",
@@ -67,7 +65,7 @@ MODEL_VARIABLES = [
         "name": "Quality of life",
         "symbol": "β₂",
         "role": "Explanatory – perceived liveability",
-        "source": "Reddit r/Erasmus, sentiment + themes via OpenRouter (DeepSeek) + Pydantic (text layer)",
+        "source": "Erasmusu city ratings (headline regressor); Reddit r/Erasmus via DeepSeek + Pydantic (supporting text evidence)",
         "expected_sign": "+ (better perceived life attracts flows)",
         "status": "built",
     },
