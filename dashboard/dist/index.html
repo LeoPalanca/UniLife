@@ -1596,6 +1596,24 @@
     .field input:focus,.field select:focus{box-shadow:none;outline:2px solid var(--accent);outline-offset:2px}
     .field>span:first-child,.cs-head .t{font-size:12px;letter-spacing:0;text-transform:none;font-weight:500}
     .act .gd-sym{font-family:var(--sans);font-style:normal}
+    /* Compact two-level header: spacing belongs between links, not above them. */
+    .topbar{padding:6px 42px}
+    .topbar .tb-row1{grid-template-columns:auto minmax(0,1fr) 270px;column-gap:28px;row-gap:4px}
+    .topbar .nav-main-link{min-height:34px;padding:5px 14px}
+    .topbar .nav-subs{min-height:32px;padding-bottom:0}
+    .topbar .nav-subs .sub-link{min-height:32px;padding:5px 14px}
+    .topbar .quick-country{grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px}
+    .topbar .quick-country input{height:34px;min-height:34px}
+    @media(max-width:1199px){
+      .topbar{padding:6px 24px}
+      .topbar .tb-row1{grid-template-columns:1fr auto;gap:4px 12px}
+      .nav-stack{gap:4px}
+      .topbar .quick-country{grid-template-columns:108px minmax(0,1fr);gap:8px}
+      .topbar .nav-toggle{min-height:40px}
+      .topbar .nav-main-link,.topbar .nav-subs .sub-link{min-height:40px;padding-top:6px;padding-bottom:6px}
+      .topbar .quick-country input{height:36px;min-height:36px}
+    }
+    @media(max-width:640px){.topbar{padding:6px 18px}}
   </style>
 </head>
 <body class="mode-free">
