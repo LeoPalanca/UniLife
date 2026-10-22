@@ -1662,24 +1662,39 @@ def render_dashboard(payload: dict) -> str:
     .field input:focus,.field select:focus{box-shadow:none;outline:2px solid var(--accent);outline-offset:2px}
     .field>span:first-child,.cs-head .t{font-size:12px;letter-spacing:0;text-transform:none;font-weight:500}
     .act .gd-sym{font-family:var(--sans);font-style:normal}
-    /* Compact two-level header: spacing belongs between links, not above them. */
-    .topbar{padding:6px 42px}
-    .topbar .tb-row1{grid-template-columns:auto minmax(0,1fr) 270px;column-gap:28px;row-gap:4px}
-    .topbar .nav-main-link{min-height:34px;padding:5px 14px}
-    .topbar .nav-subs{min-height:32px;padding-bottom:0}
-    .topbar .nav-subs .sub-link{min-height:32px;padding:5px 14px}
-    .topbar .quick-country{grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px}
-    .topbar .quick-country input{height:34px;min-height:34px}
+    /* One balanced header, with a complete topic picker on narrow screens. */
+    .topbar{padding:10px 42px}
+    .topbar .tb-row1{grid-template-columns:auto minmax(0,1fr) 210px;gap:28px;align-items:center}
+    .topbar .brand{grid-column:1;grid-row:1;line-height:1.4;padding:0;align-self:center;width:max-content}
+    .topbar .brand>svg{flex:none}
+    .nav-stack{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+    .topbar .nav-main{display:flex;gap:4px;width:max-content;max-width:100%;padding:3px;background:var(--paper);border-radius:999px;align-self:start;justify-self:start}
+    .topbar .nav-main-link{display:flex;align-items:center;min-height:32px;line-height:20px;padding:6px 16px;border:0;border-radius:999px;color:var(--muted)}
+    .topbar .nav-main-link.active{background:var(--panel);color:var(--ink-strong);border:0}
+    .topbar .nav-main-link:hover{background:var(--panel);color:var(--ink)}
+    .topbar .nav-subs{display:flex;gap:8px;min-height:34px;overflow:visible;padding:0;grid-column:auto;grid-row:auto;align-self:stretch}
+    .topbar .nav-subs .sub-link{min-height:34px;line-height:20px;padding:7px 12px;border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap}
+    .topbar .nav-subs .sub-link.active{background:var(--soft);color:var(--accent-deep);font-weight:600}
+    .topbar .quick-country{grid-column:3;grid-row:1;grid-template-columns:1fr;gap:5px;align-self:center;line-height:16px}
+    .topbar .quick-country input{height:36px;min-height:36px;line-height:20px;padding:8px 12px;background:var(--paper);border:1px solid var(--line-soft)}
+    .topic-choice{display:none}
     @media(max-width:1199px){
-      .topbar{padding:6px 24px}
-      .topbar .tb-row1{grid-template-columns:1fr auto;gap:4px 12px}
-      .nav-stack{gap:4px}
-      .topbar .quick-country{grid-template-columns:108px minmax(0,1fr);gap:8px}
-      .topbar .nav-toggle{min-height:40px}
-      .topbar .nav-main-link,.topbar .nav-subs .sub-link{min-height:40px;padding-top:6px;padding-bottom:6px}
-      .topbar .quick-country input{height:36px;min-height:36px}
+      .topbar{padding:10px 24px}
+      .topbar .tb-row1{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 12px}
+      .nav-stack{display:contents}
+      .topbar .brand{grid-column:1;grid-row:1;font-size:21px}
+      .topbar .nav-toggle{display:inline-flex;grid-column:2;grid-row:1;justify-self:end;min-height:40px;line-height:20px;padding:10px 12px;border-radius:999px}
+      .topbar .quick-country{grid-column:1;grid-row:2;gap:5px;align-self:stretch}
+      .topbar .quick-country input{height:38px;min-height:38px;font-size:16px;padding:8px 12px}
+      .topbar .nav-subs{grid-column:2;grid-row:2;display:block;min-width:0;min-height:0;overflow:visible}
+      .topbar .nav-subs .sub-link{display:none}
+      .topic-choice{display:grid;gap:5px;font-size:12px;font-weight:500;line-height:16px;color:var(--muted);min-width:0}
+      .topic-choice select{width:100%;min-width:0;max-width:100%;height:38px;min-height:38px;padding:8px 28px 8px 12px;font-family:var(--sans);font-size:16px;line-height:20px;color:var(--ink);background-color:var(--paper);border:1px solid var(--line-soft);border-radius:10px}
+      .topbar .nav-main{display:none;grid-column:1/-1;grid-row:3;width:100%;align-self:stretch;padding:3px;gap:4px}
+      .topbar .nav-main.open{display:flex;padding:3px;justify-content:space-between}
+      .topbar .nav-main-link{flex:1;justify-content:center;min-height:40px;padding:8px 12px}
     }
-    @media(max-width:640px){.topbar{padding:6px 18px}}
+    @media(max-width:640px){.topbar{padding:10px 18px}.topic-choice select{font-size:14px}.topbar .quick-country input{font-size:16px}}
   </style>
 </head>
 <body class="mode-free">
@@ -3565,6 +3580,11 @@ __VARIABLE_CARDS__
       'sec-gdp-gap':'sec-controls','sec-economics':'sec-controls','sec-time':'sec-panel',
     };
     let activeNavGroup = null, activeNavTopic = null;
+    document.getElementById('dynSubnav').addEventListener('change', event => {
+      if (event.target.id !== 'topicPicker') return;
+      const link = document.querySelector(`#dynSubnav a[href="#${event.target.value}"]`);
+      if (link) link.click();
+    });
     function setActiveGroup(group, section) {
       document.querySelectorAll('.nav-main-link').forEach(link => {
         const active = link.dataset.group === group;
@@ -3576,9 +3596,10 @@ __VARIABLE_CARDS__
       const topic = SUBSECTION_FOR[section] || section || topics[0]?.id;
       if (group === activeNavGroup && topic === activeNavTopic) return;
       activeNavGroup = group; activeNavTopic = topic;
+      const pickerNames = {'sec-explanatory':'Variables','sec-institution':'Institutions','sec-data':'Data & sources'};
       document.getElementById('dynSubnav').innerHTML = topics.map(item =>
         `<a class="sub-link${item.id === topic ? ' active' : ''}" href="#${item.id}"${item.id === topic ? ' aria-current="location"' : ''}>${item.label}</a>`
-      ).join('');
+      ).join('') + `<label class="topic-choice" for="topicPicker">Explore topic<select id="topicPicker">${topics.map(item => `<option value="${item.id}"${item.id === topic ? ' selected' : ''}>${pickerNames[item.id] || item.label}</option>`).join('')}</select></label>`;
     }
     function scrollSpy() {
       const ids = Object.keys(SECTION_GROUP);
