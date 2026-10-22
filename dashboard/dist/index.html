@@ -1467,18 +1467,13 @@
     .meta-strip{gap:8px 16px;margin-top:22px;padding-top:0;border:0}
     .readout{font-size:12px}
     .scope-pill{padding:0;background:none;border:0;font-size:12px;font-weight:400;color:var(--muted)}
-    .mobility-brief{padding:24px 26px;background:var(--paper);border-radius:14px;min-width:0}
-    .brief-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;font-weight:600}
-    .brief-heading a{font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap}
-    .brief-heading a:hover{text-decoration:underline}
-    .brief-total{font-size:40px;line-height:1.15;letter-spacing:-.04em;font-weight:500;margin-top:20px;font-variant-numeric:tabular-nums}
-    .brief-caption{font-size:12px;color:var(--muted);margin-top:4px}
-    .brief-destinations{margin-top:22px;display:grid;gap:13px}
-    .brief-destination>div:first-child{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:5px}
-    .brief-destination b{font-weight:500;font-variant-numeric:tabular-nums}
-    .brief-track{height:4px;background:#dce4e0;border-radius:2px;overflow:hidden}
-    .brief-track span{display:block;height:100%;background:var(--accent)}
-    .brief-foot{font-size:11px;color:var(--muted);margin-top:16px}
+    .hero-galaxy{display:block;width:100%;max-width:520px;height:auto;aspect-ratio:520/300;align-self:center;justify-self:end;overflow:visible;pointer-events:none}
+    .galaxy-traveller{offset-rotate:0deg;animation:galaxy-orbit 48s linear infinite}
+    .galaxy-traveller-outer{offset-path:path('M464 190a204 78 0 1 0-408 0a204 78 0 1 0 408 0');animation-delay:-12s}
+    .galaxy-traveller-inner{offset-path:path('M369 190a109 40 0 1 0-218 0a109 40 0 1 0 218 0');animation-delay:-21s;animation-duration:32s;animation-direction:reverse}
+    @keyframes galaxy-orbit{from{offset-distance:0%}to{offset-distance:100%}}
+    @media(max-width:800px){.hero-galaxy{max-width:420px;justify-self:center;margin:-6px 0}}
+    @media(prefers-reduced-motion:reduce){.galaxy-traveller{animation:none}}
     main{gap:24px;padding-top:32px;padding-bottom:48px}
     main>section,.grid>section,.duo>section{border:1px solid var(--line);border-radius:14px;box-shadow:none;padding:28px 30px;background:var(--panel);min-width:0}
     main>section.intro{border-left:1px solid var(--line)}
@@ -1548,12 +1543,8 @@
     @media(max-width:800px){
       .pagehead{padding:32px 24px}
       .hero-inner{grid-template-columns:1fr;gap:26px}
-      .mobility-brief{padding:20px 22px}
-      .pagehead .rq{max-width:none}
-      .brief-total{font-size:34px;margin-top:14px}
-      .brief-destinations{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
-      .brief-destination>div:first-child{flex-wrap:wrap;gap:4px}
-      main{padding:24px;gap:20px}
+        .pagehead .rq{max-width:none}
+            main{padding:24px;gap:20px}
       main>section,.grid>section,.duo>section{padding:24px}
       .grid,.grid2,.duo{grid-template-columns:1fr}
     }
@@ -1564,12 +1555,7 @@
       .pagehead{padding:28px 18px}
       .pagehead h1{font-size:34px}
       .pagehead .rq{font-size:14px;margin-top:18px}
-      .mobility-brief{padding:18px}
-      .brief-destinations{gap:14px}
-      .brief-heading{font-size:13px}
-      .brief-total{font-size:32px}
-      .brief-destination>div:first-child{font-size:12px}
-      main{padding:20px 18px 36px}
+                main{padding:20px 18px 36px}
       main>section,.grid>section,.duo>section{padding:22px 18px}
       main>section>h2,.grid>section>h2,.duo>section>h2,.collapsible summary h2{font-size:22px}
       .act h3{font-size:20px}
@@ -1668,13 +1654,137 @@
           <span class="scope-pill">KA1 study mobility · cross-border country pairs</span>
         </div>
       </div>
-      <aside class="mobility-brief" aria-label="Selected country mobility summary">
-        <div class="brief-heading"><span id="briefCountry">Sending country</span><a href="#sec-overview">Explore flows <span aria-hidden="true">↗</span></a></div>
-        <div class="brief-total" id="briefTotal"></div>
-        <p class="brief-caption">outgoing students in the selected flow sample</p>
-        <div class="brief-destinations" id="briefDestinations"></div>
-        <p class="brief-foot">Top destinations · share of selected outgoing flows</p>
-      </aside>
+      <svg class="hero-galaxy" viewBox="0 40 520 300" aria-hidden="true" focusable="false">
+        <g class="galaxy-field" transform="rotate(-22 260 190)">
+          <g fill="none" stroke="var(--accent)" stroke-width="1.05">
+            <ellipse cx="260" cy="190" rx="234" ry="91" opacity=".15"/>
+            <ellipse cx="260" cy="190" rx="204" ry="78" opacity=".55"/>
+            <ellipse cx="260" cy="190" rx="157" ry="59" opacity=".4"/>
+            <ellipse cx="260" cy="190" rx="109" ry="40" opacity=".55"/>
+            <ellipse cx="260" cy="190" rx="61" ry="22" opacity=".22"/>
+          </g>
+          <path d="M56 190a204 78 0 0 0 204 78" fill="none" stroke="var(--accent)" stroke-width="1.6" opacity=".65" stroke-linecap="round"/>
+          <path d="M417 190a157 59 0 0 0-157-59" fill="none" stroke="var(--accent)" stroke-width="1.3" opacity=".5" stroke-linecap="round"/>
+          <g fill="var(--accent)">
+            <circle cx="275.0" cy="192.0" r="0.72" opacity="0.68"/>
+            <circle cx="272.6" cy="192.0" r="0.64" opacity="0.57"/>
+            <circle cx="276.3" cy="193.7" r="1.24" opacity="0.57"/>
+            <circle cx="283.8" cy="196.7" r="1.49" opacity="0.27"/>
+            <circle cx="287.0" cy="199.7" r="1.25" opacity="0.42"/>
+            <circle cx="284.7" cy="202.4" r="0.63" opacity="0.57"/>
+            <circle cx="291.3" cy="200.6" r="0.86" opacity="0.36"/>
+            <circle cx="284.3" cy="204.9" r="1.40" opacity="0.65"/>
+            <circle cx="276.6" cy="211.1" r="0.62" opacity="0.26"/>
+            <circle cx="275.0" cy="213.3" r="1.33" opacity="0.68"/>
+            <circle cx="269.5" cy="212.5" r="1.26" opacity="0.65"/>
+            <circle cx="248.9" cy="215.8" r="0.70" opacity="0.29"/>
+            <circle cx="243.1" cy="218.1" r="1.48" opacity="0.28"/>
+            <circle cx="231.1" cy="220.6" r="1.28" opacity="0.46"/>
+            <circle cx="214.3" cy="218.1" r="0.80" opacity="0.52"/>
+            <circle cx="206.5" cy="215.5" r="1.31" opacity="0.41"/>
+            <circle cx="190.5" cy="216.0" r="0.79" opacity="0.31"/>
+            <circle cx="179.1" cy="210.5" r="1.38" opacity="0.33"/>
+            <circle cx="164.4" cy="204.2" r="0.98" opacity="0.36"/>
+            <circle cx="155.0" cy="203.5" r="0.59" opacity="0.68"/>
+            <circle cx="150.1" cy="198.0" r="1.06" opacity="0.49"/>
+            <circle cx="139.6" cy="189.0" r="0.76" opacity="0.36"/>
+            <circle cx="134.5" cy="181.6" r="1.41" opacity="0.59"/>
+            <circle cx="138.8" cy="172.2" r="0.80" opacity="0.47"/>
+            <circle cx="142.2" cy="166.9" r="1.15" opacity="0.64"/>
+            <circle cx="142.3" cy="159.0" r="1.27" opacity="0.37"/>
+            <circle cx="158.1" cy="151.6" r="0.57" opacity="0.43"/>
+            <circle cx="161.9" cy="146.9" r="1.35" opacity="0.46"/>
+            <circle cx="189.7" cy="137.0" r="0.97" opacity="0.30"/>
+            <circle cx="197.0" cy="135.1" r="0.60" opacity="0.65"/>
+            <circle cx="226.0" cy="129.9" r="0.60" opacity="0.64"/>
+            <circle cx="253.5" cy="123.1" r="0.72" opacity="0.28"/>
+            <circle cx="275.4" cy="121.2" r="1.31" opacity="0.45"/>
+            <circle cx="305.3" cy="121.9" r="1.17" opacity="0.43"/>
+            <circle cx="256.1" cy="193.4" r="1.49" opacity="0.61"/>
+            <circle cx="254.0" cy="194.1" r="0.73" opacity="0.29"/>
+            <circle cx="238.6" cy="198.5" r="0.82" opacity="0.62"/>
+            <circle cx="233.7" cy="196.6" r="0.79" opacity="0.36"/>
+            <circle cx="234.3" cy="196.0" r="1.45" opacity="0.33"/>
+            <circle cx="220.9" cy="191.5" r="0.75" opacity="0.67"/>
+            <circle cx="218.8" cy="192.2" r="0.87" opacity="0.57"/>
+            <circle cx="214.9" cy="187.9" r="0.59" opacity="0.30"/>
+            <circle cx="212.3" cy="188.3" r="0.77" opacity="0.33"/>
+            <circle cx="202.0" cy="184.5" r="1.26" opacity="0.33"/>
+            <circle cx="201.0" cy="177.9" r="1.45" opacity="0.47"/>
+            <circle cx="210.1" cy="173.8" r="1.15" opacity="0.48"/>
+            <circle cx="212.6" cy="170.2" r="0.77" opacity="0.60"/>
+            <circle cx="217.8" cy="166.7" r="0.87" opacity="0.26"/>
+            <circle cx="217.9" cy="165.0" r="0.89" opacity="0.43"/>
+            <circle cx="229.1" cy="157.0" r="0.65" opacity="0.46"/>
+            <circle cx="246.3" cy="157.5" r="0.84" opacity="0.58"/>
+            <circle cx="257.9" cy="153.1" r="0.89" opacity="0.31"/>
+            <circle cx="271.4" cy="151.8" r="0.75" opacity="0.29"/>
+            <circle cx="279.6" cy="151.7" r="1.39" opacity="0.46"/>
+            <circle cx="304.1" cy="151.0" r="0.70" opacity="0.46"/>
+            <circle cx="319.7" cy="153.2" r="0.71" opacity="0.61"/>
+            <circle cx="333.3" cy="154.0" r="1.40" opacity="0.26"/>
+            <circle cx="355.4" cy="153.9" r="1.03" opacity="0.44"/>
+            <circle cx="378.2" cy="161.6" r="1.41" opacity="0.56"/>
+            <circle cx="391.1" cy="166.6" r="0.64" opacity="0.51"/>
+            <circle cx="393.2" cy="175.1" r="0.72" opacity="0.50"/>
+            <circle cx="412.0" cy="184.9" r="0.74" opacity="0.30"/>
+            <circle cx="413.7" cy="193.5" r="0.79" opacity="0.44"/>
+            <circle cx="416.2" cy="197.1" r="1.06" opacity="0.36"/>
+            <circle cx="416.7" cy="210.6" r="1.18" opacity="0.33"/>
+            <circle cx="414.4" cy="219.0" r="1.28" opacity="0.22"/>
+            <circle cx="400.4" cy="229.2" r="1.08" opacity="0.45"/>
+            <circle cx="390.9" cy="238.0" r="1.25" opacity="0.60"/>
+            <circle cx="257.9" cy="188.5" r="1.10" opacity="0.30"/>
+            <circle cx="251.9" cy="186.1" r="1.28" opacity="0.51"/>
+            <circle cx="249.9" cy="179.7" r="1.17" opacity="0.41"/>
+            <circle cx="253.6" cy="182.5" r="0.77" opacity="0.65"/>
+            <circle cx="264.2" cy="180.5" r="1.29" opacity="0.31"/>
+            <circle cx="264.6" cy="178.3" r="0.96" opacity="0.45"/>
+            <circle cx="279.1" cy="175.6" r="1.23" opacity="0.46"/>
+            <circle cx="280.8" cy="175.7" r="0.67" opacity="0.55"/>
+            <circle cx="297.2" cy="172.2" r="0.55" opacity="0.64"/>
+            <circle cx="298.2" cy="175.3" r="0.83" opacity="0.28"/>
+            <circle cx="308.8" cy="174.0" r="1.35" opacity="0.57"/>
+            <circle cx="325.5" cy="176.8" r="0.86" opacity="0.26"/>
+            <circle cx="334.9" cy="184.8" r="1.45" opacity="0.61"/>
+            <circle cx="339.1" cy="185.7" r="0.66" opacity="0.24"/>
+            <circle cx="345.1" cy="192.9" r="1.48" opacity="0.41"/>
+            <circle cx="347.7" cy="197.5" r="0.82" opacity="0.56"/>
+            <circle cx="350.7" cy="200.3" r="0.92" opacity="0.29"/>
+            <circle cx="343.7" cy="205.3" r="1.49" opacity="0.60"/>
+            <circle cx="338.5" cy="214.0" r="0.68" opacity="0.49"/>
+            <circle cx="345.1" cy="220.8" r="1.39" opacity="0.68"/>
+            <circle cx="332.2" cy="221.3" r="0.79" opacity="0.53"/>
+            <circle cx="320.0" cy="231.9" r="0.71" opacity="0.63"/>
+            <circle cx="305.4" cy="234.6" r="0.66" opacity="0.38"/>
+            <circle cx="287.8" cy="239.5" r="1.20" opacity="0.51"/>
+            <circle cx="271.7" cy="240.1" r="0.87" opacity="0.67"/>
+            <circle cx="250.6" cy="243.2" r="1.47" opacity="0.62"/>
+            <circle cx="229.5" cy="246.3" r="0.91" opacity="0.65"/>
+            <circle cx="204.9" cy="242.3" r="0.93" opacity="0.24"/>
+            <circle cx="186.5" cy="243.5" r="0.91" opacity="0.66"/>
+            <circle cx="153.7" cy="236.8" r="1.49" opacity="0.51"/>
+            <circle cx="132.9" cy="232.9" r="0.57" opacity="0.55"/>
+            <circle cx="119.5" cy="226.6" r="1.19" opacity="0.26"/>
+            <circle cx="106.5" cy="219.7" r="1.40" opacity="0.33"/>
+            <circle cx="83.2" cy="210.7" r="1.43" opacity="0.48"/></g>
+          <g fill="none" stroke="var(--accent)" opacity=".18" stroke-width=".7">
+            <path d="M70 128h8m-4-4v8M418 253h6m-3-3v6M316 85h6m-3-3v6"/>
+          </g>
+          <ellipse cx="260" cy="190" rx="22" ry="9" fill="var(--soft)"/>
+          <ellipse cx="260" cy="190" rx="30" ry="12" fill="none" stroke="var(--accent)" stroke-width=".8" opacity=".3"/>
+          <circle cx="260" cy="190" r="7" fill="var(--accent-2)"/>
+          <circle cx="258" cy="188" r="2" fill="var(--panel)" opacity=".5"/>
+          <g fill="var(--accent)">
+            <circle cx="103" cy="190" r="4"/>
+            <circle cx="369" cy="190" r="3.5"/>
+            <circle cx="316" cy="154" r="2.2"/>
+          </g>
+          <circle cx="433" cy="231" r="3.2" fill="var(--c3)"/>
+          <circle class="galaxy-traveller galaxy-traveller-outer" r="4.5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2"/>
+          <circle class="galaxy-traveller galaxy-traveller-inner" r="3.5" fill="var(--accent-2)" stroke="var(--panel)" stroke-width="1.5"/>
+        </g>
+      </svg>
     </div>
   </header>
   <main>
@@ -3352,17 +3462,6 @@ Dropped ${dropped} outside 15-year window.` : '';
       document.getElementById('topStat').innerHTML = selected
         ? `Currently showing <b>${escapeHtml(selected.country)}</b> · ${fmtInt(total)} outgoing students${uniLabel}`
         : '';
-      document.getElementById('briefCountry').textContent = selected ? selected.country : senderSelect.value;
-      document.getElementById('briefTotal').textContent = fmtInt(total);
-      const destinations = new Map();
-      rows.forEach(row => {
-        const key = row.receiving_country || row.receiving_code;
-        destinations.set(key, (destinations.get(key) || 0) + row.flow_count);
-      });
-      const leading = [...destinations].sort((a, b) => b[1] - a[1]).slice(0, 3);
-      document.getElementById('briefDestinations').innerHTML = leading.length
-        ? leading.map(([name, count]) => `<div class="brief-destination"><div><span>${escapeHtml(name)}</span><b>${fmtPct(total ? count / total : 0)}</b></div><div class="brief-track"><span style="width:${total ? count / total * 100 : 0}%"></span></div></div>`).join('')
-        : '<p class="note">No outgoing flows match the current filters.</p>';
       const chipLabel = selected ? selected.country : senderSelect.value;
       document.querySelectorAll('.filter-chip .fc-country').forEach(node => {
         node.textContent = chipLabel;
