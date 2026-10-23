@@ -1888,7 +1888,7 @@ __VARIABLE_CARDS__
         <div class="card"><div class="label"> Source</div><div class="value">World Bank GDP per capita (current USD)</div><div class="sub"><code>gdp_gap_usd_wb</code> &middot; pair-level destination minus origin, joined onto the KA1 2022 panel.</div></div>
         <div class="card"><div class="label"> Estimation</div><div class="value">PPML on bilateral flows, city-clustered SE</div><div class="sub">Cross-section Poisson with sending-country FE on the 2022 KA1 panel; gdp_gap enters as the only monetary term.</div></div>
         <div class="card" data-coef-card="GDP-per-capita gap"><div class="label"> Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
-        <div class="card"><div class="label"> Evidence (robustness)</div><div class="value">NACE-sector earnings explorer</div><div class="sub"><a href="#sec-earnings">Compare a country and unit in Salary reference</a> for monthly earnings by sector &mdash; the salary heterogeneity behind the demoted salary-gap robustness term. See full controls breakdown under <a href="#sec-explanatory" style="color:var(--accent)">Controls</a>.</div></div>
+        <div class="card"><div class="label"> Evidence (robustness)</div><div class="value">NACE-sector earnings explorer</div><div class="sub"><a href="#sec-earnings">Compare a country and unit in Salary reference</a> for monthly earnings by sector &mdash; the salary heterogeneity behind the demoted salary-gap robustness term. See the full controls breakdown under <a href="#sec-explanatory" style="color:var(--accent)">Variables</a>.</div></div>
       </div>
     </section>
     <section id="sec-reddit">
@@ -2780,7 +2780,7 @@ __MOBILITY_MODEL__
         const p = missing ? '—' : formatP(c.p);
         return `<tr><td class="scientific-name"><span class="note">${escapeHtml(c.symbol)}</span> ${escapeHtml(c.variable)}</td><td>${formatCoefficient(c.beta,4)}</td><td>${!missing && c.p < .05 ? `<strong style="color:var(--accent)">${p}</strong>` : p}</td><td>${detailHtml([['Term',c.term || '—'],['Natural-unit effect',missing ? 'Not estimated' : naturalEffectText(c.term,+c.beta) || 'Not reported'],['Expected sign (hypothesis)',c.expected_sign || 'Not specified']])}</td></tr>`;
       }).join('');
-      el.innerHTML = `<table class="data-table"><thead><tr><th>Variable</th><th>Estimate</th><th>p</th><th>Effect &amp; context</th></tr></thead><tbody>${body}</tbody></table>`;
+      el.innerHTML = `<table class="data-table"><thead><tr><th>Variable</th><th>Estimate</th><th>p</th><th>Details</th></tr></thead><tbody>${body}</tbody></table>`;
     }
 
     const HEADLINE_SPECS = new Set([
@@ -2810,7 +2810,7 @@ __MOBILITY_MODEL__
       const el = document.getElementById('resultsTable');
       if (!regressionResults.length) { el.innerHTML = '<p class="note">No estimates are available in this snapshot.</p>'; return; }
       const headline = regressionResults.filter(r=>HEADLINE_SPECS.has(r.spec)), other = regressionResults.filter(r=>!HEADLINE_SPECS.has(r.spec));
-      const head = '<thead><tr><th>Specification</th><th>β</th><th>p</th><th>Method &amp; sample</th></tr></thead>';
+      const head = '<thead><tr><th>Specification</th><th>β</th><th>p</th><th>Details</th></tr></thead>';
       el.innerHTML = `<p class="note" style="margin:0 0 10px">Open Details for the estimator, sample size, term, effect and notes.</p><table class="data-table">${head}<tbody>${headline.map(specRowHtml).join('')}</tbody></table>${other.length ? `<details style="margin-top:16px"><summary>Additional specifications (${other.length})</summary><table class="data-table" style="margin-top:12px">${head}<tbody>${other.map(specRowHtml).join('')}</tbody></table></details>` : ''}`;
     }
 

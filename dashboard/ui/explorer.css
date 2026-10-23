@@ -178,6 +178,5 @@ footer{padding:28px 32px}
 #resultsTable td:first-child,#resultsTable th:first-child,#coeffTable th:nth-child(2),#coeffTable td:nth-child(2){position:static;min-width:0;max-width:none}
 @media(max-width:700px){
  #resultsTable th,#resultsTable td,#coeffTable th,#coeffTable td{font-size:12px;padding:10px 5px}
- #resultsTable th:nth-child(4),#coeffTable th:nth-child(4){font-size:0;width:1%}
- #resultsTable th:nth-child(4)::after,#coeffTable th:nth-child(4)::after{content:'Details';font-size:12px}
+ #resultsTable th:nth-child(4),#coeffTable th:nth-child(4){width:1%}
 }
