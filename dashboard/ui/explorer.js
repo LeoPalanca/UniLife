@@ -93,7 +93,7 @@ function renderWeightedTable() {
 }
 function renderRedditTable() {
   const all=sortRows(redditByCountry.filter(r=>r.mentions>=REDDIT_MIN_MENTIONS),redditSort), rows=redditExpanded?all:all.slice(0,REDDIT_TOP_N);
-  document.getElementById('redditTable').innerHTML=`<p class="scope-note">All destination countries with at least ${REDDIT_MIN_MENTIONS} mentions · supporting text evidence, independent of the selected country.</p><table class="data-table"><thead><tr>${sortableHeader('Destination','country','reddit')}${sortableHeader('Mentions','mentions','reddit')}${sortableHeader('Net sentiment','net','reddit')}${sortableHeader('Weighted net','weightedNet','reddit')}<th>Evidence</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="country-name">${escapeHtml(r.country)}</td><td>${fmtInt(r.mentions)}</td><td>${netBadge(r.net)}</td><td>${netBadge(r.weightedNet)}</td><td>${detailHtml([['Positive / neutral / negative',`${r.positive} / ${r.neutral} / ${r.negative}`],['Average Reddit score',fmtOne(r.avgScore)],['Positive themes',r.positiveThemes],['Negative themes',r.negativeThemes],['All themes',r.themes]])}</td></tr>`).join('')}</tbody></table>${all.length>REDDIT_TOP_N?`<button class="button-action reddit-more" type="button" id="redditMore">${redditExpanded?'Show fewer':`Show all ${all.length} countries`}</button>`:''}`;
+  document.getElementById('redditTable').innerHTML=`<p class="scope-note">All destination countries with at least ${REDDIT_MIN_MENTIONS} mentions · supporting text evidence, independent of the selected country.</p><table class="data-table"><thead><tr>${sortableHeader('Destination','country','reddit')}${sortableHeader('Mentions','mentions','reddit')}${sortableHeader('Net sentiment','net','reddit')}<th>Details</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="country-name">${escapeHtml(r.country)}</td><td>${fmtInt(r.mentions)}</td><td>${netBadge(r.net)}</td><td>${detailHtml([['Score-weighted net sentiment',r.weightedNet == null ? 'Not available' : Number(r.weightedNet).toFixed(2)],['Positive / neutral / negative',`${r.positive} / ${r.neutral} / ${r.negative}`],['Average Reddit score',fmtOne(r.avgScore)],['Positive themes',r.positiveThemes],['Negative themes',r.negativeThemes],['All themes',r.themes]])}</td></tr>`).join('')}</tbody></table>${all.length>REDDIT_TOP_N?`<button class="button-action reddit-more" type="button" id="redditMore">${redditExpanded?'Show fewer':`Show all ${all.length} countries`}</button>`:''}`;
   document.getElementById('redditMore')?.addEventListener('click',()=>{redditExpanded=!redditExpanded;renderRedditTable()});
 }
 // Reuse the known receiving-endpoint coordinates for origin institutions when available.
@@ -153,7 +153,7 @@ function renderEurope() {
 }
 function setScope(id,text) {
   const section=document.getElementById(id);if(!section) return;
-  let line=section.querySelector(':scope > .scope-note');
+  let line=section.querySelector(':scope > .scope-note, :scope > details > .scope-note');
   if(!line){line=document.createElement('p');line.className='scope-note';const details=section.querySelector(':scope > details');if(details){details.querySelector('summary').after(line)}else section.querySelector('h2').after(line)}
   line.textContent=text;
 }
