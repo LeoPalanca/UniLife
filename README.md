@@ -341,3 +341,16 @@ The following are proposals, not implemented findings:
   destination-attractiveness and shock-diagnostic narrative.
 - **Grounded natural-language explanations:** consider precomputed summaries or a Q&A layer
   over project evidence. No live DeepSeek chatbot is currently implemented.
+
+### Navigation and exploration UI
+
+The self-contained dashboard inlines the country explorer from `dashboard/ui/`.
+Its accepted navigation, country-scope and sharing behaviour is documented in
+[docs/navigation-design.md](docs/navigation-design.md).
+
+Run the focused UI/data checks with:
+
+```sh
+node tests/mobility.cjs
+node tests/dashboard-presentation.cjs
+```

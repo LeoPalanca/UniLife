@@ -1681,44 +1681,30 @@ def render_dashboard(payload: dict) -> str:
       .topbar .nav-main-link{flex:1;justify-content:center;min-height:40px;padding:8px 12px}
     }
     @media(max-width:640px){.topbar{padding:10px 18px}.topic-choice select{font-size:14px}.topbar .quick-country input{font-size:16px}}
+__EXPLORER_CSS__
   </style>
 </head>
 <body class="mode-free">
-  <div class="topbar">
-    <div class="tb-row1">
-      <div class="brand">
-        <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/><circle cx="13" cy="13" r="3.1" fill="#b44e5a"/><circle cx="23.2" cy="9.4" r="1.7" fill="#2f6f73"/></svg>
-        <span><span class="e">Erasmus</span><span class="g">Gravity</span></span>
-      </div>
-      <label class="quick-country" for="quickCountry">Sending country<input id="quickCountry" list="countryOptions" autocomplete="off" placeholder="Sending country or code"></label>
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">
-        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        Menu
-      </button>
-      <div class="nav-stack">
-        <nav class="nav-main" id="primaryNav" aria-label="Main sections">
-          <a class="nav-main-link" data-group="research" href="#sec-intro">Research</a>
-          <a class="nav-main-link" data-group="model" href="#sec-overview">Model</a>
-          <a class="nav-main-link" data-group="extra" href="#sec-time">Extra</a>
-        </nav>
-        <nav class="nav-subs" id="dynSubnav" aria-label="Current section topics"></nav>
-      </div>
-      <div class="modeswitch" role="group" aria-label="View mode" style="display:none">
-        <button id="m-free" class="active" type="button">Read</button>
-        <button id="m-explore" type="button">Explore</button>
-      </div>
+  <div class="mobile-bar"><a href="#welcome">ErasmusGravity</a><button id="drawerToggle" class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="siteSidebar"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Menu</button></div>
+  <button class="nav-backdrop" id="drawerBackdrop" type="button" aria-label="Close navigation" tabindex="-1"></button>
+  <aside class="site-sidebar" id="siteSidebar" aria-label="Site navigation and country">
+    <div class="sidebar-head">
+      <button class="drawer-close" id="drawerClose" type="button" aria-label="Close navigation">×</button>
+      <a class="brand" href="#welcome"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="13" rx="11.5" ry="5" fill="none" stroke="#2f6f73" stroke-width="1.4" transform="rotate(-22 13 13)"/><circle cx="13" cy="13" r="3.1" fill="#b44e5a"/></svg><span>Erasmus<b>Gravity</b></span></a>
+      <label class="sidebar-country" for="senderSelect">Selected country<select id="senderSelect" aria-describedby="countryFeedback"></select></label>
+      <div class="direction-switch" id="sidebarDirection" hidden role="group" aria-label="Mobility direction"><button type="button" data-direction="outgoing" aria-pressed="true">Outgoing</button><button type="button" data-direction="incoming" aria-pressed="false">Incoming</button></div>
+      <p class="country-feedback" id="countryFeedback">Choose a country to explore its mobility.</p>
     </div>
-    <select id="senderSelect" aria-hidden="true" tabindex="-1" style="display:none"></select>
-  </div>
-  <header class="pagehead">
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="Research and exploration"></nav>
+    <div class="sidebar-foot"><a href="#sec-data">Sources &amp; coverage</a><button id="shareView" type="button">Copy link to this view ↗</button><span id="shareStatus" role="status"></span></div>
+  </aside>
+  <header class="pagehead" id="welcome">
     <div class="hero-inner">
       <div class="hero-text">
         <h1>Erasmus mobility,<br>explained.</h1>
         <p class="rq"><b>Research question:</b> what explains the size of Erasmus+ Higher Education flows from one country to another? We explore associations with perceived quality of life, institution quality, language affinity and distance, controlling for broad destination prosperity. These observational results do not establish causal effects.</p>
-        <div class="meta-strip">
-          <span class="readout" id="topStat"></span>
-          <span class="scope-pill">KA1 study mobility · cross-border country pairs</span>
-        </div>
+        <div class="entry-actions"><a href="#sec-intro">Read the research</a><a href="#sec-explore">Explore mobility <span aria-hidden="true">↗</span></a></div>
+        <div class="meta-strip"><span class="readout" id="topStat"></span></div>
       </div>
       <svg class="hero-galaxy" viewBox="0 40 520 300" aria-hidden="true" focusable="false">
         <g class="galaxy-field" transform="rotate(-22 260 190)">
@@ -1863,7 +1849,7 @@ def render_dashboard(payload: dict) -> str:
         <a class="eq-term" href="#sec-salary">&beta;&#8321; &middot; GDP gap<sub>ij</sub></a> +
         <a class="eq-term" href="#sec-reddit">&beta;&#8322; &middot; Erasmusu rating<sub>j</sub></a> +
         <a class="eq-term" href="#sec-institution">&beta;&#8323; &middot; institution quality<sub>j</sub></a><br>
-        + controls(<a class="eq-term ctrl" href="#sec-controls">log distance, language affinity</a>))
+        + controls(<a class="eq-term ctrl" href="#sec-explanatory">log distance, language affinity</a>))
       </div>
       <p class="note">The destination j is a city; country-level covariates use its country. GDP gap is the headline prosperity control. Salary and price-level gaps enter a separate robustness specification. Reddit provides supporting text evidence and alternative specifications, not the main QoL regressor.</p>
       <p class="note"><a href="#sec-panel">Panel models</a> use separate origin, destination and year fixed effects. <a href="#sec-covid">COVID diagnostics</a> use destination&times;field, origin and year effects. Pair fixed effects and origin&times;year effects are proposed extensions, not controls implemented here.</p>
@@ -1894,216 +1880,6 @@ __VARIABLE_CARDS__
       <p class="note" style="margin-top:24px">Separate panel specifications and exploratory COVID diagnostics appear in the <a href="#sec-time" style="color:var(--accent)">Time &amp; Shocks</a> act below.</p>
     </section>
 
-    <div class="act">
-      <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#2f6f73" stroke-width="1.5" transform="rotate(-22 15 15)"/><circle cx="15" cy="15" r="4" fill="#b44e5a"/><circle cx="27" cy="11" r="2" fill="#2f6f73"/></svg>
-      <div class="gd-main">
-        <div class="gd-role">The dependent variable</div>
-        <h3>What we are explaining &mdash; the flows themselves</h3>
-      </div>
-      <span class="gd-sym">flow<sub>ij</sub></span>
-    </div>
-
-    <section id="sec-flow-filters" class="collapsible">
-      <details open>
-        <summary>
-          <h2 style="margin:0;font-size:18px;display:flex;align-items:center;gap:10px">
-            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M5 8h6M7 12h2" stroke="#2f6f73" stroke-width="1.6" stroke-linecap="round"/></svg>
-            Filter the flows
-            <span class="filter-chip" id="flowFilterChip" style="display:none"><span class="fdot"></span><span class="lab">active</span> <span class="fc-active"></span></span>
-          </h2>
-          <span class="collapse-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="collapse-body">
-          <div class="filter-redesign">
-            <div class="filter-primary">
-              <div class="fp-label">
-                <span class="fp-title"><span class="fp-emoji" aria-hidden="true"></span>Sending country</span>
-                <span class="fp-hint">Default: Italy. Drives the summary cards, trend chart, scatter and map.</span>
-              </div>
-              <div class="fp-controls">
-                <span class="ip">
-                  <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                  <input id="countrySearch" list="countryOptions" autocomplete="off" placeholder="Search country or code">
-                </span>
-                <datalist id="countryOptions"></datalist>
-                <button id="mapViewAll" type="button" class="pill-toggle"> All outgoing countries</button>
-              </div>
-            </div>
-            <div class="filter-optional">
-              <div class="fo-head">
-                <span class="fo-title">Narrow further <span style="font-weight:500;color:var(--muted);font-size:12px">(optional)</span></span>
-                <button class="reset" type="button" id="resetControls">
-                  <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.55M13 2v3h-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  Reset all
-                </button>
-              </div>
-              <p class="fo-explain">
-                Picking an <b> outgoing university</b> narrows the map and table to flows leaving that institution. Picking an <b> incoming country</b> or <b> incoming university</b> keeps only flows arriving there. Filters AND-combine: the more you set, the smaller the view.
-              </p>
-              <div class="fo-grid">
-                <label class="field"><span><span aria-hidden="true"></span>Outgoing university</span>
-                  <span class="ip">
-                    <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    <input id="outUniSearch" list="outUniOptions" autocomplete="off" placeholder="Sending university or city">
-                  </span>
-                  <datalist id="outUniOptions"></datalist>
-                </label>
-                <label class="field"><span><span aria-hidden="true"></span>Incoming country</span>
-                  <span class="ip">
-                    <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    <input id="inCountrySearch" list="inCountryOptions" autocomplete="off" placeholder="Destination country or code">
-                  </span>
-                  <datalist id="inCountryOptions"></datalist>
-                </label>
-                <label class="field"><span><span aria-hidden="true"></span>Incoming university</span>
-                  <span class="ip">
-                    <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    <input id="inUniSearch" list="inUniOptions" autocomplete="off" placeholder="Receiving university or city">
-                  </span>
-                  <datalist id="inUniOptions"></datalist>
-                </label>
-              </div>
-            </div>
-          </div>
-          <select id="orgLevel" style="display:none">
-            <option value="countryUni">Country &rarr; university</option>
-            <option value="uniCountry">University &rarr; country</option>
-            <option value="uniUni">University &rarr; university</option>
-          </select>
-          <select id="mapView" style="display:none">
-            <option value="sender">Selected outgoing country</option>
-            <option value="all">All outgoing countries</option>
-          </select>
-        </div>
-      </details>
-    </section>
-
-    <section id="sec-overview">
-      <h2><span class="h2-row">Selected Country Overview <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
-      <div id="summaryCards"></div>
-      <p class="note">Country-level totals; endpoint filters apply only to the map and university table. Main flow definition: Higher Education learners, study mobility activity, age 18+, cross-border flows only.</p>
-    </section>
-
-    <section id="sec-map">
-      <h2><span class="h2-row">University Flow Map <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
-      <div id="mapEmpty" class="map-empty" role="status" hidden>No flows match these filters. <button type="button" onclick="document.getElementById('resetControls').click()">Clear endpoint filters</button></div>
-      <div id="map"></div>
-      <div class="map-legend">
-        <span><span class="legend-dot" style="width:10px;height:10px"></span> smaller flow</span>
-        <span><span class="legend-dot" style="width:24px;height:24px"></span> larger flow</span>
-        <span id="mapNote">One point per university endpoint, sized by students. Zoom out to aggregate nearby universities into clusters; click a cluster to zoom in and pick a university. Universities sit at their city coordinate; cities without a coordinate match fall back to their country centroid.</span>
-      </div>
-    </section>
-
-    <section id="sec-trends">
-      <h2><span class="h2-row">Mobility Over Time (2014&ndash;2023) <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
-      <p class="note">Higher Education study mobility by calendar year of mobility start, from the spatially enriched Erasmus+ panel (V&auml;is&auml;nen et al. 2025). This is the temporal backbone for the panel gravity design.</p>
-      <div class="grid">
-        <div>
-          <h3 style="margin:0 0 6px">All countries &mdash; total outgoing</h3>
-          <div class="chart" id="trendTotal"></div>
-          <p class="note">Total cross-border HE study participants per year. The 2020 drop reflects the COVID-19 disruption to mobility.</p>
-        </div>
-        <div>
-          <h3 style="margin:0 0 6px" id="trendSenderTitle">Selected country &mdash; top destinations</h3>
-          <div class="chart" id="trendSender"></div>
-          <p class="note">Yearly flows from the selected sending country to its largest destinations. Use the sending-country selector in the top bar.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="sec-top-destinations" class="collapsible">
-      <details>
-        <summary>
-          <h2><span class="h2-row">Top Destinations <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
-          <span class="collapse-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="collapse-body">
-          <div class="chart" id="barChart"></div>
-        </div>
-      </details>
-    </section>
-
-    <section id="sec-destination-table" class="collapsible">
-      <details>
-        <summary>
-          <h2><span class="h2-row">Destination table <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></span></h2>
-          <span class="collapse-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="collapse-body">
-          <div class="dest-controls" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px">
-            <div class="seg-control" role="tablist" aria-label="Destination view" style="display:flex;flex-wrap:wrap;gap:6px">
-              <button type="button" class="seg-btn on" data-view="country" role="tab" aria-selected="true">Country &rarr; Country</button>
-              <button type="button" class="seg-btn" data-view="countryUni" role="tab" aria-selected="false">Country &rarr; University</button>
-              <button type="button" class="seg-btn" data-view="uniCountry" role="tab" aria-selected="false">University &rarr; Country</button>
-              <button type="button" class="seg-btn" data-view="uniUni" role="tab" aria-selected="false">University &rarr; University</button>
-            </div>
-            <input type="search" id="destTableFilter" placeholder="Filter rows&hellip;" class="dest-filter-input" autocomplete="off">
-          </div>
-          <p class="note" id="orgFlowNote" style="display:none"></p>
-          <div id="destinationTable"></div>
-          <div id="orgFlowTable" style="display:none"></div>
-        </div>
-      </details>
-    </section>
-
-    <section id="sec-heatmap" class="collapsible">
-      <details>
-        <summary>
-          <h2>Flow Heatmap</h2>
-          <span class="collapse-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="collapse-body">
-          <p class="note">Rows and columns use the same country order: countries are sorted by total Erasmus flow volume among the displayed top countries.</p>
-          <div class="heatmap-wrap chart" id="heatmap"></div>
-        </div>
-      </details>
-    </section>
-
-    <div class="act ctrl" id="sec-controls">
-      <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#8a949d" stroke-width="1.4" transform="rotate(-22 15 15)"/><circle cx="15" cy="15" r="3.2" fill="#8a949d"/></svg>
-      <div class="gd-main">
-        <div class="gd-role">Controls &amp; gravity frictions</div>
-        <h3>What we hold constant &mdash; plus an exploratory economics block</h3>
-      </div>
-      <span class="gd-sym">controls</span>
-    </div>
-
-    <section id="sec-gdp-gap" class="collapsible">
-      <details>
-        <summary>
-          <h2>GDP gap & mobility <span class="filter-chip"><span class="fdot"></span><span class="lab">Showing</span> <span class="fc-country">&mdash;</span></span></h2>
-          <span class="collapse-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="collapse-body">
-          <div class="chart" id="scatterChart"></div>
-          <p class="note"><strong>GDP gap</strong> = receiving-country GDP per capita minus sending-country GDP per capita (broad prosperity control, &beta;<sub>1</sub>). <strong>Flow share</strong> = flow to that destination divided by all outgoing flows from the selected sending country.</p>
-        </div>
-      </details>
-    </section>
-
-    <section id="sec-economics" class="collapsible">
-      <details>
-        <summary>
-          <h2>Destination economics</h2>
-          <span class="collapse-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="collapse-body">
-          <p class="note"><strong>Reported as robustness, not headline controls.</strong> <code>salary_gap</code> and <code>price_level_gap</code> proxy the same rich-vs-poor-destination dimension as the headline <code>gdp_gap</code> (&beta;<sub>1</sub>): VIFs ≈ 5&ndash;7 in the full-controls PPML, so the three monetary gaps split one signal three ways. The full-economic-controls spec is kept here as an exploratory check because of this multicollinearity, not because the economics are uninteresting. See <code>reports/gravity_model.md &sect;4</code>.</p>
-          <p class="note">Click column headers to sort. Destination metrics are weighted by each sending country's flow counts.</p>
-          <div id="weightedTable"></div>
-        </div>
-      </details>
-    </section>
-
-    <div class="act">
-      <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#2f6f73" stroke-width="1.5" transform="rotate(-22 15 15)"/><ellipse cx="15" cy="15" rx="8" ry="3.6" fill="none" stroke="#2f6f73" stroke-width="1.3" transform="rotate(-22 15 15)"/><circle cx="15" cy="15" r="3.2" fill="#b44e5a"/></svg>
-      <div class="gd-main">
-        <div class="gd-role">The explanatory variables</div>
-        <h3>What pulls students toward a destination</h3>
-      </div>
-      <span class="gd-sym">&beta;&#8321; &middot; &beta;&#8322; &middot; &beta;&#8323;</span>
-    </div>
 
     <section id="sec-salary">
       <h2>GDP-per-capita gap</h2>
@@ -2112,23 +1888,9 @@ __VARIABLE_CARDS__
         <div class="card"><div class="label"> Source</div><div class="value">World Bank GDP per capita (current USD)</div><div class="sub"><code>gdp_gap_usd_wb</code> &middot; pair-level destination minus origin, joined onto the KA1 2022 panel.</div></div>
         <div class="card"><div class="label"> Estimation</div><div class="value">PPML on bilateral flows, city-clustered SE</div><div class="sub">Cross-section Poisson with sending-country FE on the 2022 KA1 panel; gdp_gap enters as the only monetary term.</div></div>
         <div class="card" data-coef-card="GDP-per-capita gap"><div class="label"> Effect</div><div class="value"><span class="v-num">&mdash;</span></div><div class="effect-row"><span>loading&hellip;</span></div></div>
-        <div class="card"><div class="label"> Evidence (robustness)</div><div class="value">NACE-sector earnings explorer</div><div class="sub">Pick a country &amp; unit below to compare monthly earnings by sector &mdash; the salary heterogeneity behind the demoted salary-gap robustness term. See full controls breakdown under <a href="#sec-controls" style="color:var(--accent)">Controls</a>.</div></div>
+        <div class="card"><div class="label"> Evidence (robustness)</div><div class="value">NACE-sector earnings explorer</div><div class="sub"><a href="#sec-earnings">Compare a country and unit in Salary reference</a> for monthly earnings by sector &mdash; the salary heterogeneity behind the demoted salary-gap robustness term. See full controls breakdown under <a href="#sec-explanatory" style="color:var(--accent)">Controls</a>.</div></div>
       </div>
-      <div class="salary-controls" style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:12px 0 6px">
-        <label class="field" style="flex:1;min-width:180px"><span>Salary country</span><div class="selwrap"><select id="earnCountry"></select></div></label>
-        <label class="field" style="flex:1;min-width:180px"><span>Salary unit</span>
-          <div class="selwrap">
-            <select id="earnUnit">
-              <option value="eur">Euro (EUR)</option>
-              <option value="pps">Purchasing power standard (PPS)</option>
-            </select>
-          </div>
-        </label>
-      </div>
-      <div class="chart" id="earningsChart"></div>
-      <p class="note">Mean monthly gross earnings by NACE economic sector, Structure of Earnings Survey 2018. This is a salary-by-sector reference, <strong>not</strong> salary by field of study (Eurostat does not publish earnings by field of study). Coverage is limited to the 17 countries that report this dataset.</p>
     </section>
-
     <section id="sec-reddit">
       <h2>Quality of life</h2>
       <p class="note">A text layer over r/Erasmus and a numeric layer from Erasmusu city ratings. Tests whether students are pulled toward places that read as friendlier, cheaper, livelier in student talk.</p>
@@ -2141,7 +1903,6 @@ __VARIABLE_CARDS__
       <p class="note" style="margin-top:14px">Destination mentions extracted from r/Erasmus posts and comments. <strong>Score-weighted net</strong> also weights by extraction confidence and log Reddit score. Click headers to sort.</p>
       <div id="redditTable"></div>
     </section>
-
     <section id="sec-institution">
       <h2>Institution quality</h2>
       <p class="note">Each destination university enters as a ranking score. The headline cross-sectional model conditions on GDP gap, distance, language affinity and Erasmusu ratings. QS scores proxy academic attractiveness and may also reflect institutional scale and networks.</p>
@@ -2153,16 +1914,6 @@ __VARIABLE_CARDS__
       </div>
       <p class="note" style="margin-top:14px">Comparing specifications can change both the sample and the controls, so coefficient differences alone do not isolate an institution-quality effect. See <a href="#sec-results" style="color:var(--accent)">Model Results</a> for the full coefficient table.</p>
     </section>
-
-    <div class="act" id="sec-time">
-      <svg class="gd-glyph" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#2f6f73" stroke-width="1.5" transform="rotate(-22 15 15)"/><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#b44e5a" stroke-width="1.2" transform="rotate(22 15 15)"/><circle cx="15" cy="15" r="3.4" fill="#b44e5a"/></svg>
-      <div class="gd-main">
-        <div class="gd-role">Time &amp; shocks</div>
-        <h3>The model run through every year &mdash; and the 2020 break</h3>
-      </div>
-      <span class="gd-sym">&Sigma;<sub>t</sub></span>
-    </div>
-
     <section id="sec-panel">
       <h2>Panel gravity, 2014&ndash;2023</h2>
       <p class="note">
@@ -2199,7 +1950,6 @@ __VARIABLE_CARDS__
       </div>
       <p class="note" style="margin-top:12px;font-size:12px"><strong>Read:</strong> only <strong>life satisfaction</strong> identifies cleanly as time-varying &mdash; +25.4% per life-satisfaction point, p=0.035. The other two are null. The QS null reflects QS-score stickiness (within-city year-to-year variance is tiny); the education-spending null suggests within-country temporal drift in public-education investment doesn't move Erasmus flows.</p>
     </section>
-
     <section id="sec-covid">
       <h2>The 2020 shock</h2>
       <p class="note">We move from the smooth year-FE path to a real, date-pinned shock. Each ISCED-F broad field of study is mapped to one NACE sector, then we ask: did flows into (destination, field) cells whose mapped sector was hit harder in 2020 fall by more, relative to 2019? We run it twice &mdash; once with wage-based hit (LCI), once with employment-based hit (LFS) &mdash; because wage subsidies may affect the interpretation of the LCI wage series.</p>
@@ -2212,7 +1962,206 @@ __VARIABLE_CARDS__
       <div class="chart" id="covidEventStudyChart"></div>
       <p class="note" style="margin-top:8px;font-size:12px"><strong>How to read:</strong> two series of year&times;hit interactions (2019 as reference). <span style="color:var(--accent-2)"><b>Coral</b></span> = LCI wage-based hit. <span style="color:var(--accent)"><b>Teal</b></span> = LFS employment-based hit. Filled dots = p&lt;0.05. Dashed horizontal line at zero. Dashed vertical line marks 2019 reference. LCI on a different y-scale from LFS &mdash; coefficients in the Effect card read as "% flow change per 1 pp harder hit sector".</p>
     </section>
+    <section id="sec-europe">
+      <h2>Europe overview</h2><p class="scope-note">All participating countries · KA1 2022 study mobility, including partner countries outside Europe.</p>
+      <p>See the scale of the network, then choose a country to explore where its students go or where they arrive from.</p>
+      <div class="europe-metrics" id="europeMetrics"></div><p class="scope-note" id="europeCoverage"></p>
+      <div class="europe-columns"><div><h3>Largest sending countries</h3><ol class="europe-ranking" id="europeOutgoing"></ol></div><div><h3>Largest receiving countries</h3><ol class="europe-ranking" id="europeIncoming"></ol></div></div>
+      <h3 style="margin-top:26px">Mobility over time</h3><p class="scope-note">All countries · separate historical panel, 2014–2023.</p><div class="chart" id="trendTotal"></div>
+    </section>
+    <section id="sec-heatmap" class="collapsible">
+      <details>
+        <summary>
+          <h2>Flow Heatmap</h2>
+          <span class="collapse-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="collapse-body">
+          <p class="note">Rows and columns use the same country order: countries are sorted by total Erasmus flow volume among the displayed top countries.</p>
+          <div class="heatmap-wrap chart" id="heatmap"></div>
+        </div>
+      </details>
+    </section>
+    <section id="sec-explore">
+      <h2>Explore a country</h2><p id="exploreScope" class="scope-note">Choose a country to start.</p>
+      <div class="country-prompt" id="countryPrompt"><p>Which country would you like to explore? Read its national context, follow outgoing or incoming mobility, and refine university-level flows.</p><button class="button-action" id="chooseCountry" type="button">Choose a country</button><a href="#sec-europe" style="margin-left:14px">See Europe first</a></div>
+      <div class="explore-toolbar" id="exploreToolbar" hidden><button class="button-action" id="changeCountry" type="button">Country &amp; direction</button><a href="#sec-flow-filters">Refine exploration</a><a href="#sec-europe">Europe overview ↗</a></div>
+      <p id="exploreStatus" class="explore-status" role="status"></p><p id="filterResetNote" class="filter-reset-note" role="status"></p>
+    </section>
 
+    <section id="sec-overview" data-country-section>
+      <h2><span class="h2-row">Country overview </span></h2>
+      <div id="summaryCards"></div>
+      <p class="note">National context uses Higher Education study mobility, age 18+, across country borders. University-level records have separate geographic coverage; their refined totals are labelled separately.</p>
+    </section>
+
+    <section id="sec-flow-filters" class="collapsible" data-country-section>
+      <details>
+        <summary>
+          <h2 style="margin:0;font-size:18px;display:flex;align-items:center;gap:10px">
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M5 8h6M7 12h2" stroke="#2f6f73" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Refine exploration
+            <span class="filter-chip" id="flowFilterChip" style="display:none"><span class="fdot"></span><span class="lab">active</span> <span class="fc-active"></span></span>
+          </h2>
+          <span class="collapse-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="collapse-body">
+          <div class="filter-redesign">
+            <div class="filter-optional">
+              <div class="fo-head">
+                <span class="fo-title">University &amp; partner filters <span style="font-weight:500;color:var(--muted);font-size:12px">(optional)</span></span>
+                <button class="reset" type="button" id="resetControls">
+                  <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.55M13 2v3h-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Clear filters
+                </button>
+              </div>
+              <p class="fo-explain">
+                Choose any combination of origin university, partner country and destination university. These filters refine the map, partner chart, flow table and GDP-gap plot. National totals, grants and historical trends keep their own labelled scope.
+              </p>
+              <div class="fo-grid">
+                <label class="field"><span><span aria-hidden="true"></span>Origin university</span>
+                  <span class="ip">
+                    <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <input id="outUniSearch" list="outUniOptions" autocomplete="off" placeholder="Origin university or city">
+                  </span>
+                  <datalist id="outUniOptions"></datalist>
+                </label>
+                <label class="field"><span><span aria-hidden="true"></span>Partner country</span>
+                  <span class="ip">
+                    <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <input id="inCountrySearch" list="inCountryOptions" autocomplete="off" placeholder="Partner country or code">
+                  </span>
+                  <datalist id="inCountryOptions"></datalist>
+                </label>
+                <label class="field"><span><span aria-hidden="true"></span>Destination university</span>
+                  <span class="ip">
+                    <svg class="ic" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <input id="inUniSearch" list="inUniOptions" autocomplete="off" placeholder="Destination university or city">
+                  </span>
+                  <datalist id="inUniOptions"></datalist>
+                </label>
+              </div>
+            </div>
+          </div>
+          <select id="orgLevel" style="display:none" aria-hidden="true" tabindex="-1">
+            <option value="countryUni">Country &rarr; university</option>
+            <option value="uniCountry">University &rarr; country</option>
+            <option value="uniUni">University &rarr; university</option>
+          </select>
+        </div>
+      </details>
+    </section>
+    <section id="sec-map" data-country-section>
+      <h2><span class="h2-row">University Flow Map </span></h2>
+      <div id="mapEmpty" class="map-empty" role="status" hidden>No flows match these filters. <button type="button" onclick="document.getElementById('resetControls').click()">Clear endpoint filters</button></div>
+      <div id="map"></div>
+      <div class="map-legend">
+        <span><span class="legend-dot" style="width:10px;height:10px"></span> smaller flow</span>
+        <span><span class="legend-dot" style="width:24px;height:24px"></span> larger flow</span>
+        <span id="mapNote">One point per university endpoint, sized by students. Zoom out to aggregate nearby universities into clusters; click a cluster to zoom in and pick a university. Universities sit at their city coordinate; cities without a coordinate match fall back to their country centroid.</span>
+      </div>
+    </section>
+
+    <section id="sec-trends" data-country-section>
+      <h2><span class="h2-row">Mobility Over Time (2014&ndash;2023) </span></h2>
+      <p class="note">Higher Education study mobility by calendar year of mobility start, from the spatially enriched Erasmus+ panel (V&auml;is&auml;nen et al. 2025). This is the temporal backbone for the panel gravity design.</p>
+      <div class="grid">
+        <div>
+          <h3 style="margin:0 0 6px" id="trendSenderTitle">Selected country &mdash; top destinations</h3>
+          <div class="chart" id="trendSender"></div>
+          <p class="note">National flows by calendar year and direction. University filters do not apply to this separate 2014–2023 panel.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-top-destinations" class="collapsible" data-country-section>
+      <details>
+        <summary>
+          <h2><span class="h2-row">Top partners </span></h2>
+          <span class="collapse-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="collapse-body">
+          <div class="chart" id="barChart"></div>
+        </div>
+      </details>
+    </section>
+
+    <section id="sec-destination-table" class="collapsible" data-country-section>
+      <details>
+        <summary>
+          <h2><span class="h2-row">Flow table </span></h2>
+          <span class="collapse-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="collapse-body">
+          <div class="dest-controls" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px">
+            <div class="seg-control" role="tablist" aria-label="Destination view" style="display:flex;flex-wrap:wrap;gap:6px">
+              <button type="button" class="seg-btn on" data-view="country" role="tab" aria-selected="true">Country &rarr; Country</button>
+              <button type="button" class="seg-btn" data-view="countryUni" role="tab" aria-selected="false">Country &rarr; University</button>
+              <button type="button" class="seg-btn" data-view="uniCountry" role="tab" aria-selected="false">University &rarr; Country</button>
+              <button type="button" class="seg-btn" data-view="uniUni" role="tab" aria-selected="false">University &rarr; University</button>
+            </div>
+            <input type="search" id="destTableFilter" placeholder="Filter rows&hellip;" class="dest-filter-input" autocomplete="off">
+          </div>
+          <p class="note" id="orgFlowNote" style="display:none"></p>
+          <div id="destinationTable"></div>
+          <div id="orgFlowTable" style="display:none"></div>
+        </div>
+      </details>
+    </section>
+
+
+
+    <section id="sec-gdp-gap" class="collapsible" data-country-section>
+      <details>
+        <summary>
+          <h2>GDP gap & mobility </h2>
+          <span class="collapse-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="collapse-body">
+          <div class="chart" id="scatterChart"></div>
+          <p class="note"><strong>GDP gap</strong> = receiving-country GDP per capita minus sending-country GDP per capita (broad prosperity control, &beta;<sub>1</sub>). <strong>Flow share</strong> = the partner’s share of the selected direction and active exploration filters.</p>
+        </div>
+      </details>
+    </section>
+
+
+
+
+
+
+
+
+
+    <section id="sec-earnings" data-country-section>
+      <h2>Salary reference</h2><p class="scope-note" id="salaryScope"></p>
+      <button class="button-action" id="followSalary" type="button">Follow selected country</button>
+      <p id="salaryState" class="salary-state" role="status"></p>
+      <div class="salary-controls" style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:12px 0 6px">
+        <label class="field" style="flex:1;min-width:180px"><span>Salary country</span><div class="selwrap"><select id="earnCountry"></select></div></label>
+        <label class="field" style="flex:1;min-width:180px"><span>Salary unit</span>
+          <div class="selwrap">
+            <select id="earnUnit">
+              <option value="eur">Euro (EUR)</option>
+              <option value="pps">Purchasing power standard (PPS)</option>
+            </select>
+          </div>
+        </label>
+      </div>
+      <div class="chart" id="earningsChart"></div>
+      <p class="note">Mean monthly gross earnings by NACE economic sector, Structure of Earnings Survey 2018. This is a salary-by-sector reference, <strong>not</strong> salary by field of study (Eurostat does not publish earnings by field of study). Coverage is limited to the 17 countries that report this dataset.</p>
+    </section>
+    <section id="sec-economics" class="collapsible">
+      <details>
+        <summary>
+          <h2>Destination economics</h2>
+          <span class="collapse-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="collapse-body">
+          <p class="note"><strong>Reported as robustness, not headline controls.</strong> <code>salary_gap</code> and <code>price_level_gap</code> proxy the same rich-vs-poor-destination dimension as the headline <code>gdp_gap</code> (&beta;<sub>1</sub>): VIFs ≈ 5&ndash;7 in the full-controls PPML, so the three monetary gaps split one signal three ways. The full-economic-controls spec is kept here as an exploratory check because of this multicollinearity, not because the economics are uninteresting. See <code>reports/gravity_model.md &sect;4</code>.</p>
+          <p class="note">Click column headers to sort. Destination metrics are weighted by each sending country's flow counts.</p>
+          <div id="weightedTable"></div>
+        </div>
+      </details>
+    </section>
     <section id="sec-data">
       <h2>Data Sources and Measurement Notes</h2>
       <ul class="source-list">
@@ -2251,10 +2200,7 @@ __VARIABLE_CARDS__
     const covidEventStudyEmployment = payload.covidEventStudyEmployment || [];
     const modelCoefficients = payload.modelCoefficients || [];
     const senderSelect = document.getElementById('senderSelect');
-    const countrySearch = document.getElementById('countrySearch');
-    const countryOptions = document.getElementById('countryOptions');
     const orgLevelSelect = document.getElementById('orgLevel');
-    const mapViewSelect = document.getElementById('mapView');
     const outUniSearch = document.getElementById('outUniSearch');
     const outUniOptions = document.getElementById('outUniOptions');
     const inCountrySearch = document.getElementById('inCountrySearch');
@@ -2264,6 +2210,10 @@ __VARIABLE_CARDS__
     const earnCountrySelect = document.getElementById('earnCountry');
     const earnUnitSelect = document.getElementById('earnUnit');
     const tooltip = document.getElementById('tooltip');
+__MOBILITY_MODEL__
+    const countryNames = new Map(countries.map(c => [c.code,c.country]));
+    const viewState = Mobility.readQuery(location.search,new Set(countries.map(c => c.code)));
+    let explorerReady = false;
     let weightedSort = { key: 'outgoing', dir: -1 };
     let destinationSort = { key: 'flow_count', dir: -1 };
     let redditSort = { key: 'mentions', dir: -1 };
@@ -2311,104 +2261,12 @@ __VARIABLE_CARDS__
       return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
     }
 
-    function senderRows(code) {
-      const rows = flows.filter(row => row.sending_code === code);
-      const total = rows.reduce((sum, row) => sum + row.flow_count, 0);
-      return rows.map(row => ({ ...row, flow_share: total ? row.flow_count / total : 0 }));
-    }
-
+    const norm = Mobility.normalize;
+    function senderRows(code) { return Mobility.partners(flows,code,viewState.direction); }
     function senderRowsFiltered(code) {
-      const uniInput = (typeof outUniSearch !== 'undefined' && outUniSearch) ? outUniSearch.value : '';
-      const uniQ = norm(uniInput);
-      if (!uniQ) return senderRows(code);
-      const src = (orgFlowTables && orgFlowTables.uniCountry) || [];
-      const matched = src.filter(r => r.sending_code === code &&
-        (norm(r.sending_org).includes(uniQ) || norm(r.sending_city).includes(uniQ)));
-      if (!matched.length) return [];
-      const agg = new Map();
-      matched.forEach(r => {
-        const prev = agg.get(r.receiving_code) || { receiving_code: r.receiving_code, receiving_country: r.receiving_country, flow_count: 0 };
-        prev.flow_count += r.flow_count;
-        agg.set(r.receiving_code, prev);
-      });
-      const flowsByPair = new Map(flows.map(row => [`${row.sending_code}|${row.receiving_code}`, row]));
-      const out = [...agg.values()].map(r => {
-        const ref = flowsByPair.get(`${code}|${r.receiving_code}`) || {};
-        return { ...ref, ...r, sending_code: code };
-      });
-      const total = out.reduce((s, r) => s + r.flow_count, 0);
-      out.forEach(r => { r.flow_share = total ? r.flow_count / total : 0; });
-      return out;
+      if (!Object.values(viewState.filters).some(Boolean)) return senderRows(code);
+      return Mobility.aggregatePartners(explorationOrgRows(),code,viewState.direction,flows);
     }
-
-    const norm = value => String(value ?? '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '');
-    const countryLabel = country => `${country.code} - ${country.country}`;
-
-    function populateSelect() {
-      const activeCountries = countries.filter(country => country.outgoing > 0);
-      senderSelect.innerHTML = activeCountries
-        .map(country => `<option value="${country.code}">${escapeHtml(countryLabel(country))}</option>`)
-        .join('');
-      countryOptions.innerHTML = activeCountries
-        .map(country => `<option value="${escapeHtml(countryLabel(country))}"></option>`)
-        .join('');
-      senderSelect.value = countries.find(country => country.code === 'IT') ? 'IT' : senderSelect.options[0].value;
-      syncCountrySearch();
-      senderSelect.addEventListener('change', updateCountry);
-      countrySearch.addEventListener('change', selectCountryFromSearch);
-      countrySearch.addEventListener('keydown', event => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          selectCountryFromSearch();
-        }
-      });
-      countrySearch.addEventListener('input', () => {
-        const exact = findCountryMatch(countrySearch.value, true);
-        if (exact && exact.code !== senderSelect.value) setCountry(exact.code);
-      });
-    }
-
-    function findCountryMatch(value, exactOnly = false) {
-      const query = norm(value);
-      if (!query) return null;
-      const activeCountries = countries.filter(country => country.outgoing > 0);
-      const exact = activeCountries.find(country =>
-        norm(country.code) === query ||
-        norm(country.country) === query ||
-        norm(countryLabel(country)) === query
-      );
-      if (exact || exactOnly) return exact || null;
-      return activeCountries.find(country =>
-        norm(country.code).startsWith(query) ||
-        norm(country.country).includes(query) ||
-        norm(countryLabel(country)).includes(query)
-      ) || null;
-    }
-
-    function setCountry(code) {
-      senderSelect.value = code;
-      syncCountrySearch();
-      updateCountry();
-    }
-
-    function syncCountrySearch() {
-      const selected = countries.find(country => country.code === senderSelect.value);
-      countrySearch.value = selected ? countryLabel(selected) : senderSelect.value;
-    }
-
-    function selectCountryFromSearch() {
-      const match = findCountryMatch(countrySearch.value, false);
-      if (match) {
-        setCountry(match.code);
-      } else {
-        syncCountrySearch();
-      }
-    }
-
     const SENDER_STATS = (() => {
       const out = new Map();
       const wsum = (acc, key, weight, val) => {
@@ -2613,49 +2471,12 @@ __VARIABLE_CARDS__
       return `<div class="summary-group"><div class="grp-head"><span class="grp-name">${name}</span><span class="grp-hint">${hint}</span></div><div class="cards">${cardsHTML}</div>${foot}</div>`;
     }
 
-    function renderSummary(rows) {
-      const code = senderSelect.value;
-      const stats = SENDER_STATS.get(code) || {};
-      const flow = [
-        { emoji: '', label: 'Outgoing students', key: 'outgoing', value: stats.outgoing, fmt: fmtInt },
-        { emoji: '', label: 'Incoming students', key: 'incoming', value: stats.incoming, fmt: fmtInt },
-        { emoji: '', label: 'Net (out − in)', key: 'net', value: stats.net, fmt: fmtSigned, signed: true },
-        { emoji: '', label: 'Destinations reached', key: 'destinations', value: stats.destinations, fmt: fmtInt },
-      ].map(renderCard).join('');
-
-      const money = [
-        { emoji: '', label: 'Weighted dest. GDP-pc gap, USD', key: 'gdpGapMean', value: stats.gdpGapMean, fmt: fmtSignedMoney, signed: true, subMode: 'vsMean' },
-        { emoji: '', label: 'Weighted dest. earnings gap, EUR', key: 'earnGapMean', value: stats.earnGapMean, fmt: fmtSignedMoney, signed: true, subMode: 'vsMean' },
-        { emoji: '', label: 'Weighted dest. price-level gap', key: 'priceGapMean', value: stats.priceGapMean, fmt: fmtSigned, signed: true, subMode: 'vsMean' },
-        { emoji: '', label: 'Share to richer GDP-pc countries', key: 'richerShare', value: stats.richerShare, fmt: fmtPct, subMode: 'vsMean' },
-      ].map(renderCard).join('');
-
-      const destinations = `
-        <div class="card" data-chartable="0"><div class="label">Top 3 outflows</div>${renderTopList(stats.topOut, 'No outgoing flows.')}</div>
-        <div class="card" data-chartable="0"><div class="label">Top 3 inflows</div>${renderTopList(stats.topIn, 'No incoming flows.')}</div>
-      `;
-
-      const grant = [
-        { emoji: '', label: 'HE grants, EUR', key: 'grants', value: stats.grants, fmt: fmtMoney, subMode: 'vsMean' },
-        { emoji: '', label: 'Grant per estimated participant', key: 'grantPerEstimated', value: stats.grantPerEstimated, fmt: fmtMoney, subMode: 'vsMean' },
-      ].map(renderCard).join('');
-
-      const moneyFoot = 'No <em>top X</em> on this group &mdash; each variable lives on its own scale and units, so a ranked position would mislead more than it helps. Compare each card to its own <em>mean</em>; tap a card for the full distribution.';
-      const grantFoot = 'Grants are absolute national budgets, so rank reflects country size more than generosity. We show only the gap vs the European mean.';
-
-      document.getElementById('summaryCards').innerHTML = `<div class="summary-stack">
-        ${renderGroup('01', '04', 'Flow', '', 'Volume on each side of the gate.', flow)}
-        ${renderGroup('02', '04', 'Money', '', 'What students step into &mdash; weighted by where they go.', money, moneyFoot)}
-        ${renderGroup('03', '04', 'Destinations', '', 'The top-3 partners on each side of the flow.', destinations)}
-        ${renderGroup('04', '04', 'Grant', '', 'National Erasmus budget &mdash; absolute, not per student.', grant, grantFoot)}
-      </div>`;
-    }
-
     function renderBar(rows) {
+      if (!rows.length) { document.getElementById("barChart").innerHTML = '<p class="exploration-empty">No partner flows match the current selection. Clear the filters to broaden the view.</p>'; return; }
       const data = [...rows].sort((a, b) => b.flow_count - a.flow_count).slice(0, 12).reverse();
-      const width = 760;
-      const rowH = 28;
-      const left = 130;
+      const width = Math.max(280, document.getElementById('barChart').clientWidth);
+      const rowH = 30;
+      const left = width < 500 ? 110 : 170;
       const right = 70;
       const height = 44 + data.length * rowH;
       const max = Math.max(...data.map(row => row.flow_count), 1);
@@ -2663,9 +2484,9 @@ __VARIABLE_CARDS__
         const y = 24 + i * rowH;
         const w = scale(row.flow_count, 0, max, 0, width - left - right);
         const label = `${row.receiving_code} - ${row.receiving_country}`;
-        const tip = `${escapeHtml(label)}<br>${fmtInt(row.flow_count)} students<br>${fmtPct(row.flow_share)} of outgoing flow`;
+        const tip = `${escapeHtml(label)}<br>${fmtInt(row.flow_count)} students<br>${fmtPct(row.flow_share)} of selected ${viewState.direction} flow`;
         return `<g data-tip="${tip}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()">
-          <text x="${left - 8}" y="${y + 16}" text-anchor="end" class="axis-text">${escapeHtml(row.receiving_code)}</text>
+          <text x="${left - 8}" y="${y + 16}" text-anchor="end" class="axis-text">${escapeHtml(row.receiving_country.length > (width < 500 ? 14 : 24) ? row.receiving_country.slice(0, width < 500 ? 13 : 23)+'…' : row.receiving_country)}</text>
           <rect class="bar" x="${left}" y="${y}" width="${w}" height="18" rx="3"></rect>
           <text x="${left + w + 6}" y="${y + 14}" class="axis-text">${fmtInt(row.flow_count)}</text>
         </g>`;
@@ -2674,8 +2495,9 @@ __VARIABLE_CARDS__
     }
 
     function renderScatter(rows) {
+      if (!rows.some(r => r.gdp_gap_usd_wb != null)) { document.getElementById("scatterChart").innerHTML = '<p class="exploration-empty">No comparable GDP observations for these flows. Other exploration panels may still contain data.</p>'; return; }
       const data = rows.filter(row => row.gdp_gap_usd_wb != null);
-      const width = 760, height = 430, left = 72, right = 28, top = 24, bottom = 54;
+      const width = Math.max(280, document.getElementById('scatterChart').clientWidth), height = width < 500 ? 290 : 400, left = 44, right = 18, top = 24, bottom = 54;
       const [rawXMin, rawXMax] = extent(data.map(row => row.gdp_gap_usd_wb));
       const xMin = Math.min(rawXMin, 0), xMax = Math.max(rawXMax, 0);
       const [yMin, yMax] = [0, Math.max(...data.map(row => row.flow_share), 0.01)];
@@ -2695,7 +2517,7 @@ __VARIABLE_CARDS__
         ${circles}
         <text class="axis-text" x="${left}" y="${height - 16}">poorer destination</text>
         <text class="axis-text" x="${width - right}" y="${height - 16}" text-anchor="end">richer destination</text>
-        <text class="axis-text" x="${width / 2}" y="${height - 16}" text-anchor="middle">GDP pc gap</text>
+        <text class="axis-text" x="${width / 2}" y="${height - 36}" text-anchor="middle">GDP pc gap</text>
         <text class="axis-text" x="12" y="${top}" transform="rotate(-90 12 ${top})">flow share</text>
       </svg>`;
     }
@@ -2713,56 +2535,6 @@ __VARIABLE_CARDS__
         if (typeof av === 'string') return av.localeCompare(bv) * sort.dir;
         return (av - bv) * sort.dir;
       });
-    }
-
-    function renderDestinationTable(rows) {
-      const sorted = sortRows(rows, destinationSort);
-      const body = sorted.map(row => `<tr>
-        <td>${escapeHtml(row.receiving_code)}</td>
-        <td>${escapeHtml(row.receiving_country)}</td>
-        <td>${fmtInt(row.flow_count)}</td>
-        <td>${fmtPct(row.flow_share)}</td>
-        <td>${fmtMoney(row.receiver_gdp_pc_current_usd_wb)}</td>
-        <td>${fmtMoney(row.gdp_gap_usd_wb)}</td>
-        <td>${fmtOne(row.price_level_gap)}</td>
-        <td>${fmtMoney(row.earnings_gap)}</td>
-      </tr>`).join('');
-      document.getElementById('destinationTable').innerHTML = `<table class="data-table">
-        <thead><tr>
-          ${sortableHeader('Code', 'receiving_code', 'destination')}
-          ${sortableHeader('Destination', 'receiving_country', 'destination')}
-          ${sortableHeader('Students', 'flow_count', 'destination')}
-          ${sortableHeader('Flow share', 'flow_share', 'destination')}
-          ${sortableHeader('Receiver GDP pc US$', 'receiver_gdp_pc_current_usd_wb', 'destination')}
-          ${sortableHeader('GDP gap US$', 'gdp_gap_usd_wb', 'destination')}
-          ${sortableHeader('Price gap', 'price_level_gap', 'destination')}
-          ${sortableHeader('Earnings gap EUR', 'earnings_gap', 'destination')}
-        </tr></thead><tbody>${body}</tbody></table>`;
-    }
-
-    function renderWeightedTable() {
-      const rows = sortRows(weightedRows, weightedSort);
-      const body = rows.map(row => `<tr>
-        <td>${escapeHtml(row.code)}</td>
-        <td>${escapeHtml(row.sender.replace(row.code + ' - ', ''))}</td>
-        <td>${fmtInt(row.outgoing)}</td>
-        <td>${fmtMoney(row.weighted_gdp_pc_usd)}</td>
-        <td>${fmtOne(row.weighted_price_level)}</td>
-        <td>${fmtMoney(row.weighted_net_earnings_eur)}</td>
-        <td>${fmtMoney(row.grant_per_estimated_participant_eur)}</td>
-        <td>${fmtMoney(row.grant_per_actual_participant_eur)}</td>
-      </tr>`).join('');
-      document.getElementById('weightedTable').innerHTML = `<table class="data-table">
-        <thead><tr>
-          ${sortableHeader('Code', 'code', 'weighted')}
-          ${sortableHeader('Sender', 'sender', 'weighted')}
-          ${sortableHeader('Outgoing students', 'outgoing', 'weighted')}
-          ${sortableHeader('Weighted destination GDP pc US$', 'weighted_gdp_pc_usd', 'weighted')}
-          ${sortableHeader('Weighted destination price level', 'weighted_price_level', 'weighted')}
-          ${sortableHeader('Weighted destination earnings EUR', 'weighted_net_earnings_eur', 'weighted')}
-          ${sortableHeader('Grant per estimated participant EUR', 'grant_per_estimated_participant_eur', 'weighted')}
-          ${sortableHeader('Grant per actual participant EUR', 'grant_per_actual_participant_eur', 'weighted')}
-        </tr></thead><tbody>${body}</tbody></table>`;
     }
 
     const COEF_ORDER = [
@@ -2859,7 +2631,7 @@ __VARIABLE_CARDS__
       if (!covidEventStudy.length && !covidEventStudyEmployment.length) {
         el.innerHTML = '<p class="note">No event-study coefficients yet.</p>'; return;
       }
-      const W = 760, H = 320, left = 56, right = 16, top = 36, bottom = 48;
+      const W = Math.max(280, el.clientWidth), H = W < 500 ? 300 : 320, left = 42, right = 18, top = W < 500 ? 72 : 42, bottom = 48;
       const rowsLci = [...covidEventStudy].sort((a, b) => a.year - b.year);
       const rowsEmp = [...covidEventStudyEmployment].sort((a, b) => a.year - b.year);
       const allYears = Array.from(new Set([...rowsLci.map(r => +r.year), ...rowsEmp.map(r => +r.year), 2019]))
@@ -2893,21 +2665,17 @@ __VARIABLE_CARDS__
           return `<circle cx="${x(+r.year).toFixed(1)}" cy="${y(r[key]).toFixed(1)}" r="${radius}" fill="${fill}" stroke="#fff" stroke-width="1.6" data-tip="${tip}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()"></circle>`;
         }).join('');
       }
-      const yearLabels = allYears.map(yr =>
+      const yearLabels = allYears.filter((yr,i) => W >= 500 || i % 2 === 0 || yr === 2023).map(yr =>
         `<text x="${x(yr).toFixed(1)}" y="${H - 28}" text-anchor="middle" class="axis-text" ${yr >= 2020 ? 'style="font-weight:700;fill:var(--accent-2-deep)"' : ''}>${yr}</text>`
       ).join('');
       const refLine = `<line x1="${x(2019).toFixed(1)}" y1="${top}" x2="${x(2019).toFixed(1)}" y2="${H - bottom}" stroke="var(--ink-strong)" stroke-width="1" stroke-dasharray="4 3"></line>
         <text x="${x(2019).toFixed(1)}" y="${H - 12}" text-anchor="middle" class="axis-text" style="font-weight:700">2019 reference</text>`;
       const zeroY = y(0);
-      const legend = `<g transform="translate(${left}, ${top - 16})" font-family="-apple-system,sans-serif" font-size="11.5">
-        <circle cx="6" cy="0" r="4" fill="var(--accent-2)"></circle>
-        <text x="14" y="4" fill="var(--ink)" font-weight="700">LCI (wage-based, scale ${lci.scale.toFixed(3)})</text>
-        <circle cx="240" cy="0" r="4" fill="var(--accent)"></circle>
-        <text x="248" y="4" fill="var(--ink)" font-weight="700">LFS (employment-based, scale ${emp.scale.toFixed(2)})</text>
-      </g>`;
+      const legend = `<g transform="translate(${left}, 18)" font-family="-apple-system,sans-serif" font-size="12">
+        <circle cx="0" cy="0" r="4" fill="var(--accent-2)"></circle><text x="10" y="4" fill="var(--ink)">LCI · scale ${lci.scale.toFixed(3)}</text>
+        <circle cx="${W < 500 ? 0 : 220}" cy="${W < 500 ? 20 : 0}" r="4" fill="var(--accent)"></circle><text x="${W < 500 ? 10 : 230}" y="${W < 500 ? 24 : 4}" fill="var(--ink)">LFS · scale ${emp.scale.toFixed(2)}</text></g>`;
       el.innerHTML = `<svg viewBox="0 0 ${W} ${H}">
         <line x1="${left}" y1="${zeroY}" x2="${W - right}" y2="${zeroY}" stroke="#1f2933" stroke-width="1.2" stroke-dasharray="6 3"></line>
-        <text x="${W - right - 4}" y="${zeroY - 4}" text-anchor="end" class="axis-text" style="font-weight:700">zero / placebo</text>
         ${refLine}
         ${rowsLci.length ? `<path d="${seriesPath(lci.rows, 'beta_n')}" fill="none" stroke="var(--accent-2)" stroke-width="1.8" opacity=".7"></path>` : ''}
         ${rowsEmp.length ? `<path d="${seriesPath(emp.rows, 'beta_n')}" fill="none" stroke="var(--accent)" stroke-width="1.8" opacity=".7"></path>` : ''}
@@ -3006,31 +2774,13 @@ __VARIABLE_CARDS__
 
     function renderCoeffs() {
       const el = document.getElementById('coeffTable');
-      if (!el) return;
-      if (!modelCoefficients.length) { el.innerHTML = '<p class="note">No coefficients yet. Run scripts/run_regression.py.</p>'; return; }
+      if (!modelCoefficients.length) { el.innerHTML = '<p class="note">No coefficients are available in this snapshot.</p>'; return; }
       const body = orderedCoefficients().map(c => {
-        const planned = c.beta === null || c.beta === undefined;
-        const sig = !planned && c.p < 0.05;
-        const beta = planned ? '&mdash;' : formatCoefficient(c.beta, 4);
-        const pCell = planned ? '<span class="note">planned</span>'
-          : (sig ? `<strong style="color:var(--accent)">${formatP(c.p)}</strong>` : formatP(c.p));
-        let eff = '';
-        if (!planned) {
-          const txt = naturalEffectText(c.term, +c.beta);
-          eff = txt || '';
-        }
-        return `<tr>
-          <td><strong>${escapeHtml(c.symbol)}</strong></td>
-          <td>${escapeHtml(c.variable)}</td>
-          <td>${beta}</td>
-          <td>${pCell}</td>
-          <td>${eff}</td>
-          <td>${escapeHtml(c.expected_sign || '')}</td>
-        </tr>`;
+        const missing = c.beta == null;
+        const p = missing ? '—' : formatP(c.p);
+        return `<tr><td class="scientific-name"><span class="note">${escapeHtml(c.symbol)}</span> ${escapeHtml(c.variable)}</td><td>${formatCoefficient(c.beta,4)}</td><td>${!missing && c.p < .05 ? `<strong style="color:var(--accent)">${p}</strong>` : p}</td><td>${detailHtml([['Term',c.term || '—'],['Natural-unit effect',missing ? 'Not estimated' : naturalEffectText(c.term,+c.beta) || 'Not reported'],['Expected sign (hypothesis)',c.expected_sign || 'Not specified']])}</td></tr>`;
       }).join('');
-      el.innerHTML = `<table class="data-table">
-        <thead><tr><th>&beta;</th><th>Variable</th><th>Estimate</th><th>p</th><th>Natural-unit effect</th><th>Expected</th></tr></thead>
-        <tbody>${body}</tbody></table>`;
+      el.innerHTML = `<table class="data-table"><thead><tr><th>Variable</th><th>Estimate</th><th>p</th><th>Effect &amp; context</th></tr></thead><tbody>${body}</tbody></table>`;
     }
 
     const HEADLINE_SPECS = new Set([
@@ -3052,52 +2802,16 @@ __VARIABLE_CARDS__
       }
       return '';
     }
-    function specRowHtml(r, idx) {
-      const sig = r.p < 0.05;
-      const pCell = sig ? `<strong style="color:var(--accent)">${formatP(r.p)}</strong>` : formatP(r.p);
-      const cleanNote = r.note ? String(r.note).replace(/,?\\s*per[-\\s]SD[^,;]*/i, '').trim() : '';
-      const eff = specNaturalEff(r);
-      const detailRow = `<tr class="spec-detail" id="spec-detail-${idx}" style="display:none"><td colspan="6">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;padding:6px 2px 2px">
-          <div><b>Term</b><div>${escapeHtml(r.term || '—')}</div></div>
-          <div><b>&beta;</b><div>${formatCoefficient(r.beta, 4)}</div></div>
-          <div><b>p</b><div>${pCell}</div></div>
-          <div><b>N</b><div>${fmtInt(r.n)}</div></div>
-          ${eff ? `<div><b>Natural-unit effect</b><div>${eff}</div></div>` : ''}
-          <div><b>Estimator</b><div>${escapeHtml(r.kind)}</div></div>
-        </div>
-        ${cleanNote ? `<div class="note" style="margin-top:8px">${escapeHtml(cleanNote)}</div>` : ''}
-      </td></tr>`;
-      return `<tr class="spec-row" data-detail="spec-detail-${idx}" style="cursor:pointer">
-        <td>${escapeHtml(r.spec)}</td>
-        <td>${escapeHtml(r.kind)}</td>
-        <td>${formatCoefficient(r.beta)}</td>
-        <td>${pCell}</td>
-        <td>${fmtInt(r.n)}</td>
-        <td>${eff ? `<span>${eff}</span>` : `<span class="note">${escapeHtml(cleanNote)}</span>`}</td>
-      </tr>${detailRow}`;
+    function specRowHtml(r) {
+      const p = r.p < .05 ? `<strong style="color:var(--accent)">${formatP(r.p)}</strong>` : formatP(r.p);
+      return `<tr><td class="scientific-name">${escapeHtml(r.spec)}</td><td>${formatCoefficient(r.beta)}</td><td>${p}</td><td>${detailHtml([['Estimator',r.kind || 'Not reported'],['Term',r.term || '—'],['Sample size',fmtInt(r.n)],['Effect',specNaturalEff(r) || 'Not reported'],['Notes',r.note || 'No additional note']])}</td></tr>`;
     }
     function renderResults() {
       const el = document.getElementById('resultsTable');
-      if (!el) return;
-      if (!regressionResults.length) { el.innerHTML = '<p class="note">No results yet. Run scripts/run_regression.py.</p>'; return; }
-      const headline = [], other = [];
-      regressionResults.forEach((r, i) => (HEADLINE_SPECS.has(r.spec) ? headline : other).push({ r, i }));
-      const head = `<thead><tr><th>Specification</th><th>Estimator</th><th>&beta;</th><th>p</th><th>N</th><th>Effect</th></tr></thead>`;
-      const headlineBody = headline.map(x => specRowHtml(x.r, x.i)).join('');
-      const otherBody = other.map(x => specRowHtml(x.r, x.i)).join('');
-      el.innerHTML = `
-        <p class="note" style="margin:0 0 8px"><b>Click any row</b> for its term, estimate, p-value, sample size and estimator.</p>
-        <table class="data-table">${head}<tbody>${headlineBody}</tbody></table>
-        ${other.length ? `<details style="margin-top:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent-deep)">More robustness specs (${other.length})</summary>
-          <table class="data-table" style="margin-top:8px">${head}<tbody>${otherBody}</tbody></table></details>` : ''}
-      `;
-      el.querySelectorAll('.spec-row').forEach(tr => {
-        tr.addEventListener('click', () => {
-          const det = document.getElementById(tr.dataset.detail);
-          if (det) det.style.display = det.style.display === 'none' ? 'table-row' : 'none';
-        });
-      });
+      if (!regressionResults.length) { el.innerHTML = '<p class="note">No estimates are available in this snapshot.</p>'; return; }
+      const headline = regressionResults.filter(r=>HEADLINE_SPECS.has(r.spec)), other = regressionResults.filter(r=>!HEADLINE_SPECS.has(r.spec));
+      const head = '<thead><tr><th>Specification</th><th>β</th><th>p</th><th>Method &amp; sample</th></tr></thead>';
+      el.innerHTML = `<p class="note" style="margin:0 0 10px">Open Details for the estimator, sample size, term, effect and notes.</p><table class="data-table">${head}<tbody>${headline.map(specRowHtml).join('')}</tbody></table>${other.length ? `<details style="margin-top:16px"><summary>Additional specifications (${other.length})</summary><table class="data-table" style="margin-top:12px">${head}<tbody>${other.map(specRowHtml).join('')}</tbody></table></details>` : ''}`;
     }
 
     function renderYearChart() {
@@ -3105,7 +2819,7 @@ __VARIABLE_CARDS__
       if (!el) return;
       if (!panelYears.length) { el.innerHTML = '<p class="note">No panel year effects.</p>'; return; }
       const rows = [...panelYears].sort((a, b) => a.year - b.year);
-      const W = 760, H = 260, left = 56, right = 16, top = 28, bottom = 36;
+      const W = Math.max(280, el.clientWidth), H = W < 500 ? 240 : 280, left = 44, right = 18, top = 36, bottom = 36;
       const vals = rows.map(r => +r.year_fe);
       const lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
       const x = i => left + (W - left - right) * (i / Math.max(rows.length - 1, 1));
@@ -3117,7 +2831,7 @@ __VARIABLE_CARDS__
         const yv = (+r.year_fe).toFixed(2);
         const tip = `${r.year} &middot; year FE = ${yv}<br>(${(+r.year_fe >= 0 ? '+' : '') + ((Math.exp(+r.year_fe) - 1) * 100).toFixed(1)}% vs 2014 baseline)`;
         return `<circle cx="${x(i).toFixed(1)}" cy="${y(+r.year_fe).toFixed(1)}" r="${covid ? 5.5 : 3.8}" fill="${covid ? 'var(--accent-2)' : 'var(--accent)'}" data-tip="${tip}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()"></circle>
-          <text x="${x(i).toFixed(1)}" y="${H - 16}" text-anchor="middle" class="axis-text">${r.year}</text>`;
+          ${W >= 500 || i % 3 === 0 || i === rows.length-1 ? `<text x="${x(i).toFixed(1)}" y="${H - 16}" text-anchor="middle" class="axis-text">${r.year}</text>` : ''}`;
       }).join('');
       const zeroY = y(0);
       const covidLine = covidIdx >= 0 ? `<line x1="${x(covidIdx).toFixed(1)}" y1="${top}" x2="${x(covidIdx).toFixed(1)}" y2="${H - bottom}" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="3 3" opacity=".6"></line>
@@ -3128,11 +2842,10 @@ __VARIABLE_CARDS__
       el.innerHTML = `<svg viewBox="0 0 ${W} ${H}">
         ${ticks}
         <line x1="${left}" y1="${zeroY}" x2="${W - right}" y2="${zeroY}" stroke="#1f2933" stroke-width="1.2" stroke-dasharray="6 3"></line>
-        <text x="${W - right - 4}" y="${zeroY - 4}" text-anchor="end" class="axis-text" style="font-weight:700">2014 baseline</text>
         ${covidLine}
         <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.4"></path>
         ${dots}
-        <text x="${left - 44}" y="${top + 4}" class="axis-text" style="font-weight:700">log change vs 2014</text>
+        <text x="0" y="16" class="axis-text" style="font-weight:600">log change vs 2014</text>
       </svg>`;
     }
 
@@ -3198,130 +2911,8 @@ __VARIABLE_CARDS__
       el.title = `Reddit r/Erasmus text layer:\n• Coverage: ${corpStart} → ${corpEnd}\n• Lookback: 15 years back from build time\n• EWMA half-life: 1 year — recent posts dominate, older opinions carry residual weight${dropMsg}`;
     }
 
-    function renderRedditTable() {
-      if (!redditByCountry.length) {
-        document.getElementById('redditTable').innerHTML = '<p class="note">No extracted mentions found. Run scripts/extract_reddit.py first.</p>';
-        return;
-      }
-      const filtered = redditByCountry.filter(r => (+r.mentions || 0) >= REDDIT_MIN_MENTIONS);
-      const sorted = sortRows(filtered, redditSort);
-      const total = sorted.length;
-      const visible = redditExpanded ? sorted : sorted.slice(0, REDDIT_TOP_N);
-      const effSum = sorted.reduce((s, r) => s + (+r.effectiveMentions || 0), 0);
-      const caption = `<p class="note" style="margin:0 0 8px"><strong>Showing destinations with &ge;${REDDIT_MIN_MENTIONS} Reddit mentions.</strong> n = ${total}. Weighted-net uses age-decay (1y half-life); effective n &approx; ${effSum.toFixed(0)}.</p>`;
-      const toggleLabel = redditExpanded
-        ? `Show top ${REDDIT_TOP_N}`
-        : `Show more (${Math.max(total - REDDIT_TOP_N, 0)})`;
-      const toggleHtml = total > REDDIT_TOP_N
-        ? `<div style="margin:8px 0 0"><button id="redditToggle" type="button" class="pill-toggle">${toggleLabel}</button></div>`
-        : '';
-      const body = visible.map(row => `<tr>
-        <td>${escapeHtml(row.country)}</td>
-        <td>${fmtInt(row.mentions)}</td>
-        <td>${fmtInt(row.positive)}</td>
-        <td>${fmtInt(row.neutral)}</td>
-        <td>${fmtInt(row.negative)}</td>
-        <td>${netBadge(row.net)}</td>
-        <td>${netBadge(row.weightedNet)}</td>
-        <td>${row.avgScore == null ? '' : row.avgScore.toFixed(1)}</td>
-        <td style="text-align:left;white-space:normal">${escapeHtml(row.positiveThemes || '')}</td>
-        <td style="text-align:left;white-space:normal">${escapeHtml(row.negativeThemes || '')}</td>
-      </tr>`).join('');
-      document.getElementById('redditTable').innerHTML = `${caption}<table class="data-table">
-        <thead><tr>
-          ${sortableHeader('Destination country', 'country', 'reddit')}
-          ${sortableHeader('Mentions', 'mentions', 'reddit')}
-          ${sortableHeader('Positive', 'positive', 'reddit')}
-          ${sortableHeader('Neutral', 'neutral', 'reddit')}
-          ${sortableHeader('Negative', 'negative', 'reddit')}
-          ${sortableHeader('Net sentiment', 'net', 'reddit')}
-          ${sortableHeader('Score-weighted net', 'weightedNet', 'reddit')}
-          ${sortableHeader('Avg. score', 'avgScore', 'reddit')}
-          <th style="text-align:left">Positive themes</th>
-          <th style="text-align:left">Negative themes</th>
-        </tr></thead><tbody>${body}</tbody></table>${toggleHtml}`;
-      const tbtn = document.getElementById('redditToggle');
-      if (tbtn) tbtn.addEventListener('click', () => { redditExpanded = !redditExpanded; renderRedditTable(); });
-    }
-
     let map = null;
     let clusterLayer = null;
-    const orgLevelLabels = {
-      countryUni: 'country → university',
-      uniCountry: 'university → country',
-      uniUni: 'university → university'
-    };
-    const mapNotes = {
-      countryUni: 'Country → university: points are receiving universities, sized by students arriving from the selected sending country or from all countries.',
-      uniCountry: 'University → country: points are destination countries. Search a sending university to see its arrival countries.',
-      uniUni: 'University → university: points are receiving universities, with popups showing the sending university for selected-country rows.'
-    };
-
-    function outUniQ() { return norm(outUniSearch ? outUniSearch.value : ''); }
-    function inCountryQ() { return norm(inCountrySearch ? inCountrySearch.value : ''); }
-    function inUniQ() { return norm(inUniSearch ? inUniSearch.value : ''); }
-
-    function rowMatchesEndpointFilters(row) {
-      const ou = outUniQ();
-      if (ou && !(norm(row.sending_org).includes(ou) || norm(row.sending_city).includes(ou))) return false;
-      const ic = inCountryQ();
-      if (ic && !(norm(row.receiving_country).includes(ic) || norm(row.receiving_code).includes(ic))) return false;
-      const iu = inUniQ();
-      if (iu && !(norm(row.receiving_org).includes(iu) || norm(row.receiving_city).includes(iu))) return false;
-      return true;
-    }
-
-    function pointMatchesEndpointFilters(point) {
-      const ou = outUniQ();
-      if (ou) {
-        const hay = `${point.so || ''} ${point.sc || ''}`;
-        if (!norm(hay).includes(ou)) return false;
-      }
-      const ic = inCountryQ();
-      if (ic) {
-        const hay = `${point.n || ''} ${point.dc || ''}`;
-        if (!norm(hay).includes(ic)) return false;
-      }
-      const iu = inUniQ();
-      if (iu) {
-        const hay = `${point.o || ''} ${point.c || ''}`;
-        if (!norm(hay).includes(iu)) return false;
-      }
-      return true;
-    }
-
-    function currentOrgRows() {
-      const level = orgLevelSelect.value;
-      return (orgFlowTables[level] || [])
-        .filter(row => row.sending_code === senderSelect.value)
-        .filter(rowMatchesEndpointFilters)
-        .sort((a, b) => b.flow_count - a.flow_count);
-    }
-
-    function populateOrgOptions() {
-      const level = orgLevelSelect.value;
-      const rows = (orgFlowTables[level] || [])
-        .filter(row => mapViewSelect.value === 'all' || row.sending_code === senderSelect.value);
-      const outUni = new Set();
-      const inCountry = new Set();
-      const inUni = new Set();
-      rows.forEach(row => {
-        if (row.sending_org) outUni.add(String(row.sending_org).trim());
-        if (row.sending_city) outUni.add(String(row.sending_city).trim());
-        if (row.receiving_country) inCountry.add(`${row.receiving_code} - ${row.receiving_country}`.trim());
-        if (row.receiving_org) inUni.add(String(row.receiving_org).trim());
-        if (row.receiving_city) inUni.add(String(row.receiving_city).trim());
-      });
-      const fill = (el, set, cap) => {
-        if (!el) return;
-        el.innerHTML = [...set].filter(Boolean).sort((a, b) => a.localeCompare(b)).slice(0, cap)
-          .map(v => `<option value="${escapeHtml(v)}"></option>`).join('');
-      };
-      fill(outUniOptions, outUni, 1200);
-      fill(inCountryOptions, inCountry, 200);
-      fill(inUniOptions, inUni, 1200);
-    }
-
     function clusterFlow(cluster) {
       return cluster.getAllChildMarkers().reduce((sum, marker) => sum + (marker.options.flow || 0), 0);
     }
@@ -3349,109 +2940,11 @@ __VARIABLE_CARDS__
       }).addTo(map);
     }
 
-    function renderMap() {
-      if (!map) return;
-      clusterLayer.clearLayers();
-      const view = mapViewSelect.value;
-      const level = orgLevelSelect.value;
-      const levelRecords = orgFlowLevels[level] || { points: [], all: [] };
-      const points = view === 'all'
-        ? levelRecords.all
-        : levelRecords.points.filter(point => point.s === senderSelect.value);
-      const filteredPoints = points.filter(pointMatchesEndpointFilters);
-      document.getElementById('mapNote').textContent = mapNotes[level];
-      const empty = !filteredPoints.length;
-      document.getElementById('mapEmpty').hidden = !empty;
-      document.querySelector('#sec-map .map-legend').hidden = empty;
-      document.getElementById('map').hidden = empty;
-      if (empty) return;
-      map.invalidateSize();
-      const maxFlow = Math.max(...filteredPoints.map(point => point.f), 1);
-      const markers = [];
-      const bounds = [];
-      filteredPoints.forEach(point => {
-        const radius = 4 + 16 * Math.sqrt(point.f / maxFlow);
-        const fallback = point.m !== 'city';
-        const color = fallback ? '#b44e5a' : '#2f6f73';
-        const marker = L.circleMarker([point.la, point.lo], {
-          radius, color, weight: 1, fillColor: color, fillOpacity: 0.55, flow: point.f
-        });
-        const where = fallback ? ' (city without coordinate match: country-level estimate)' : '';
-        marker.bindPopup(mapPopup(point, level, where));
-        marker.bindTooltip(`${escapeHtml(point.o)}: ${fmtInt(point.f)}`);
-        markers.push(marker);
-        bounds.push([point.la, point.lo]);
-      });
-      clusterLayer.addLayers(markers);
-      if (bounds.length) {
-        map.fitBounds(bounds, { padding: [30, 30], maxZoom: 7 });
-      }
-    }
-
-    function mapPopup(point, level, where) {
-      if (level === 'uniCountry') {
-        const origin = point.so ? `<strong>${escapeHtml(point.so)}</strong><br>${escapeHtml(point.sc)} &rarr; ` : '';
-        return `${origin}<strong>${escapeHtml(point.dc)} - ${escapeHtml(point.o)}</strong><br>${escapeHtml(point.c)}${where}<br>${fmtInt(point.f)} students`;
-      }
-      if (level === 'uniUni' && point.so) {
-        return `<strong>${escapeHtml(point.so)}</strong><br>${escapeHtml(point.sc)} &rarr; <strong>${escapeHtml(point.o)}</strong><br>${escapeHtml(point.c)}, ${escapeHtml(point.n)}${where}<br>${fmtInt(point.f)} students`;
-      }
-      return `<strong>${escapeHtml(point.o)}</strong><br>${escapeHtml(point.c)}, ${escapeHtml(point.n)}${where}<br>${fmtInt(point.f)} students`;
-    }
-
-    function renderOrgFlowTable() {
-      const level = orgLevelSelect.value;
-      const rows = currentOrgRows();
-      const active = [
-        outUniSearch && outUniSearch.value ? `out uni: "${outUniSearch.value}"` : null,
-        inCountrySearch && inCountrySearch.value ? `in country: "${inCountrySearch.value}"` : null,
-        inUniSearch && inUniSearch.value ? `in uni: "${inUniSearch.value}"` : null,
-      ].filter(Boolean);
-      const filteredText = active.length ? ` (${active.join(', ')})` : '';
-      const note = `Showing ${rows.length} ${orgLevelLabels[level]} rows${filteredText} for the selected outgoing country. Organization names come from the Erasmus KA1 file and are normalized only lightly.`;
-      document.getElementById('orgFlowNote').textContent = note;
-      if (!rows.length) {
-        document.getElementById('orgFlowTable').innerHTML = '<p class="note">No university-level flows match this country and the active endpoint filters.</p>';
-        return;
-      }
-      let header = '';
-      let body = '';
-      if (level === 'countryUni') {
-        header = '<th>Destination country</th><th>Receiving city</th><th>Receiving university</th><th>Students</th>';
-        body = rows.map(row => `<tr>
-          <td>${escapeHtml(row.receiving_code)} - ${escapeHtml(row.receiving_country)}</td>
-          <td>${escapeHtml(row.receiving_city)}</td>
-          <td style="text-align:left;white-space:normal">${escapeHtml(row.receiving_org)}</td>
-          <td>${fmtInt(row.flow_count)}</td>
-        </tr>`).join('');
-      } else if (level === 'uniCountry') {
-        header = '<th>Sending city</th><th>Sending university</th><th>Destination country</th><th>Students</th>';
-        body = rows.map(row => `<tr>
-          <td>${escapeHtml(row.sending_city)}</td>
-          <td style="text-align:left;white-space:normal">${escapeHtml(row.sending_org)}</td>
-          <td>${escapeHtml(row.receiving_code)} - ${escapeHtml(row.receiving_country)}</td>
-          <td>${fmtInt(row.flow_count)}</td>
-        </tr>`).join('');
-      } else {
-        header = '<th>Sending city</th><th>Sending university</th><th>Receiving country</th><th>Receiving city</th><th>Receiving university</th><th>Students</th>';
-        body = rows.map(row => `<tr>
-          <td>${escapeHtml(row.sending_city)}</td>
-          <td style="text-align:left;white-space:normal">${escapeHtml(row.sending_org)}</td>
-          <td>${escapeHtml(row.receiving_code)} - ${escapeHtml(row.receiving_country)}</td>
-          <td>${escapeHtml(row.receiving_city)}</td>
-          <td style="text-align:left;white-space:normal">${escapeHtml(row.receiving_org)}</td>
-          <td>${fmtInt(row.flow_count)}</td>
-        </tr>`).join('');
-      }
-      document.getElementById('orgFlowTable').innerHTML = `<table class="data-table">
-        <thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
-    }
-
     const TREND_COLORS = ['#2f6f73', '#b44e5a', '#c98a2b', '#4a6fa5', '#63716d', '#a1aaa6'];
     const trendYears = [...new Set(timeSeries.map(row => row.y))].sort((a, b) => a - b);
 
     function lineChartSvg(series, years) {
-      const width = Math.max(280, Math.min(520, document.getElementById('trendTotal').clientWidth)), height = width < 400 ? 220 : 300, left = 54, right = 16, top = 16, bottom = 34;
+      const width = Math.max(280, document.getElementById('trendTotal').clientWidth), height = width < 500 ? 220 : 280, left = 54, right = 16, top = 16, bottom = 34;
       const maxY = Math.max(1, ...series.flatMap(s => s.points.map(p => p.y)));
       const minX = years[0], maxX = years[years.length - 1];
       const px = x => scale(x, minX, maxX, left, width - right);
@@ -3491,47 +2984,6 @@ __VARIABLE_CARDS__
       el.innerHTML = lineChartSvg(series, trendYears);
     }
 
-    function renderTrendSender(code) {
-      const el = document.getElementById('trendSender');
-      const title = document.getElementById('trendSenderTitle');
-      const selected = countries.find(country => country.code === code);
-      if (title) title.innerHTML = (selected ? escapeHtml(selected.country) : 'Selected country') + ' &mdash; top destinations';
-      const rows = timeSeries.filter(row => row.s === code);
-      if (!rows.length) { el.innerHTML = '<p class="note">No panel data for this country.</p>'; return; }
-      const totals = new Map();
-      const names = new Map();
-      rows.forEach(row => { totals.set(row.d, (totals.get(row.d) || 0) + row.f); names.set(row.d, row.dn); });
-      const topDest = [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(entry => entry[0]);
-      const series = topDest.map((d, i) => {
-        const byYear = new Map(trendYears.map(y => [y, 0]));
-        rows.filter(row => row.d === d).forEach(row => byYear.set(row.y, byYear.get(row.y) + row.f));
-        return { label: names.get(d) || d, color: TREND_COLORS[i % TREND_COLORS.length], points: trendYears.map(y => ({ x: y, y: byYear.get(y) })) };
-      });
-      el.innerHTML = lineChartSvg(series, trendYears) + legendHtml(series);
-    }
-
-    function updateCountry() {
-      const rows = senderRowsFiltered(senderSelect.value);
-      const total = rows.reduce((sum, row) => sum + row.flow_count, 0);
-      const selected = countries.find(country => country.code === senderSelect.value);
-      const uniLabel = (typeof outUniSearch !== 'undefined' && outUniSearch && outUniSearch.value) ? ` · uni filter: <em>${escapeHtml(outUniSearch.value)}</em>` : '';
-      document.getElementById('topStat').innerHTML = selected
-        ? `Currently showing <b>${escapeHtml(selected.country)}</b> · ${fmtInt(total)} outgoing students${uniLabel}`
-        : '';
-      const chipLabel = selected ? selected.country : senderSelect.value;
-      document.querySelectorAll('.filter-chip .fc-country').forEach(node => {
-        node.textContent = chipLabel;
-      });
-      renderSummary(rows);
-      renderBar(rows);
-      renderScatter(rows);
-      renderDestinationTable(rows);
-      renderTrendSender(senderSelect.value);
-      populateOrgOptions();
-      renderOrgFlowTable();
-      if (mapViewSelect.value === 'sender') renderMap();
-    }
-
     function populateEarnCountries() {
       const seen = new Map();
       sectorEarnings.forEach(row => { if (!seen.has(row.code)) seen.set(row.code, row.country); });
@@ -3539,7 +2991,8 @@ __VARIABLE_CARDS__
       earnCountrySelect.innerHTML = options
         .map(([code, country]) => `<option value="${code}">${escapeHtml(country)}</option>`)
         .join('');
-      earnCountrySelect.value = seen.has('IT') ? 'IT' : (seen.has('ES') ? 'ES' : options[0][0]);
+      earnCountrySelect.insertAdjacentHTML('afterbegin','<option value="">Choose an available country…</option>');
+      earnCountrySelect.value = '';
     }
 
     function renderEarnings() {
@@ -3570,295 +3023,14 @@ __VARIABLE_CARDS__
       document.getElementById('earningsChart').innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img">${bars}</svg>`;
     }
 
-    function setMode(mode) {
-      document.body.classList.toggle('mode-free', mode === 'free');
-      document.body.classList.toggle('mode-explore', mode === 'explore');
-      document.getElementById('m-free')?.classList.toggle('active', mode === 'free');
-      document.getElementById('m-explore')?.classList.toggle('active', mode === 'explore');
-      try { localStorage.setItem('eg-mode', mode); } catch (err) {}
-    }
-
-    document.getElementById('m-free')?.addEventListener('click', () => setMode('free'));
-    document.getElementById('m-explore')?.addEventListener('click', () => setMode('explore'));
-    try {
-      const savedMode = localStorage.getItem('eg-mode');
-      if (savedMode === 'explore') setMode('explore');
-    } catch (err) {}
-
-    window.addEventListener('scroll', () => {
-      document.querySelector('.topbar')?.classList.toggle('stuck', window.scrollY > 6);
-    }, { passive: true });
-
-    document.getElementById('summaryCards')?.addEventListener('click', event => {
-      const card = event.target.closest('.card');
-      if (!card) return;
-      if (card.dataset.chartable === '0') return;
-      card.classList.toggle('open');
-    });
-
-    (function setupNavToggle() {
-      const toggle = document.getElementById('navToggle');
-      const nav = document.getElementById('primaryNav');
-      if (!toggle || !nav) return;
-      const close = () => { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); };
-      toggle.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-      nav.addEventListener('click', event => { if (event.target.closest('a')) close(); });
-    })();
-
-
-    document.getElementById('resetControls')?.addEventListener('click', () => {
-      if (outUniSearch) outUniSearch.value = '';
-      if (inCountrySearch) inCountrySearch.value = '';
-      if (inUniSearch) inUniSearch.value = '';
-      mapViewSelect.value = 'sender';
-      orgLevelSelect.value = 'countryUni';
-      const btn = document.getElementById('mapViewAll');
-      if (btn) { btn.classList.remove('on'); btn.textContent = ' All outgoing countries'; }
-      setCountry(countries.find(c => c.code === 'IT') ? 'IT' : senderSelect.options[0].value);
-      autoPickLevel();
-      updateFilterChip();
-      populateOrgOptions();
-      renderOrgFlowTable();
-      renderMap();
-      renderEarnings();
-    });
-
-    populateSelect();
-    wireSorting();
-    renderTrendTotal();
-    updateCountry();
-    renderCoeffs();
-    renderResults();
-    renderYearChart();
-    renderCovidEventStudy();
-    fillBetaEffectCards();
-    fillCovidDiDCard();
-    renderHeatmap();
-    renderWeightedTable();
-    populateEarnCountries();
-    renderEarnings();
-    earnCountrySelect.addEventListener('change', renderEarnings);
-    earnUnitSelect.addEventListener('change', renderEarnings);
-    renderRedditTable();
-    renderRedditCoverage();
-
-    // Both navigation rows use the same section state and shared layout column.
-    const NAV_GROUPS = {
-      research: [
-        {id:'sec-intro', label:'Overview'},
-        {id:'sec-explanatory', label:'Explanatory variables'},
-        {id:'sec-results', label:'Results'},
-      ],
-      model: [
-        {id:'sec-overview', label:'Flows'},
-        {id:'sec-salary', label:'GDP gap'},
-        {id:'sec-reddit', label:'Quality of life'},
-        {id:'sec-institution', label:'Institution quality'},
-        {id:'sec-controls', label:'Controls'},
-      ],
-      extra: [
-        {id:'sec-panel', label:'Panel'},
-        {id:'sec-covid', label:'2020 shock'},
-        {id:'sec-data', label:'Data & measurement'},
-      ],
-    };
-    const SECTION_GROUP = {
-      'sec-intro':'research','sec-explanatory':'research','sec-results':'research',
-      'sec-flow-filters':'model','sec-overview':'model','sec-map':'model','sec-trends':'model',
-      'sec-top-destinations':'model','sec-destination-table':'model','sec-heatmap':'model',
-      'sec-controls':'model','sec-gdp-gap':'model','sec-economics':'model',
-      'sec-salary':'model','sec-reddit':'model','sec-institution':'model',
-      'sec-time':'extra','sec-panel':'extra','sec-covid':'extra','sec-data':'extra',
-    };
-    const SUBSECTION_FOR = {
-      'sec-flow-filters':'sec-overview','sec-map':'sec-overview','sec-trends':'sec-overview',
-      'sec-top-destinations':'sec-overview','sec-destination-table':'sec-overview','sec-heatmap':'sec-overview',
-      'sec-gdp-gap':'sec-controls','sec-economics':'sec-controls','sec-time':'sec-panel',
-    };
-    let activeNavGroup = null, activeNavTopic = null;
-    document.getElementById('dynSubnav').addEventListener('change', event => {
-      if (event.target.id !== 'topicPicker') return;
-      const link = document.querySelector(`#dynSubnav a[href="#${event.target.value}"]`);
-      if (link) link.click();
-    });
-    function setActiveGroup(group, section) {
-      document.querySelectorAll('.nav-main-link').forEach(link => {
-        const active = link.dataset.group === group;
-        link.classList.toggle('active', active);
-        if (active) link.setAttribute('aria-current','location');
-        else link.removeAttribute('aria-current');
-      });
-      const topics = NAV_GROUPS[group] || [];
-      const topic = SUBSECTION_FOR[section] || section || topics[0]?.id;
-      if (group === activeNavGroup && topic === activeNavTopic) return;
-      activeNavGroup = group; activeNavTopic = topic;
-      const pickerNames = {'sec-explanatory':'Variables','sec-institution':'Institutions','sec-data':'Data & sources'};
-      document.getElementById('dynSubnav').innerHTML = topics.map(item =>
-        `<a class="sub-link${item.id === topic ? ' active' : ''}" href="#${item.id}"${item.id === topic ? ' aria-current="location"' : ''}>${item.label}</a>`
-      ).join('') + `<label class="topic-choice" for="topicPicker">Explore topic<select id="topicPicker">${topics.map(item => `<option value="${item.id}"${item.id === topic ? ' selected' : ''}>${pickerNames[item.id] || item.label}</option>`).join('')}</select></label>`;
-    }
-    function scrollSpy() {
-      const ids = Object.keys(SECTION_GROUP);
-      const offset = document.querySelector('.topbar').offsetHeight + 20;
-      let bestId = null, bestDist = Infinity;
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const top = el.getBoundingClientRect().top - offset;
-        if (top <= 0 && -top < bestDist) { bestDist = -top; bestId = id; }
-      }
-      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) bestId = 'sec-data';
-      if (!bestId) bestId = ids[0];
-      const group = SECTION_GROUP[bestId];
-      setActiveGroup(group, bestId);
-    }
-    window.addEventListener('scroll', scrollSpy, { passive: true });
-    window.addEventListener('resize', scrollSpy);
-    scrollSpy();
-
-    function applyDestView(view) {
-      const segBtns = document.querySelectorAll('.seg-btn[data-view]');
-      segBtns.forEach(b => {
-        const on = b.dataset.view === view;
-        b.classList.toggle('on', on);
-        b.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-      const destTable = document.getElementById('destinationTable');
-      const orgTable = document.getElementById('orgFlowTable');
-      const orgNote = document.getElementById('orgFlowNote');
-      if (view === 'country') {
-        if (destTable) destTable.style.display = '';
-        if (orgTable) orgTable.style.display = 'none';
-        if (orgNote) orgNote.style.display = 'none';
-      } else {
-        if (destTable) destTable.style.display = 'none';
-        if (orgTable) orgTable.style.display = '';
-        if (orgNote) orgNote.style.display = '';
-        if (orgLevelSelect.value !== view) orgLevelSelect.value = view;
-        populateOrgOptions();
-        renderOrgFlowTable();
-      }
-      try { localStorage.setItem('destView', view); } catch (e) {}
-    }
-    document.querySelectorAll('.seg-btn[data-view]').forEach(b => {
-      b.addEventListener('click', () => applyDestView(b.dataset.view));
-    });
-    function applyDestFilter() {
-      const q = (document.getElementById('destTableFilter')?.value || '').toLowerCase().trim();
-      ['destinationTable','orgFlowTable'].forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.querySelectorAll('tbody tr').forEach(tr => {
-          const text = tr.textContent.toLowerCase();
-          tr.style.display = (!q || text.includes(q)) ? '' : 'none';
-        });
-      });
-    }
-    const _destFilterInput = document.getElementById('destTableFilter');
-    if (_destFilterInput) _destFilterInput.addEventListener('input', applyDestFilter);
-    const _destObserver = new MutationObserver(applyDestFilter);
-    ['destinationTable','orgFlowTable'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) _destObserver.observe(el, { childList: true, subtree: true });
-    });
-    const savedDestView = (() => { try { return localStorage.getItem('destView'); } catch (e) { return null; } })();
-    if (savedDestView && ['country','countryUni','uniCountry','uniUni'].includes(savedDestView)) {
-      applyDestView(savedDestView);
-    }
-
-    orgLevelSelect.addEventListener('change', () => {
-      populateOrgOptions();
-      renderOrgFlowTable();
-      renderMap();
-    });
-    mapViewSelect.addEventListener('change', () => {
-      populateOrgOptions();
-      renderMap();
-    });
-    function autoPickLevel() {
-      const hasOut = !!(outUniSearch && outUniSearch.value);
-      // outgoing uni alone -> uniUni (precise uni-to-uni map). incoming-only keeps countryUni.
-      const level = hasOut ? 'uniUni' : 'countryUni';
-      if (orgLevelSelect && orgLevelSelect.value !== level) orgLevelSelect.value = level;
-    }
-    const mapViewAllBtn = document.getElementById('mapViewAll');
-    if (mapViewAllBtn) {
-      mapViewAllBtn.addEventListener('click', () => {
-        const next = mapViewSelect.value === 'all' ? 'sender' : 'all';
-        mapViewSelect.value = next;
-        mapViewAllBtn.classList.toggle('on', next === 'all');
-        mapViewAllBtn.textContent = next === 'all' ? ' Showing all · click for one' : ' All outgoing countries';
-        populateOrgOptions();
-        renderMap();
-      });
-    }
-    function updateFilterChip() {
-      const chip = document.getElementById('flowFilterChip');
-      if (!chip) return;
-      const parts = [
-        outUniSearch && outUniSearch.value ? `out: ${outUniSearch.value}` : null,
-        inCountrySearch && inCountrySearch.value ? `to: ${inCountrySearch.value}` : null,
-        inUniSearch && inUniSearch.value ? `in: ${inUniSearch.value}` : null,
-      ].filter(Boolean);
-      if (!parts.length) { chip.style.display = 'none'; return; }
-      chip.style.display = '';
-      chip.querySelector('.fc-active').textContent = parts.join(' · ');
-    }
-    [outUniSearch, inCountrySearch, inUniSearch].forEach(el => {
-      if (!el) return;
-      el.addEventListener('input', () => {
-        autoPickLevel();
-        updateFilterChip();
-        populateOrgOptions();
-        renderOrgFlowTable();
-        renderMap();
-        if (el === outUniSearch) updateCountry();
-      });
-    });
-
-    const quickCountry = document.getElementById('quickCountry');
-    quickCountry.value = countrySearch.value;
-    quickCountry.addEventListener('change', () => {
-      countrySearch.value = quickCountry.value;
-      countrySearch.dispatchEvent(new Event('change', {bubbles:true}));
-      quickCountry.value = countrySearch.value;
-    });
-    countrySearch.addEventListener('change', () => {quickCountry.value = countrySearch.value;});
-    senderSelect.addEventListener('change', () => {quickCountry.value = countrySearch.value;});
-    function updateNavOffset() {
-      document.documentElement.style.setProperty('--nav-offset', `${document.querySelector('.topbar').offsetHeight + 16}px`);
-    }
-    new ResizeObserver(updateNavOffset).observe(document.querySelector('.topbar'));
-    updateNavOffset();
-    document.addEventListener('click', event => {
-      const link = event.target.closest('a[href^="#"]');
-      if (!link) return;
-      const id = link.getAttribute('href').slice(1), target = document.getElementById(id);
-      if (!target) return;
-      event.preventDefault();
-      document.getElementById('primaryNav').classList.remove('open');
-      document.getElementById('navToggle').setAttribute('aria-expanded','false');
-      if (SECTION_GROUP[id]) setActiveGroup(SECTION_GROUP[id], id);
-      updateNavOffset();
-      target.scrollIntoView({behavior:'instant',block:'start'});
-      history.replaceState(null,'','#'+id);
-    });
-    window.addEventListener('resize', () => {renderEarnings(); renderTrendTotal(); renderTrendSender(senderSelect.value);});
-
-    autoPickLevel();
-    updateFilterChip();
-    populateOrgOptions();
-    if (typeof L !== 'undefined') {
-      initMap();
-      renderMap();
-    }
+__EXPLORER_SCRIPT__
   </script>
 </body>
 </html>
 """
+    ui_path = Path(__file__).resolve().parents[1] / "dashboard" / "ui"
+    for marker, filename in (("__EXPLORER_CSS__", "explorer.css"), ("__MOBILITY_MODEL__", "mobility.js"), ("__EXPLORER_SCRIPT__", "explorer.js")):
+        html = html.replace(marker, (ui_path / filename).read_text(encoding="utf-8"))
     html = html.replace("__VARIABLE_CARDS__", render_variable_cards(MODEL_VARIABLES))
     return html.replace("__DATA__", data_json)
 
