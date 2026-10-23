@@ -13,6 +13,10 @@ package are named **ErasmusGravity**.
 regressions are implemented. The analysis is descriptive and observational: none of the
 reported associations establishes a causal effect on destination choice.
 
+[Open the interactive dashboard](https://unilife.ellep.it/)
+
+![ErasmusGravity welcome screen with the research/exploration entry points, country sidebar and orbital illustration](docs/screenshots/overview.jpg)
+
 ## Research question
 
 > How are Erasmus Higher Education study flows associated with destination quality of life,
@@ -97,6 +101,11 @@ model. Country-panel Stage 1 uses the default GLM covariance; clustering differs
 subsequent models as specified above. The results should not all be described as coming
 from one uniformly clustered specification.
 
+The Findings section keeps the primary coefficient and p-value visible. Expand a row for
+the estimator, sample size, term, natural-unit effect and notes.
+
+![Model Results section with compact coefficient and specification tables](docs/screenshots/model-results.jpg)
+
 ## Text analysis and quality-of-life measurement
 
 The Reddit pipeline collects destination-related posts/comments and uses
@@ -115,6 +124,11 @@ The measurement roles are separate:
 stratified manual-validation workbook. The report describes a 51-mention sample. Sampling
 for human review is not itself an extraction-accuracy result: agreement or accuracy claims
 require completed human labels and an explicit comparison with the LLM output.
+
+The quality-of-life view separates city-rating evidence from supporting Reddit sentiment.
+Country rows expand to show score-weighted sentiment, theme summaries and mention counts.
+
+![Quality of life section with the two-stage rating result and supporting Reddit sentiment table](docs/screenshots/student-perceptions.jpg)
 
 ## Reported findings and limits
 
@@ -148,15 +162,64 @@ Rebuild the analysis to check them against a new dataset or configuration. See t
 [research report](reports/report.md), [gravity-model notes](reports/gravity_model.md) and
 [QoL methodology notes](reports/qol_methodology_notes.md) for the supporting discussion.
 
+The panel view plots the common year effects and presents the separate time-varying
+indicator estimates. It complements the cross-sectional results rather than replacing them.
+
+![Panel gravity section showing the 2014–2023 year-effect series and time-varying indicator estimates](docs/screenshots/panel-evidence.jpg)
+
 ## Dashboard
 
-The generated dashboard is [`dashboard/dist/index.html`](dashboard/dist/index.html).
-The documented deployment is <http://unilife.ellep.it>.
+[Open ErasmusGravity](https://unilife.ellep.it/). The generated, self-contained dashboard is
+[`dashboard/dist/index.html`](dashboard/dist/index.html); its interface source is in
+[`dashboard/ui/`](dashboard/ui/).
 
-It provides flow maps and tables at country/university levels, sending-country destination
-profiles, economic comparisons, heatmaps, grant context, destination sentiment/themes and
-exploratory model results. The temporal and shock views complement the main destination
-analysis rather than establishing a separate causal conclusion.
+The sidebar groups the continuous report into **Research**, **Explore mobility** and
+**Data & methods**. On phones it becomes a navigation drawer. The country selector and
+incoming/outgoing direction have one shared state across compatible exploration views.
+Research estimates, Europe-wide comparisons, national history and grants retain explicitly
+labelled scopes. A fresh visit starts without a country; shared URLs restore the country,
+direction, section and local filters. See the full [navigation design](docs/navigation-design.md).
+
+Screenshots show the committed dashboard snapshot. The live deployment may use a different
+analytical snapshot; the interface can be updated without re-estimating either one.
+
+### Europe overview
+
+Start with the network totals, largest sending/receiving countries and the separate
+2014–2023 historical series. Select a country in either ranking to open its outgoing
+or incoming profile. The adjacent heatmap provides the country-pair view.
+
+![Europe overview with network totals, clickable country rankings and historical mobility chart](docs/screenshots/europe-overview.jpg)
+
+### Country exploration
+
+Choose a country and switch between incoming and outgoing mobility. The profile keeps
+current-direction totals beside clearly labelled national context, economic gaps and
+grant summaries. GDP and earnings gaps always mean **destination minus origin**, including
+in the incoming view.
+
+University and partner filters update compatible flow views. National history and grants
+remain separate; missing salary coverage offers an explicit comparison country. Copy the
+current link to share the selection and filters.
+
+![Italy incoming profile with the shared country/direction controls, national context, economic gaps and grants](docs/screenshots/country-exploration.jpg)
+
+### University flow map
+
+Explore origin institutions for incoming mobility or destination institutions for outgoing
+mobility. Marker sizes use the filtered university-record sample. Known city coordinates,
+approximate country centroids and missing coordinates are distinguished explicitly; this
+sample has separate coverage from the national flow snapshot.
+
+![University flow map showing origin institutions for the incoming Italy selection](docs/screenshots/university-map.jpg)
+
+### Flow tables and details
+
+Switch between country, country→university, university→country and university→university
+aggregations. Compact rows keep the main fields visible; **Details** opens the additional
+economic indicators or endpoint institution/city names. Row search also checks hidden details.
+
+![Incoming flow table with an expanded partner row showing economic indicators](docs/screenshots/flow-details.jpg)
 
 ## Setup and reproducibility
 
@@ -223,6 +286,7 @@ re-estimating models:
 ```bash
 uv run python scripts/build_dashboard.py --snapshot dashboard/dist/index.html --output dashboard/dist/index.html
 node tests/dashboard-presentation.cjs
+node tests/mobility.cjs
 ```
 
 The renderer preserves the snapshot's embedded analytical payload. A deployed snapshot may
@@ -241,7 +305,12 @@ formatting and the binding of the QoL card to the two-stage result.
 │   ├── raw/
 │   ├── crosswalks/
 │   └── processed/                # generated CSV exports (Git-ignored)
-├── dashboard/dist/index.html    # generated dashboard
+├── dashboard/
+│   ├── dist/index.html          # generated dashboard
+│   └── ui/                      # inlined navigation, state and presentation
+├── docs/
+│   ├── navigation-design.md
+│   └── screenshots/             # README views captured from the saved build
 ├── reports/
 │   ├── report.md
 │   ├── gravity_model.md
@@ -337,20 +406,5 @@ The following are proposals, not implemented findings:
 - **StudyPortals review counts:** add opinion-count information to the existing score proxy.
 - **Further sector event studies:** extend the existing wage panel beyond the implemented
   COVID diagnostics; the generic sector-shock extension remains unimplemented.
-- **Dashboard presentation:** align the navigation with the report's exploration,
-  destination-attractiveness and shock-diagnostic narrative.
 - **Grounded natural-language explanations:** consider precomputed summaries or a Q&A layer
   over project evidence. No live DeepSeek chatbot is currently implemented.
-
-### Navigation and exploration UI
-
-The self-contained dashboard inlines the country explorer from `dashboard/ui/`.
-Its accepted navigation, country-scope and sharing behaviour is documented in
-[docs/navigation-design.md](docs/navigation-design.md).
-
-Run the focused UI/data checks with:
-
-```sh
-node tests/mobility.cjs
-node tests/dashboard-presentation.cjs
-```
