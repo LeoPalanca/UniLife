@@ -48,7 +48,7 @@ coefficients should not be read as independent causal mechanisms.
 | Institution-quality cross-checks | StudyPortals student ratings; QS editions 2014/2017/2018/2023 | Alternative proxy and time-varying diagnostics |
 | Time-varying destination indicators | OWID life satisfaction and education expenditure | Country-year panel comparisons |
 | COVID-related sector indicators | Eurostat Labour Cost Index and Labour Force Survey employment | Destination-by-field shock diagnostics |
-| Grant context | Erasmus annual-report 2024 annex, latest compatible grant/participant records: Call 2022 | Explicitly historical HE budget and grant-per-participant context |
+| Grant context | Erasmus annual-report 2024 annex, latest compatible grant/participant records: Call 2022 | Historical HE project funding and funding per estimated programme participant |
 
 The detailed KA1 analysis keeps Higher Education learner **study** mobilities, age 18+,
 and cross-border country pairs. Country and organisation views include country→university,
@@ -189,31 +189,39 @@ indicator estimates. It complements the cross-sectional results rather than repl
 The sidebar groups the continuous report into **Research**, **Explore mobility** and
 **Data & methods**. On phones it becomes a navigation drawer. The country selector and
 incoming/outgoing direction have one shared state across compatible exploration views.
-Research estimates, Europe-wide comparisons, national history and grants retain explicitly
+Research estimates, network-wide comparisons, national history and funding retain explicitly
 labelled scopes. A fresh visit starts without a country; shared URLs restore the country,
 direction, section and local filters. See the full [navigation design](docs/navigation-design.md).
 
 Screenshots show the committed dashboard snapshot. The live deployment may use a different
 analytical snapshot; the interface can be updated without re-estimating either one.
 
-### Europe overview
+### Erasmus+ network
 
-Start with the network totals, largest sending/receiving countries and the separate
+The network includes EU/associated countries and international partners represented in the
+2024 study-mobility records. The country selector groups them by 2024 programme status,
+not geography; all countries remain available. Start with network totals, largest sending/receiving countries and the separate
 2014–2024 historical series. Select a country in either ranking to open its outgoing
 or incoming profile. The adjacent heatmap provides the country-pair view.
 
-![Europe overview with network totals, clickable country rankings and historical mobility chart](docs/screenshots/europe-overview.jpg)
+![Erasmus+ network with totals, clickable country rankings and historical mobility chart](docs/screenshots/europe-overview.jpg)
 
 ### Country exploration
 
 Choose a country and switch between incoming and outgoing mobility. The profile keeps
 2024 current-direction totals beside clearly labelled national context, 2024 economic gaps
-and historical grant summaries. GDP and earnings gaps always mean **destination minus origin**, including
+and expandable historical project funding from the 2022 call. Funding per estimated
+participant is a programme average, not an individual student grant. GDP and earnings gaps always mean **destination minus origin**, including
 in the incoming view.
 
 University and partner filters update compatible flow views. National history and grants
 remain separate; missing salary coverage offers an explicit comparison country. Copy the
 current link to share the selection and filters.
+
+The flow-table tabs change both aggregation and visible columns. University-to-university
+shows both countries and both universities directly, with cities beneath university names.
+Mixed views show only the university endpoint used by that aggregation. Wide tables scroll
+inside their container on small screens; row search and pagination retain the full dataset.
 
 ![Italy incoming profile with the shared country/direction controls, national context, economic gaps and grants](docs/screenshots/country-exploration.jpg)
 

@@ -1964,7 +1964,7 @@ __VARIABLE_CARDS__
       <p class="note" style="margin-top:8px;font-size:12px"><strong>How to read:</strong> two series of year&times;hit interactions (2019 as reference). <span style="color:var(--accent-2)"><b>Coral</b></span> = LCI wage-based hit. <span style="color:var(--accent)"><b>Teal</b></span> = LFS employment-based hit. Filled dots = p&lt;0.05. Dashed horizontal line at zero. Dashed vertical line marks 2019 reference. LCI on a different y-scale from LFS &mdash; coefficients in the Effect card read as "% flow change per 1 pp harder hit sector".</p>
     </section>
     <section id="sec-europe">
-      <h2>Europe overview</h2><p class="scope-note">All participating countries · KA1 __MOBILITY_YEAR__ study mobility, including partner countries outside Europe.</p>
+      <h2>Erasmus+ network</h2><p class="scope-note">All participating countries · KA1 __MOBILITY_YEAR__ study mobility, including partner countries outside Europe.</p>
       <p>See the scale of the network, then choose a country to explore where its students go or where they arrive from.</p>
       <div class="europe-metrics" id="europeMetrics"></div><p class="scope-note" id="europeCoverage"></p>
       <div class="europe-columns"><div><h3>Largest sending countries</h3><ol class="europe-ranking" id="europeOutgoing"></ol></div><div><h3>Largest receiving countries</h3><ol class="europe-ranking" id="europeIncoming"></ol></div></div>
@@ -1984,8 +1984,8 @@ __VARIABLE_CARDS__
     </section>
     <section id="sec-explore">
       <h2>Explore a country</h2><p id="exploreScope" class="scope-note">Choose a country to start.</p>
-      <div class="country-prompt" id="countryPrompt"><p>Which country would you like to explore? Read its national context, follow outgoing or incoming mobility, and refine university-level flows.</p><button class="button-action" id="chooseCountry" type="button">Choose a country</button><a href="#sec-europe" style="margin-left:14px">See Europe first</a></div>
-      <div class="explore-toolbar" id="exploreToolbar" hidden><button class="button-action" id="changeCountry" type="button">Country &amp; direction</button><a href="#sec-flow-filters">Refine exploration</a><a href="#sec-europe">Europe overview ↗</a></div>
+      <div class="country-prompt" id="countryPrompt"><p>Which country would you like to explore? Read its national context, follow outgoing or incoming mobility, and refine university-level flows.</p><button class="button-action" id="chooseCountry" type="button">Choose a country</button><a href="#sec-europe" style="margin-left:14px">See the network first</a></div>
+      <div class="explore-toolbar" id="exploreToolbar" hidden><button class="button-action" id="changeCountry" type="button">Country &amp; direction</button><a href="#sec-flow-filters">Refine exploration</a><a href="#sec-europe">Erasmus+ network ↗</a></div>
       <p id="exploreStatus" class="explore-status" role="status"></p><p id="filterResetNote" class="filter-reset-note" role="status"></p>
     </section>
 

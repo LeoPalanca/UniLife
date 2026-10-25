@@ -61,6 +61,10 @@ main>section>h2{font-size:24px;margin-bottom:10px}
 .summary-group .cards .card[data-chartable='1']{cursor:pointer}
 .summary-group .cards .card .value{font-size:28px}
 .summary-stack{gap:26px}
+.grant-context summary{cursor:pointer;font-size:14px;font-weight:500;line-height:1.5;padding:10px 0;color:var(--ink)}
+.grant-context-body{padding-top:8px}
+.grant-context:not([open]) .grant-context-body{display:none}
+.grant-context .grp-foot{font-size:12px;color:var(--muted);margin-top:12px}
 .row-detail{font-size:12px;white-space:normal;min-width:90px;max-width:360px}
 .row-detail summary{cursor:pointer;color:var(--accent-deep);padding:6px 0;min-height:30px;white-space:nowrap}
 .row-detail dl{margin:8px 0;display:grid;gap:4px;min-width:180px;font-weight:400;text-align:left}
@@ -121,6 +125,7 @@ footer{padding:28px 32px}
  main>section>h2,.collapsible summary h2{font-size:22px}
  #sec-explanatory>.cards{grid-template-columns:1fr}
  .country-context-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .grant-context .cards{grid-template-columns:1fr}
  .europe-metrics{grid-template-columns:1fr}
  .europe-metrics .card{display:flex;align-items:center;justify-content:space-between;gap:16px}
  .europe-metrics .card .value{margin:0}
@@ -151,8 +156,16 @@ footer{padding:28px 32px}
 .expanded-table-details dd{margin:0;font-size:13px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
 #destinationTable th:nth-child(2),#destinationTable td:nth-child(2),#destinationTable th:nth-child(3),#destinationTable td:nth-child(3),#weightedTable th:nth-child(2),#weightedTable td:nth-child(2),#weightedTable th:nth-child(3),#weightedTable td:nth-child(3),#redditTable th:nth-child(2),#redditTable td:nth-child(2),#redditTable th:nth-child(3),#redditTable td:nth-child(3),#redditTable th:nth-child(4),#redditTable td:nth-child(4){text-align:right}
 #orgFlowTable th:nth-child(2),#orgFlowTable td:nth-child(2){text-align:left}
+#orgFlowTable .org-flow-table{min-width:640px;table-layout:fixed}
+#orgFlowTable .flow-country{width:18%;white-space:normal;text-align:left}
+#orgFlowTable .flow-university{width:52%;white-space:normal;overflow-wrap:anywhere;text-align:left}
+#orgFlowTable [data-level='uniUni'] .flow-country{width:14%}
+#orgFlowTable [data-level='uniUni'] .flow-university{width:30%}
+#orgFlowTable .flow-students{width:12%;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.flow-city{display:block;font-size:12px;line-height:1.5;color:var(--muted);margin-top:4px}
 @media(max-width:700px){
  .expanded-table-details{grid-template-columns:1fr}
+ #orgFlowTable .org-flow-table th,#orgFlowTable .org-flow-table td{font-size:13px}
  .table-wrap table,#destinationTable table,#orgFlowTable table{min-width:0}
  #destinationTable .country-name,#orgFlowTable .country-name{min-width:70px;max-width:120px;font-size:12px}
  #destinationTable th,#destinationTable td,#orgFlowTable th,#orgFlowTable td{padding:10px 5px;font-size:12px}
