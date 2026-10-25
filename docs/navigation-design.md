@@ -21,3 +21,9 @@ Accepted choices (23 October 2026): `1C 2A 3A 4A 5A 6A 7A 8A 9A 10A 11A 12A 13A 
 The original country-flow, university-flow and historical-panel snapshots are separate datasets. University filters switch compatible views to explicitly labelled university records; they do not rewrite the national baseline or imply university-level grants/history. Research coefficients are never re-estimated by choosing a country.
 
 Node checks: `node tests/mobility.cjs` and `node tests/dashboard-presentation.cjs`. Browser acceptance covers initial no-country state, both directions, arithmetic against the source payload, filters, missing salary coverage, row expansion, URL reload and history, country changes, Europe entry, mobile drawer, responsive overflow, and payload immutability. Repository and production payloads must be preserved independently when rendering/deploying.
+
+## Mobility refresh (25 October 2026)
+
+Current country and university exploration uses the official KA1 2024 release, with 2024 World Bank/Eurostat indicators. All university records are retained; table pagination and full-dataset search limit rendered rows without changing totals or filters. Static city coordinates are reused and supplemented by GeoNames.
+
+Descriptive trends extend through 2024 within the historical archive’s country coverage. The original 2022 cross-sectional estimates and 2014–2023 panel/COVID model outputs remain explicit and unchanged. The annual report’s grant/participant sheet ends at Call 2022, so grant context is labelled historical. See `data-refresh-2024.json` for provenance and reconciliation.

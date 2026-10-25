@@ -27,3 +27,6 @@ reports/figures/*
 
 # SQLite build artifact (rebuilt from CSVs via scripts/build_db.py)
 data/*.db
+
+# Downloaded current mobility release (URL and checksum are tracked in docs/data-refresh-2024.json)
+data/raw/Erasmus-KA1-Mobility-Data-2024.xlsx

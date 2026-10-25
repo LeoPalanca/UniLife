@@ -1963,7 +1963,7 @@ __VARIABLE_CARDS__
       <p class="note" style="margin-top:8px;font-size:12px"><strong>How to read:</strong> two series of year&times;hit interactions (2019 as reference). <span style="color:var(--accent-2)"><b>Coral</b></span> = LCI wage-based hit. <span style="color:var(--accent)"><b>Teal</b></span> = LFS employment-based hit. Filled dots = p&lt;0.05. Dashed horizontal line at zero. Dashed vertical line marks 2019 reference. LCI on a different y-scale from LFS &mdash; coefficients in the Effect card read as "% flow change per 1 pp harder hit sector".</p>
     </section>
     <section id="sec-europe">
-      <h2>Europe overview</h2><p class="scope-note">All participating countries · KA1 2022 study mobility, including partner countries outside Europe.</p>
+      <h2>Europe overview</h2><p class="scope-note">All participating countries · KA1 __MOBILITY_YEAR__ study mobility, including partner countries outside Europe.</p>
       <p>See the scale of the network, then choose a country to explore where its students go or where they arrive from.</p>
       <div class="europe-metrics" id="europeMetrics"></div><p class="scope-note" id="europeCoverage"></p>
       <div class="europe-columns"><div><h3>Largest sending countries</h3><ol class="europe-ranking" id="europeOutgoing"></ol></div><div><h3>Largest receiving countries</h3><ol class="europe-ranking" id="europeIncoming"></ol></div></div>
@@ -2062,7 +2062,7 @@ __VARIABLE_CARDS__
     </section>
 
     <section id="sec-trends" data-country-section>
-      <h2><span class="h2-row">Mobility Over Time (2014&ndash;2023) </span></h2>
+      <h2><span class="h2-row">Mobility Over Time (__HISTORY_RANGE__) </span></h2>
       <p class="note">Higher Education study mobility by calendar year of mobility start, from the spatially enriched Erasmus+ panel (V&auml;is&auml;nen et al. 2025). This is the temporal backbone for the panel gravity design.</p>
       <div class="grid">
         <div>
@@ -2165,11 +2165,12 @@ __VARIABLE_CARDS__
     <section id="sec-data">
       <h2>Data Sources and Measurement Notes</h2>
       <ul class="source-list">
-        <li><strong>Erasmus flows:</strong> <code>Erasmus-KA1-Mobility-Data-2022.xlsx</code>, sheet <code>KA1 mobilities 2022</code>. Filtered to Higher Education study mobility.</li>
+        <li id="explorationSource"><strong>Current mobility exploration:</strong> KA1 source year shown in each view.</li>
+        <li><strong>Published research:</strong> <code>Erasmus-KA1-Mobility-Data-2022.xlsx</code> for the original cross-sectional estimates; the separate geolocated 2014–2023 archive for panel and COVID models.</li>
         <li><strong>Flow scope:</strong> Erasmus mobility is modeled as cross-border origin&ndash;destination movement. Same-country rows in the KA1 file are extremely rare and treated as coding artifacts, not as a domestic Erasmus layer.</li>
-        <li><strong>HE grants:</strong> <code>annual-report-2024-statistical-annex.xlsx</code>, sheet <code>KA1_estimated paxs</code>, Call Year 2022, Higher Education rows.</li>
+        <li id="grantSource"><strong>HE grants:</strong> annual report 2024 statistical annex; call year shown in the profile.</li>
         <li><strong>GDP per capita:</strong> World Bank current US$ is used for the dashboard GDP-gap plot because it covers more Erasmus partner countries; Eurostat GDP remains in the processed dataset.</li>
-        <li><strong>Price levels and net earnings:</strong> Eurostat API. Missing values are shown as <code>n/a</code>.</li>
+        <li id="indicatorSource"><strong>Economic exploration:</strong> World Bank and Eurostat; indicator year shown in each view. Missing values remain <code>n/a</code>.</li>
         <li><strong>Scholarship proxy:</strong> grant per participant is applicant-country-level, not the exact grant received by individual students or country pairs. Treat the social-elevator angle as descriptive, not causal.</li>
         <li><strong>Quality of life (built):</strong> Erasmusu city ratings are the main city-level regressor. Reddit destination sentiment and themes extracted via DeepSeek and Pydantic provide supporting text evidence and alternative specifications. OWID life satisfaction is a separate country-year panel proxy. These sources are not interchangeable.</li>
         <li><strong>Institution quality (built):</strong> QS scores matched to destination cities, with StudyPortals ratings as a cross-check. Scores may reflect capacity and networks as well as academic quality.</li>
@@ -2918,9 +2919,10 @@ __MOBILITY_MODEL__
     }
 
     function initMap() {
-      map = L.map('map', { scrollWheelZoom: false }).setView([50, 12], 4);
+      map = L.map('map', { scrollWheelZoom: false, zoomSnap: 0.1, worldCopyJump: true }).setView([50, 12], 4);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 14,
+        noWrap: true,
         attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
       clusterLayer = L.markerClusterGroup({
@@ -2956,13 +2958,14 @@ __MOBILITY_MODEL__
         grid += `<line x1="${left}" y1="${yy}" x2="${width - right}" y2="${yy}" stroke="var(--line)" stroke-width="1"></line>`;
         grid += `<text x="${left - 6}" y="${yy + 4}" text-anchor="end" class="axis-text">${fmtInt(v)}</text>`;
       }
-      const xlabels = years.filter((yr,i) => width >= 400 || i % 3 === 0 || i === years.length-1).map(yr =>
+      const xlabels = years.filter((yr,i) => width >= 400 || (i % 3 === 0 && i < years.length-2) || i === years.length-1).map(yr =>
         `<text x="${px(yr)}" y="${height - bottom + 18}" text-anchor="middle" class="axis-text">${yr}</text>`
       ).join('');
       const lines = series.map(s => {
-        const d = s.points.map((p, i) => `${i ? 'L' : 'M'}${px(p.x).toFixed(1)},${py(p.y).toFixed(1)}`).join(' ');
+        const archive = s.points.filter(p => !explorationMeta.historyBreakYear || p.x < explorationMeta.historyBreakYear);
+        const d = archive.map((p, i) => `${i ? 'L' : 'M'}${px(p.x).toFixed(1)},${py(p.y).toFixed(1)}`).join(' ');
         const dots = s.points.map(p =>
-          `<circle cx="${px(p.x).toFixed(1)}" cy="${py(p.y).toFixed(1)}" r="3" fill="${s.color}" data-tip="${escapeHtml(s.label)} ${p.x}<br><strong>${fmtInt(p.y)}</strong> students" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()"></circle>`
+          `<circle cx="${px(p.x).toFixed(1)}" cy="${py(p.y).toFixed(1)}" r="${p.x>=explorationMeta.historyBreakYear?4:3}" fill="${p.x>=explorationMeta.historyBreakYear?'var(--panel)':s.color}" stroke="${s.color}" stroke-width="${p.x>=explorationMeta.historyBreakYear?2:0}" data-tip="${escapeHtml(s.label)} ${p.x}<br><strong>${fmtInt(p.y)}</strong> students${p.x>=explorationMeta.historyBreakYear?'<br>Official annual release · source change':''}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()"></circle>`
         ).join('');
         return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2"></path>${dots}`;
       }).join('');
@@ -3032,6 +3035,10 @@ __EXPLORER_SCRIPT__
     for marker, filename in (("__EXPLORER_CSS__", "explorer.css"), ("__MOBILITY_MODEL__", "mobility.js"), ("__EXPLORER_SCRIPT__", "explorer.js")):
         html = html.replace(marker, (ui_path / filename).read_text(encoding="utf-8"))
     html = html.replace("__VARIABLE_CARDS__", render_variable_cards(MODEL_VARIABLES))
+    years = [row['y'] for row in payload.get('timeSeries', [])]
+    history_range = f'{min(years)}–{max(years)}' if years else 'coverage unavailable'
+    html = html.replace('__MOBILITY_YEAR__', str(payload.get('explorationMeta', {}).get('year', 2022)))
+    html = html.replace('__HISTORY_RANGE__', history_range)
     return html.replace("__DATA__", data_json)
 
 

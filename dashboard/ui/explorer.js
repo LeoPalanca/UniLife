@@ -6,12 +6,15 @@ const NAV_GROUPS = [
 ];
 const COUNTRY_SECTIONS = new Set([...document.querySelectorAll('[data-country-section]')].map(x=>x.id));
 const NAV_TOPIC = new Map(NAV_GROUPS.flatMap(g=>g.topics.map(([id,label])=>[id,{group:g.id,label}])));
+const explorationMeta=payload.explorationMeta || {};
+const mobilityYear=explorationMeta.year || 2022, indicatorYear=explorationMeta.indicatorYear || 2022;
+const historyRange=`${Math.min(...timeSeries.map(r=>r.y))}–${Math.max(...timeSeries.map(r=>r.y))}`;
 const endpointCountryNames=new Map(countryNames);
 for(const row of orgFlowTables.uniUni || [])if(row.receiving_code&&row.receiving_country)endpointCountryNames.set(row.receiving_code,row.receiving_country);
 const regionNames=typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['en'],{type:'region'}):null;
 for(const row of orgFlowTables.uniUni || [])if(row.sending_code&&!endpointCountryNames.has(row.sending_code)){let name=row.sending_code;try{name=regionNames?.of(row.sending_code)||name}catch{}endpointCountryNames.set(row.sending_code,name)}
 let activeSection = 'welcome', pendingSection = null, salaryFollow = !viewState.salary;
-let scrollTimer, filterTimer, scrollFrame = false;
+let scrollTimer, filterTimer, scrollFrame = false, universityLimit = 100;
 const viewName = () => countryNames.get(viewState.country) || 'Choose a country';
 const directionName = () => viewState.direction === 'incoming' ? 'Incoming' : 'Outgoing';
 const hasEndpointFilters = () => Object.values(viewState.filters).some(Boolean);
@@ -53,7 +56,7 @@ function clearIncompatibleFilters() {
   document.getElementById('filterResetNote').textContent=cleared.length?'Filters unavailable for this selection were cleared. Compatible filters were kept.':'';
 }
 function setCountry(code,{history=true,clean=true}={}) {
-  viewState.country=countryNames.has(code)?code:null;
+  viewState.country=countryNames.has(code)?code:null;universityLimit=100;
   if(clean) clearIncompatibleFilters();
   salaryFollow=true;viewState.salary=null;
   renderExplorer();
@@ -72,9 +75,9 @@ function renderSummary(rows) {
   const grants=metric('National HE grant budget · EUR',stats.grants,v=>v==null?'—':fmtMoney(v))+metric('Grant per estimated participant · EUR',stats.grantPerEstimated,v=>v==null?'—':fmtMoney(v));
   document.getElementById('summaryCards').innerHTML=`<div class="summary-stack">
     <div class="summary-group"><div class="grp-head"><span class="grp-name">${directionName()} ${viewState.direction==='incoming'?'to':'from'} ${escapeHtml(viewName())}</span><span class="grp-hint">${scope}</span></div><div class="cards">${selected}</div></div>
-    <div class="summary-group"><div class="grp-head"><span class="grp-name">National context</span><span class="grp-hint">${escapeHtml(viewName())} · KA1 2022 · all universities, both directions</span></div><div class="country-context-metrics">${national}</div><details><summary>National partner rankings</summary><div class="cards"><div class="card"><div class="label">Largest outgoing partners</div>${renderTopList(stats.topOut,'No outgoing flows.')}</div><div class="card"><div class="label">Largest incoming partners</div>${renderTopList(stats.topIn,'No incoming flows.')}</div></div></details></div>
-    <div class="summary-group"><div class="grp-head"><span class="grp-name">Economic gaps</span><span class="grp-hint">Flow-weighted destination minus origin · ${scope.toLowerCase()}</span></div><div class="cards">${gaps}</div><p class="grp-foot">Gaps always describe destination minus origin, including in the incoming view. Each mean excludes partners without that indicator.</p></div>
-    <div class="summary-group"><div class="grp-head"><span class="grp-name">Grants</span><span class="grp-hint">National budget · university and partner filters do not apply</span></div><div class="cards">${grants}</div><p class="grp-foot">National budgets reflect country size. Grant per estimated participant is a programme proxy, not an individual award.</p></div></div>`;
+    <div class="summary-group"><div class="grp-head"><span class="grp-name">National context</span><span class="grp-hint">${escapeHtml(viewName())} · KA1 ${mobilityYear} · all universities, both directions</span></div><div class="country-context-metrics">${national}</div><details><summary>National partner rankings</summary><div class="cards"><div class="card"><div class="label">Largest outgoing partners</div>${renderTopList(stats.topOut,'No outgoing flows.')}</div><div class="card"><div class="label">Largest incoming partners</div>${renderTopList(stats.topIn,'No incoming flows.')}</div></div></details></div>
+    <div class="summary-group"><div class="grp-head"><span class="grp-name">Economic gaps</span><span class="grp-hint">Flow-weighted destination minus origin · indicators ${indicatorYear} · ${scope.toLowerCase()}</span></div><div class="cards">${gaps}</div><p class="grp-foot">Gaps always describe destination minus origin, including in the incoming view. Each mean excludes partners without that indicator.</p></div>
+    <div class="summary-group"><div class="grp-head"><span class="grp-name">${(explorationMeta.grantCallYear || 2022)<mobilityYear?'Historical grant context':'Grant context'}</span><span class="grp-hint">Call ${explorationMeta.grantCallYear || 2022} national budget · university and partner filters do not apply</span></div><div class="cards">${grants}</div><p class="grp-foot">National budgets reflect country size. Grant per estimated participant is a programme proxy, not an individual award.</p></div></div>`;
 }
 function renderDestinationTable(rows) {
   const sorted=sortRows(rows,destinationSort), incoming=viewState.direction==='incoming';
@@ -82,9 +85,10 @@ function renderDestinationTable(rows) {
   document.getElementById('destinationTable').innerHTML=rows.length?`<table class="data-table"><thead><tr>${sortableHeader(incoming?'Origin':'Destination','receiving_country','destination')}${sortableHeader('Students','flow_count','destination')}${sortableHeader('Share','flow_share','destination')}<th>Economics</th></tr></thead><tbody>${body}</tbody></table>`:'<p class="exploration-empty">No flows match this selection. Clear the exploration filters or choose another country.</p>';
 }
 function renderOrgFlowTable() {
-  const rows=currentOrgRows();
-  document.getElementById('orgFlowNote').textContent=`${fmtInt(rows.length)} university-flow rows · ${directionName().toLowerCase()} ${viewState.direction==='incoming'?'to':'from'} ${viewName()} · university-record sample, with active endpoint filters.`;
-  document.getElementById('orgFlowTable').innerHTML=rows.length?`<table class="data-table"><thead><tr><th>Origin</th><th>Destination</th><th>Students</th><th>Universities</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="country-name">${escapeHtml(endpointCountryNames.get(r.sending_code)||r.sending_code)}</td><td class="country-name">${escapeHtml(r.receiving_country)}</td><td style="text-align:right">${fmtInt(r.flow_count)}</td><td>${detailHtml([['Origin city',r.sending_city||'Not part of this aggregation'],['Origin university',r.sending_org||'Not part of this aggregation'],['Destination city',r.receiving_city||'Not part of this aggregation'],['Destination university',r.receiving_org||'Not part of this aggregation']])}</td></tr>`).join('')}</tbody></table>`:'<p class="exploration-empty">No university flows match. Try a broader partner or university filter.</p>';
+  const allRows=currentOrgRows(),search=norm(viewState.query);const rows=search?allRows.filter(r=>norm(Object.values(r).join(' ')).includes(search)):allRows;const visible=rows.slice(0,universityLimit);
+  document.getElementById('orgFlowNote').textContent=`${fmtInt(rows.length)}${search?' matching':''} university-flow rows · showing ${fmtInt(Math.min(rows.length,universityLimit))} · ${directionName().toLowerCase()} ${viewState.direction==='incoming'?'to':'from'} ${viewName()} · university-record sample, with active endpoint filters.`;
+  document.getElementById('orgFlowTable').innerHTML=rows.length?`<table class="data-table"><thead><tr><th>Origin</th><th>Destination</th><th>Students</th><th>Universities</th></tr></thead><tbody>${visible.map(r=>`<tr><td class="country-name">${escapeHtml(endpointCountryNames.get(r.sending_code)||r.sending_code)}</td><td class="country-name">${escapeHtml(r.receiving_country)}</td><td style="text-align:right">${fmtInt(r.flow_count)}</td><td>${detailHtml([['Origin city',r.sending_city||'Not part of this aggregation'],['Origin university',r.sending_org||'Not part of this aggregation'],['Destination city',r.receiving_city||'Not part of this aggregation'],['Destination university',r.receiving_org||'Not part of this aggregation']])}</td></tr>`).join('')}</tbody></table>`:'<p class="exploration-empty">No university flows match. Try a broader partner or university filter.</p>';
+  if(rows.length>universityLimit){const more=document.createElement('button');more.className='button-action';more.type='button';more.textContent='Show 100 more rows';more.addEventListener('click',()=>{universityLimit+=100;renderOrgFlowTable()});document.getElementById('orgFlowTable').append(more)}
   applyTableSearch();
 }
 function renderWeightedTable() {
@@ -98,9 +102,14 @@ function renderRedditTable() {
 }
 // Reuse the known receiving-endpoint coordinates for origin institutions when available.
 const endpointCoordinates=(()=>{
-  const organizations=new Map(), cities=new Map(), centroids=new Map();
-  for(const p of orgFlowLevels.countryUni?.all || []) {const country=norm(p.n);if(p.m==='city'){organizations.set(`${country}|${norm(p.o)}`,p);cities.set(`${country}|${norm(p.c)}`,p)}}
-  for(const p of orgFlowLevels.uniCountry?.all || []) if(p.dc) centroids.set(p.dc,p);
+  const organizations=new Map(),cities=new Map(),centroids=new Map();
+  if(payload.mapCoordinates){
+    for(const p of payload.mapCoordinates){const point={la:p.lat,lo:p.lon,m:p.level};if(p.level==='country')centroids.set(p.code,point);else cities.set(`${p.code}|${norm(p.city)}`,point)}
+  }else{
+    const codes=new Map([...endpointCountryNames].map(([code,name])=>[norm(name),code]));
+    for(const p of orgFlowLevels.countryUni?.all || []){const code=codes.get(norm(p.n));if(code&&p.m==='city'){organizations.set(`${code}|${norm(p.o)}`,p);cities.set(`${code}|${norm(p.c)}`,p)}}
+    for(const p of orgFlowLevels.uniCountry?.all || [])if(p.dc)centroids.set(p.dc,p);
+  }
   return {organizations,cities,centroids};
 })();
 function explorationMapPoints() {
@@ -108,7 +117,7 @@ function explorationMapPoints() {
   for(const row of explorationOrgRows()) {
     const code=incoming?row.sending_code:row.receiving_code, country=endpointCountryNames.get(code)||code;
     const organization=incoming?row.sending_org:row.receiving_org, city=incoming?row.sending_city:row.receiving_city;
-    const coord=endpointCoordinates.organizations.get(`${norm(country)}|${norm(organization)}`)||endpointCoordinates.cities.get(`${norm(country)}|${norm(city)}`)||endpointCoordinates.centroids.get(code);
+    const coord=endpointCoordinates.organizations.get(`${code}|${norm(organization)}`)||endpointCoordinates.cities.get(`${code}|${norm(city)}`)||endpointCoordinates.centroids.get(code);
     if(!coord) continue;
     const key=JSON.stringify([code,organization,city]);
     if(!points.has(key)) points.set(key,{o:organization,c:city,n:country,la:coord.la,lo:coord.lo,m:coord.m,f:0});
@@ -137,7 +146,7 @@ function renderMap() {
 function renderTrendSender(code) {
   const incoming=viewState.direction==='incoming', byCountry=timeSeries.filter(r=>r[incoming?'d':'s']===code), el=document.getElementById('trendSender');
   document.getElementById('trendSenderTitle').textContent=`${viewName()} · ${incoming?'origins':'destinations'}`;
-  if(!byCountry.length){el.innerHTML='<p class="exploration-empty">No historical panel is available for this country. The national 2022 sample may still contain flows.</p>';return}
+  if(!byCountry.length){el.innerHTML=`<p class="exploration-empty">This country is outside the historical panel coverage. Its ${mobilityYear} profile remains available.</p>`;return}
   const totals=new Map();byCountry.forEach(r=>{const p=incoming?r.s:r.d;totals.set(p,(totals.get(p)||0)+r.f)});
   const series=[...totals].sort((a,b)=>b[1]-a[1]).slice(0,5).map(([code],i)=>({label:countryNames.get(code)||code,color:TREND_COLORS[i],points:trendYears.map(y=>({x:y,y:byCountry.filter(r=>r.y===y&&r[incoming?'s':'d']===code).reduce((n,r)=>n+r.f,0)}))}));
   el.innerHTML=lineChartSvg(series,trendYears)+legendHtml(series);
@@ -160,12 +169,12 @@ function setScope(id,text) {
 function updateScopes() {
   const country=viewName(), dir=directionName(), where=viewState.direction==='incoming'?'to':'from';
   const filter=hasEndpointFilters()?' · filtered university records':' · national flow sample';
-  for(const id of ['sec-overview','sec-top-destinations','sec-destination-table','sec-gdp-gap']) setScope(id,`${dir} ${where} ${country} · KA1 2022${filter}`);
-  setScope('sec-map',`${dir} ${where} ${country} · separate university-record sample${hasEndpointFilters()?' · filters active':''}`);
+  for(const id of ['sec-overview','sec-top-destinations','sec-destination-table','sec-gdp-gap']) setScope(id,`${dir} ${where} ${country} · KA1 ${mobilityYear}${filter} · indicators ${indicatorYear}`);
+  setScope('sec-map',`${dir} ${where} ${country} · KA1 ${mobilityYear} university records${hasEndpointFilters()?' · filters active':''}`);
   setScope('sec-flow-filters',`${dir} ${where} ${country} · university filters apply to compatible exploration views`);
-  setScope('sec-trends',`${dir} ${where} ${country} · national historical panel, 2014–2023 · university filters do not apply`);
+  setScope('sec-trends',`${dir} ${where} ${country} · national historical series, ${historyRange} · university filters do not apply`);
   for(const id of ['sec-intro','sec-explanatory','sec-results','sec-salary','sec-reddit','sec-institution','sec-panel','sec-covid']) setScope(id,`Research evidence · all countries in the reported estimation sample`);
-  setScope('sec-economics','All sending countries · national economic comparisons · independent of the selected country');
+  setScope('sec-economics',`All sending countries · mobility ${mobilityYear}, indicators ${indicatorYear} · independent of the selected country`);
   document.getElementById('exploreScope').textContent=viewState.country?`${dir} ${where} ${country}`:'Choose a country to start.';
   updateCountryFeedback();
 }
@@ -189,7 +198,7 @@ function renderSalaryReference() {
   else renderEarnings();
 }
 function applyTableSearch() {
-  for(const id of ['destinationTable','orgFlowTable']) document.querySelectorAll(`#${id} tbody tr:not(.expanded-table-row)`).forEach(tr=>{tr.hidden=!!viewState.query&&!norm(tr.textContent+' '+(tr.querySelector('[data-detail]')?.dataset.detail||'')).includes(norm(viewState.query));if(tr.nextElementSibling?.classList.contains('expanded-table-row'))tr.nextElementSibling.hidden=tr.hidden||tr.querySelector('[data-detail]')?.getAttribute('aria-expanded')!=='true'});
+  for(const id of ['destinationTable']) document.querySelectorAll(`#${id} tbody tr:not(.expanded-table-row)`).forEach(tr=>{tr.hidden=!!viewState.query&&!norm(tr.textContent+' '+(tr.querySelector('[data-detail]')?.dataset.detail||'')).includes(norm(viewState.query));if(tr.nextElementSibling?.classList.contains('expanded-table-row'))tr.nextElementSibling.hidden=tr.hidden||tr.querySelector('[data-detail]')?.getAttribute('aria-expanded')!=='true'});
 }
 function applyTableView() {
   const university=viewState.table!=='country';
@@ -208,7 +217,7 @@ function renderExplorer() {
   document.getElementById('countryPrompt').hidden=!!viewState.country;document.getElementById('exploreToolbar').hidden=!viewState.country;
   document.querySelectorAll('[data-country-section]').forEach(x=>{x.hidden=!viewState.country});
   document.querySelectorAll('[data-direction]').forEach(x=>{if(x.tagName==='BUTTON'&&!x.dataset.country)x.setAttribute('aria-pressed',String(x.dataset.direction===viewState.direction))});
-  document.getElementById('topStat').textContent='KA1 study mobility · research and country exploration';
+  document.getElementById('topStat').textContent=`Latest country exploration: ${mobilityYear} · historical trends: ${historyRange}`;
   updateScopes();updateFilterChip();populateOrgOptions();applyTableView();
   if(viewState.country) {
     const rows=senderRowsFiltered(viewState.country),total=rows.reduce((n,r)=>n+r.flow_count,0);
@@ -257,7 +266,23 @@ function restoreView() {
   Object.assign(viewState,Mobility.readQuery(location.search,new Set(countryNames.keys())));salaryFollow=!viewState.salary;
   renderExplorer();goToSection(location.hash.slice(1)||(viewState.view==='europe'?'sec-europe':'welcome'),{push:false});
 }
+function renderDataCoverage(){
+  document.querySelector('#sec-europe > .scope-note').textContent=`All participating countries · KA1 ${mobilityYear} study mobility, including partner countries outside Europe.`;
+  const historyNote=explorationMeta.historyNote || 'Separate geolocated historical panel, 2014–2023.';
+  document.querySelector('#sec-europe h3 + .scope-note').textContent=historyNote;
+  document.querySelector('#sec-trends h2').textContent=`Mobility over time (${historyRange})`;
+  document.querySelector('#sec-trends > .note').textContent=historyNote;
+  document.querySelector('#sec-trends .grid .note').textContent='National flows by calendar year and direction, within historical-panel country coverage. University filters do not apply.';
+  document.getElementById('explorationSource').innerHTML=`<strong>Current mobility exploration:</strong> <a href="${escapeHtml(explorationMeta.sourceUrl || 'https://erasmus-plus.ec.europa.eu/resources-and-tools/statistics-and-factsheets/statistics/for-researchers')}">Official KA1 ${mobilityYear} mobility data</a>, calendar year of mobility start. Higher Education learners, studies only, age 18+, cross-border. Counts use participant weights; university tables retain all filtered records.`;
+  document.getElementById('grantSource').innerHTML=`<strong>HE grants:</strong> annual report 2024 statistical annex, Call Year ${explorationMeta.grantCallYear || 2022}. Applicant-country budgets and estimated programme participants, not awards to the students in the mobility snapshot.`;
+  document.getElementById('indicatorSource').textContent=`Economic exploration: World Bank GDP per capita (current USD), Eurostat price levels and annual net earnings (single childless worker at 100% of average earnings), ${indicatorYear}. Missing observations remain n/a; flows are retained.`;
+  if(explorationMeta.year){
+    const note=document.createElement('p');note.className='note';note.textContent=`Published research samples: KA1 ${explorationMeta.researchYear} cross-section; panel and COVID models through ${explorationMeta.researchPanelEnd}. Current country exploration uses ${mobilityYear}. Research estimates retain their original data and specification.`;document.querySelector('#sec-intro h2').after(note);
+    document.querySelector('#sec-overview > .note').textContent='National totals and university records use the same latest Higher Education study-mobility source, age 18+, across borders. The map omits records without coordinates and labels country approximations.';
+  }
+}
 function initializeExplorer() {
+  renderDataCoverage();
   senderSelect.innerHTML='<option value="">Choose a country…</option>'+[...countries].sort((a,b)=>a.country.localeCompare(b.country)).map(c=>`<option value="${c.code}">${escapeHtml(c.country)}</option>`).join('');
   document.getElementById('sidebarNav').innerHTML=NAV_GROUPS.map(g=>`<div class="nav-section"><button type="button" class="nav-group" data-navgroup="${g.id}" aria-expanded="${g.id==='research'}" aria-controls="topics-${g.id}">${g.label}</button><div class="nav-topics" id="topics-${g.id}"${g.id==='research'?'':' hidden'}>${g.topics.map(([id,label])=>`<a href="#${id}">${label}</a>`).join('')}</div></div>`).join('');
   document.querySelectorAll('[data-navgroup]').forEach(b=>b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(open));document.getElementById(`topics-${b.dataset.navgroup}`).hidden=!open}));
@@ -265,12 +290,12 @@ function initializeExplorer() {
   if(typeof L!=='undefined')initMap();
   renderTrendTotal();renderExplorer();
   senderSelect.addEventListener('change',()=>setCountry(senderSelect.value));
-  document.querySelectorAll('.direction-switch [data-direction]').forEach(b=>b.addEventListener('click',()=>{viewState.direction=b.dataset.direction;clearIncompatibleFilters();renderExplorer();saveView(true)}));
+  document.querySelectorAll('.direction-switch [data-direction]').forEach(b=>b.addEventListener('click',()=>{viewState.direction=b.dataset.direction;universityLimit=100;clearIncompatibleFilters();renderExplorer();saveView(true)}));
   for(const id of ['chooseCountry','changeCountry'])document.getElementById(id).addEventListener('click',()=>{if(innerWidth<1024)setDrawer(true,{focus:false});senderSelect.focus()});
   document.getElementById('resetControls').addEventListener('click',()=>{viewState.filters={origin:'',destination:'',partner:''};document.getElementById('filterResetNote').textContent='Exploration filters cleared. Country and direction are unchanged.';renderExplorer();saveView(true)});
-  for(const [el,key] of [[outUniSearch,'origin'],[inCountrySearch,'partner'],[inUniSearch,'destination']])el.addEventListener('input',()=>{viewState.filters[key]=el.value;clearTimeout(filterTimer);filterTimer=setTimeout(()=>{renderExplorer();saveView(false)},180)});
-  document.querySelectorAll('.seg-btn[data-view]').forEach(b=>b.addEventListener('click',()=>{viewState.table=b.dataset.view;applyTableView();renderOrgFlowTable();saveView(true)}));
-  document.getElementById('destTableFilter').addEventListener('input',e=>{viewState.query=e.target.value;applyTableSearch();saveView(false)});
+  for(const [el,key] of [[outUniSearch,'origin'],[inCountrySearch,'partner'],[inUniSearch,'destination']])el.addEventListener('input',()=>{viewState.filters[key]=el.value;universityLimit=100;clearTimeout(filterTimer);filterTimer=setTimeout(()=>{renderExplorer();saveView(false)},180)});
+  document.querySelectorAll('.seg-btn[data-view]').forEach(b=>b.addEventListener('click',()=>{viewState.table=b.dataset.view;universityLimit=100;applyTableView();renderOrgFlowTable();saveView(true)}));
+  document.getElementById('destTableFilter').addEventListener('input',e=>{viewState.query=e.target.value;universityLimit=100;renderOrgFlowTable();applyTableSearch();saveView(false)});
   earnCountrySelect.addEventListener('change',()=>{viewState.salary=earnCountrySelect.value||null;salaryFollow=false;renderSalaryReference();saveView(true)});
   earnUnitSelect.addEventListener('change',()=>{viewState.unit=earnUnitSelect.value;renderSalaryReference();saveView(true)});
   document.getElementById('followSalary').addEventListener('click',()=>{viewState.salary=null;salaryFollow=true;renderSalaryReference();saveView(true)});

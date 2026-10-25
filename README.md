@@ -38,24 +38,37 @@ coefficients should not be read as independent causal mechanisms.
 
 | Layer | Source and coverage | Use |
 |-------|---------------------|-----|
-| Detailed mobility flows | Official `Erasmus-KA1-Mobility-Data-2022.xlsx`, sheet `KA1 mobilities 2022` | 2022 country and organisation-level exploration |
+| Current detailed mobility | Official [KA1 mobility data 2024](https://ec.europa.eu/assets/eac/erasmus-plus/statistics/mobility/Erasmus-KA1-Mobility-Data-2024.xlsx), sheet `KA1 mobilities 2024` | Latest country and organisation-level exploration |
+| Published cross-sectional research | `Erasmus-KA1-Mobility-Data-2022.xlsx` | Original estimated models; retained for reproducibility |
 | Multi-year mobility | Väisänen et al. geolocated Erasmus data, 2014–2023 | Country-pair-year and origin-country–destination-city–year panels |
-| Economic indicators | World Bank GDP per capita; Eurostat earnings and price levels | Destination–origin gaps and robustness controls |
+| Economic indicators | World Bank GDP per capita; Eurostat earnings and price levels | 2024 indicators for current exploration; original vintages retained in research estimates |
 | Perceived city quality of life | Erasmusu ratings and opinion counts | Main city-level QoL regressor and opinion weights where specified |
 | Student discussions | Reddit `r/Erasmus`, with OpenRouter/DeepSeek and Pydantic extraction | Destination sentiment/themes; exploratory Reddit-based comparisons |
 | Institution quality | QS 2023 scores geocoded and matched to destination cities | Academic/institutional attractiveness proxy |
 | Institution-quality cross-checks | StudyPortals student ratings; QS editions 2014/2017/2018/2023 | Alternative proxy and time-varying diagnostics |
 | Time-varying destination indicators | OWID life satisfaction and education expenditure | Country-year panel comparisons |
 | COVID-related sector indicators | Eurostat Labour Cost Index and Labour Force Survey employment | Destination-by-field shock diagnostics |
-| Grant context | Erasmus annual-report annex | Higher Education grant-per-participant summaries |
+| Grant context | Erasmus annual-report 2024 annex, latest compatible grant/participant records: Call 2022 | Explicitly historical HE budget and grant-per-participant context |
 
 The detailed KA1 analysis keeps Higher Education learner **study** mobilities, age 18+,
 and cross-border country pairs. Country and organisation views include country→university,
 university→country and university→university flows. Same-country records are excluded from
 the cross-border analysis; they are not presented as a domestic Erasmus programme.
 
-These are distinct datasets and units of analysis. The 2022 KA1 file supplies the detailed
-cross-section; the 2014–2023 temporal analysis uses the separate geolocated mobility dataset.
+Current exploration uses **2024**, the latest mobility release listed on the
+[Commission’s researcher downloads page](https://erasmus-plus.ec.europa.eu/resources-and-tools/statistics-and-factsheets/statistics/for-researchers) when checked on 25 October 2026.
+The filtered release contains **294,907 participants across 158 countries and 2,654 country pairs**.
+All 93,774 university-pair rows are retained; their participant total reconciles to the country total.
+Missing economic values and endpoint locations do not remove mobility counts.
+
+Descriptive trends extend the geolocated **2014–2023** archive with **2024** official counts
+restricted to the archive’s 42-country coverage and ages 18–100. Country profiles use the
+full latest release, so their totals can differ from the historical comparison. The source
+transition is labelled in the charts; the 2024 observation is a separate point, so the
+line does not imply unchanged measurement across sources. Published cross-sectional estimates retain their
+2022 sample; panel and COVID models retain 2014–2023 until explicitly re-estimated.
+Source checksums, filter counts and indicator coverage are recorded in
+[the refresh manifest](docs/data-refresh-2024.json).
 
 ## Implemented models
 
@@ -64,7 +77,7 @@ is organised under [`src/erasmusgravity/regressions/`](src/erasmusgravity/regres
 
 | Model | Outcome and structure | Interpretation |
 |-------|-----------------------|----------------|
-| Cross-sectional headline, Spec J-main | PPML on origin-country→destination-city flows; sending-country fixed effects; Erasmusu rating, institution quality, GDP gap, log distance and language affinity; city-clustered standard errors | Conditional associations across destinations |
+| Cross-sectional headline, Spec J-main | 2022 PPML on origin-country→destination-city flows; sending-country fixed effects; Erasmusu rating, institution quality, GDP gap, log distance and language affinity; city-clustered standard errors | Conditional associations across destinations |
 | Cross-sectional alternatives | OLS/WLS and PPML variants, including Reddit measures, within-country comparisons and additional economic controls | Sensitivity to measurement, sample and specification |
 | Country panel and two-stage comparison | Stage 1 PPML with separate origin, destination and year fixed effects; Stage 2 relates estimated destination effects to QoL and economic indicators | Exploratory comparison of persistent destination attractiveness |
 | City panel and two-stage comparison | Stage 1 PPML with separate origin, destination-city and year fixed effects; Stage 2 opinion-weighted WLS of city effects on Erasmusu ratings, with country-clustered standard errors | Association between ratings and estimated city attractiveness |
@@ -186,7 +199,7 @@ analytical snapshot; the interface can be updated without re-estimating either o
 ### Europe overview
 
 Start with the network totals, largest sending/receiving countries and the separate
-2014–2023 historical series. Select a country in either ranking to open its outgoing
+2014–2024 historical series. Select a country in either ranking to open its outgoing
 or incoming profile. The adjacent heatmap provides the country-pair view.
 
 ![Europe overview with network totals, clickable country rankings and historical mobility chart](docs/screenshots/europe-overview.jpg)
@@ -194,8 +207,8 @@ or incoming profile. The adjacent heatmap provides the country-pair view.
 ### Country exploration
 
 Choose a country and switch between incoming and outgoing mobility. The profile keeps
-current-direction totals beside clearly labelled national context, economic gaps and
-grant summaries. GDP and earnings gaps always mean **destination minus origin**, including
+2024 current-direction totals beside clearly labelled national context, 2024 economic gaps
+and historical grant summaries. GDP and earnings gaps always mean **destination minus origin**, including
 in the incoming view.
 
 University and partner filters update compatible flow views. National history and grants
@@ -209,14 +222,15 @@ current link to share the selection and filters.
 Explore origin institutions for incoming mobility or destination institutions for outgoing
 mobility. Marker sizes use the filtered university-record sample. Known city coordinates,
 approximate country centroids and missing coordinates are distinguished explicitly; this
-sample has separate coverage from the national flow snapshot.
+university tables reconcile to the national mobility snapshot; plotted coverage depends on available coordinates.
 
 ![University flow map showing origin institutions for the incoming Italy selection](docs/screenshots/university-map.jpg)
 
 ### Flow tables and details
 
 Switch between country, country→university, university→country and university→university
-aggregations. Compact rows keep the main fields visible; **Details** opens the additional
+aggregations. University tables show 100 rows at a time; search checks the full dataset.
+Compact rows keep the main fields visible; **Details** opens the additional
 economic indicators or endpoint institution/city names. Row search also checks hidden details.
 
 ![Incoming flow table with an expanded partner row showing economic indicators](docs/screenshots/flow-details.jpg)
@@ -277,6 +291,31 @@ Additional collection/extraction entry points include `scripts/scrape_reddit.py`
 `scripts/build_reddit_manual_sample.py`. Review their inputs and configuration before running.
 The report and notebook packaging described in earlier planning material is separate from
 this repository's build commands; no notebook is currently tracked in this repository.
+
+### Refresh current exploration
+
+The research build above reconstructs the original analytical samples. Apply this separate
+refresh before publishing current country/university views. It does not rerun regressions,
+text extraction or paid APIs. Use the intended repository or deployed source snapshot;
+their published research estimates can differ.
+
+```bash
+curl --fail --location --output data/raw/Erasmus-KA1-Mobility-Data-2024.xlsx \
+  https://ec.europa.eu/assets/eac/erasmus-plus/statistics/mobility/Erasmus-KA1-Mobility-Data-2024.xlsx
+uv run python scripts/refresh_exploration.py \
+  --snapshot dashboard/dist/index.html \
+  --source data/raw/Erasmus-KA1-Mobility-Data-2024.xlsx --year 2024 \
+  --cache data/processed/exploration-2024 \
+  --output dashboard/dist/index.html --manifest docs/data-refresh-2024.json
+uv run python -m unittest discover -s tests -p test_exploration_refresh.py
+```
+
+The refresh validates the calendar year, keeps participant weights and Namibia’s `NA` code,
+retains missing endpoint records, uses left joins for economic coverage, and checks that
+all university aggregations preserve the national participant total. Cached filtered rows
+are tied to the raw file checksum. Rerunning replaces the 2024 historical extension without
+duplicating it. Research results and earlier historical observations remain unchanged.
+The pandas `<3` bound preserves compatibility with the country-converter dependency.
 
 ### Re-render an existing dashboard snapshot
 

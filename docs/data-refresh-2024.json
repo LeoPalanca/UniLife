@@ -1,0 +1,151 @@
+{
+  "year": 2024,
+  "indicatorYear": 2024,
+  "grantCallYear": 2022,
+  "researchYear": 2022,
+  "researchPanelEnd": 2023,
+  "historyStart": 2014,
+  "historyEnd": 2024,
+  "historyBreakYear": 2024,
+  "historyCountryCodes": [
+    "AD",
+    "AL",
+    "AT",
+    "BA",
+    "BE",
+    "BG",
+    "CH",
+    "CY",
+    "CZ",
+    "DE",
+    "DK",
+    "EE",
+    "EL",
+    "ES",
+    "FI",
+    "FR",
+    "HR",
+    "HU",
+    "IE",
+    "IS",
+    "IT",
+    "LI",
+    "LT",
+    "LU",
+    "LV",
+    "MC",
+    "ME",
+    "MK",
+    "MT",
+    "NL",
+    "NO",
+    "PL",
+    "PT",
+    "RO",
+    "RS",
+    "SE",
+    "SI",
+    "SK",
+    "TR",
+    "UA",
+    "UK",
+    "XK"
+  ],
+  "historyNote": "2014\u20132023: geolocated archive. 2024: official KA1 release, restricted to the archive\u2019s country coverage and ages 18\u2013100. The separate latest point marks the source change; coverage and revisions can affect comparisons. Country profiles use the full latest release.",
+  "participants": 294907,
+  "countryPairs": 2654,
+  "universityRows": 93774,
+  "universityParticipants": 294907,
+  "scope": "Higher Education learners, study mobility, age 18+, cross-border, positive participant weights; calendar year of mobility start.",
+  "sourceUrl": "https://ec.europa.eu/assets/eac/erasmus-plus/statistics/mobility/Erasmus-KA1-Mobility-Data-2024.xlsx",
+  "downloadPage": "https://erasmus-plus.ec.europa.eu/resources-and-tools/statistics-and-factsheets/statistics/for-researchers",
+  "indicatorSources": {
+    "gdp": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2024&per_page=20000",
+    "prices": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_ppp_ind?time=2024&na_item=PLI_EU27_2020&ppp_cat=A01",
+    "earnings": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/earn_nt_net?time=2024&currency=EUR&estruct=NET&ecase=P1_NCH_AW100"
+  },
+  "indicatorCoverage": [
+    {
+      "indicator": "sender GDP per capita",
+      "missing_rows": 1020,
+      "missing_flow_count": 10287
+    },
+    {
+      "indicator": "receiver GDP per capita",
+      "missing_rows": 586,
+      "missing_flow_count": 12545
+    },
+    {
+      "indicator": "sender GDP per capita World Bank",
+      "missing_rows": 25,
+      "missing_flow_count": 95
+    },
+    {
+      "indicator": "receiver GDP per capita World Bank",
+      "missing_rows": 25,
+      "missing_flow_count": 182
+    },
+    {
+      "indicator": "sender price level",
+      "missing_rows": 1002,
+      "missing_flow_count": 10305
+    },
+    {
+      "indicator": "receiver price level",
+      "missing_rows": 507,
+      "missing_flow_count": 4667
+    },
+    {
+      "indicator": "sender net earnings",
+      "missing_rows": 1277,
+      "missing_flow_count": 27814
+    },
+    {
+      "indicator": "receiver net earnings",
+      "missing_rows": 872,
+      "missing_flow_count": 28499
+    }
+  ],
+  "sourceFile": "Erasmus-KA1-Mobility-Data-2024.xlsx",
+  "sourceSha256": "661bb33edb59ec655954b6eb6037aa7ae5d0213f9ca18873e5fa6d0621147fc4",
+  "checkedAt": "2026-10-25",
+  "diagnostics": [
+    {
+      "step": "raw",
+      "rows": 952741,
+      "participants": 1406507
+    },
+    {
+      "step": "higher_education",
+      "rows": 473317,
+      "participants": 522298
+    },
+    {
+      "step": "learners_only",
+      "rows": 374102,
+      "participants": 398585
+    },
+    {
+      "step": "studies_only",
+      "rows": 276018,
+      "participants": 295443
+    },
+    {
+      "step": "age_18_plus",
+      "rows": 275772,
+      "participants": 295181
+    },
+    {
+      "step": "valid_country_codes",
+      "rows": 275772,
+      "participants": 295181
+    },
+    {
+      "step": "cross_border_positive",
+      "rows": 275511,
+      "participants": 294907
+    }
+  ],
+  "grantSourceFile": "annual-report-2024-statistical-annex.xlsx",
+  "grantSourceSha256": "d0f4b5ff1f5f4638bb2b584ff0bb267ca1ea168d4df1f01eb7a288ade265e580"
+}
