@@ -86,24 +86,30 @@ def fetch_country_indicators(year: int = 2022) -> pd.DataFrame:
     return indicators.sort_values("country_code").reset_index(drop=True)
 
 
-def fetch_sector_earnings(year: int = 2018) -> pd.DataFrame:
+def fetch_sector_earnings(year: int | None = None) -> pd.DataFrame:
     """Fetch EU mean monthly gross earnings by country and economic sector (NACE).
 
-    Source: Structure of Earnings Survey (earn_ses18_24), run every four years.
-    Coverage is limited to the countries that publish this dataset.
+    Discover the latest SES year in the consolidated table, then use that wave's
+    detailed NACE table. Employers with 10+ employees; all sexes and lengths of service.
     """
+    if year is None:
+        releases = fetch_eurostat("earn_ses_monthly", indic_se="MEAN_E_EUR", sex="T",
+                                  age="TOTAL", isco08="TOTAL", worktime="TOTAL",
+                                  nace_r2="B-S_X_O", freq="A")
+        if releases.empty:
+            raise ValueError("No published monthly SES observations")
+        year = int(pd.to_numeric(releases["time"]).max())
     frames = []
     for unit, column in (("EUR", "earnings_eur"), ("PPS", "earnings_pps")):
         data = fetch_eurostat(
-            "earn_ses18_24",
-            time=str(year),
-            indic_se="ERN",
-            unit=unit,
+            f"earn_ses{year % 100:02d}_24",
+            time=str(year), indic_se="ERN", unit=unit,
             sex="T",
-            sizeclas="TOTAL",
-            l_serv="TOTAL",
+            sizeclas="GE10", l_serv="TOTAL",
             freq="A",
         )
+        if data.empty:
+            raise ValueError(f"No detailed monthly sector earnings for {unit}, year {year}")
         data = data[["geo", "geo_label", "nace_r2", "nace_r2_label", "value"]].rename(
             columns={
                 "geo": "country_code",
@@ -116,13 +122,17 @@ def fetch_sector_earnings(year: int = 2018) -> pd.DataFrame:
         frames.append(data)
 
     merged = frames[0].merge(
-        frames[1][["country_code", "nace_code", "earnings_pps"]],
+        frames[1][["country_code", "nace_code", "country_name", "nace_label", "earnings_pps"]],
         on=["country_code", "nace_code"],
-        how="outer",
+        how="outer", suffixes=("", "_pps"), validate="one_to_one",
     )
+    for label in ("country_name", "nace_label"):
+        merged[label] = merged[label].fillna(merged.pop(f"{label}_pps"))
     merged = merged[~merged["country_code"].str.startswith(("EU", "EA"))]
     # NACE single-letter codes are the detailed sectors; multi-character codes are aggregates.
     merged["is_sector"] = merged["nace_code"].str.fullmatch(r"[A-Z]")
+    if not merged["is_sector"].any():
+        raise ValueError("SES response has no detailed NACE sectors")
     merged["country_code"] = merged["country_code"].replace({"GB": "UK", "GR": "EL"})
     merged["year"] = year
     return merged.sort_values(["country_code", "nace_code"]).reset_index(drop=True)

@@ -8,6 +8,7 @@ const COUNTRY_SECTIONS = new Set([...document.querySelectorAll('[data-country-se
 const NAV_TOPIC = new Map(NAV_GROUPS.flatMap(g=>g.topics.map(([id,label])=>[id,{group:g.id,label}])));
 const explorationMeta=payload.explorationMeta || {};
 const mobilityYear=explorationMeta.year || 2022, indicatorYear=explorationMeta.indicatorYear || 2022;
+const sectorEarningsYear=Math.max(...sectorEarnings.map(row=>row.year || 2018));
 // EU27 and the six associated countries in the 2024 mobility release; programme status, not geography.
 // https://erasmus-plus.ec.europa.eu/programme-guide/part-a/eligible-countries
 const PROGRAMME_COUNTRIES_2024=new Set('AT BE BG HR CY CZ DK EE FI FR DE EL HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE IS LI NO MK RS TR'.split(' '));
@@ -91,10 +92,11 @@ function renderDestinationTable(rows) {
 function renderOrgFlowTable() {
   const allRows=currentOrgRows(),search=norm(viewState.query);const rows=search?allRows.filter(r=>norm(Object.values(r).join(' ')).includes(search)):allRows;const visible=rows.slice(0,universityLimit);
   const level=orgLevelSelect.value, originUniversity=level!=='countryUni', destinationUniversity=level!=='uniCountry';
+  const originCountry=level!=='countryUni'||viewState.direction==='incoming', destinationCountry=level!=='countryUni'||viewState.direction==='outgoing';
   const universityCell=(name,city)=>`<td class="flow-university">${escapeHtml(name||'—')}${city?`<span class="flow-city">${escapeHtml(city)}</span>`:''}</td>`;
-  const header=`<th class="flow-country">Origin country</th>${originUniversity?'<th class="flow-university">Origin university</th>':''}<th class="flow-country">Destination country</th>${destinationUniversity?'<th class="flow-university">Destination university</th>':''}<th class="flow-students">Students</th>`;
+  const header=`${originCountry?'<th class="flow-country">Origin country</th>':''}${originUniversity?'<th class="flow-university">Origin university</th>':''}${destinationCountry?'<th class="flow-country">Destination country</th>':''}${destinationUniversity?'<th class="flow-university">Destination university</th>':''}<th class="flow-students">Students</th>`;
   document.getElementById('orgFlowNote').textContent=`${fmtInt(rows.length)}${search?' matching':''} university-flow rows · showing ${fmtInt(Math.min(rows.length,universityLimit))} · ${directionName().toLowerCase()} ${viewState.direction==='incoming'?'to':'from'} ${viewName()} · university-record sample, with active endpoint filters.`;
-  document.getElementById('orgFlowTable').innerHTML=rows.length?`<table class="data-table org-flow-table" data-level="${level}"><thead><tr>${header}</tr></thead><tbody>${visible.map(r=>`<tr><td class="flow-country">${escapeHtml(endpointCountryNames.get(r.sending_code)||r.sending_code)}</td>${originUniversity?universityCell(r.sending_org,r.sending_city):''}<td class="flow-country">${escapeHtml(r.receiving_country)}</td>${destinationUniversity?universityCell(r.receiving_org,r.receiving_city):''}<td class="flow-students">${fmtInt(r.flow_count)}</td></tr>`).join('')}</tbody></table>`:'<p class="exploration-empty">No university flows match. Try a broader partner or university filter.</p>';
+  document.getElementById('orgFlowTable').innerHTML=rows.length?`<table class="data-table org-flow-table" data-level="${level}"><thead><tr>${header}</tr></thead><tbody>${visible.map(r=>`<tr>${originCountry?`<td class="flow-country">${escapeHtml(endpointCountryNames.get(r.sending_code)||r.sending_code)}</td>`:''}${originUniversity?universityCell(r.sending_org,r.sending_city):''}${destinationCountry?`<td class="flow-country">${escapeHtml(r.receiving_country)}</td>`:''}${destinationUniversity?universityCell(r.receiving_org,r.receiving_city):''}<td class="flow-students">${fmtInt(r.flow_count)}</td></tr>`).join('')}</tbody></table>`:'<p class="exploration-empty">No university flows match. Try a broader partner or university filter.</p>';
   if(rows.length>universityLimit){const more=document.createElement('button');more.className='button-action';more.type='button';more.textContent='Show 100 more rows';more.addEventListener('click',()=>{universityLimit+=100;renderOrgFlowTable()});document.getElementById('orgFlowTable').append(more)}
   applyTableSearch();
 }
@@ -198,7 +200,7 @@ function renderSalaryReference() {
   const target=salaryFollow?viewState.country:viewState.salary, supported=new Set(sectorEarnings.map(r=>r.code));
   earnCountrySelect.value=supported.has(target)?target:'';
   earnUnitSelect.value=viewState.unit;
-  document.getElementById('salaryScope').textContent=target?`${countryNames.get(target)||target} · Structure of Earnings Survey 2018 · ${salaryFollow?'follows selected country':'local comparison override'}`:'Country-specific salary reference · 2018';
+  document.getElementById('salaryScope').textContent=target?`${countryNames.get(target)||target} · Structure of Earnings Survey ${sectorEarningsYear} · ${salaryFollow?'follows selected country':'local comparison override'}`:`Country-specific salary reference · ${sectorEarningsYear}`;
   document.getElementById('salaryState').textContent=target&&!supported.has(target)?`Salary data is unavailable for ${countryNames.get(target)||target}. Choose an available country below for an explicit local comparison.`:salaryFollow?'Following the selected country. This is a national reference; university filters do not apply.':'Local comparison: the main country selection is unchanged.';
   document.getElementById('followSalary').hidden=salaryFollow;
   if(!supported.has(target)) document.getElementById('earningsChart').innerHTML='<p class="exploration-empty">No salary observations for the selected country in this dataset. Available alternatives are listed in the salary-country selector.</p>';
@@ -276,6 +278,7 @@ function restoreView() {
   renderExplorer();goToSection(location.hash.slice(1)||(viewState.view==='europe'?'sec-europe':'welcome'),{push:false});
 }
 function renderDataCoverage(){
+  document.getElementById('salaryCoverage').innerHTML=`Mean monthly gross earnings by employer's NACE economic sector · Structure of Earnings Survey ${sectorEarningsYear}. Employers with at least 10 employees; all sexes and lengths of service. This describes economic sectors, not degree subjects. ${new Set(sectorEarnings.map(row=>row.code)).size} countries have detailed-sector observations. <a href="https://ec.europa.eu/eurostat/databrowser/view/earn_ses${String(sectorEarningsYear).slice(-2)}_24/default/table?lang=en">Eurostat data and coverage</a>.`;
   document.querySelector('#sec-europe > .scope-note').textContent=`All participating countries · KA1 ${mobilityYear} study mobility, including partner countries outside Europe.`;
   const historyNote=explorationMeta.historyNote || '2014–2023: Väisänen et al.’s Erasmus+ dataset, based on Commission records matched to origin/destination cities and municipality/regional codes. Shown here as country-to-country totals.';
   for(const note of [document.querySelector('#sec-europe h3 + .scope-note'),document.querySelector('#sec-trends > .note')]){
@@ -328,7 +331,7 @@ function initializeExplorer() {
   document.getElementById('shareView').addEventListener('click',async()=>{saveView(false);try{await navigator.clipboard.writeText(location.href);document.getElementById('shareStatus').textContent='Link copied. It includes the country, section and filters.'}catch{document.getElementById('shareStatus').textContent='Copy the current browser address to share this view.'}});
   window.addEventListener('popstate',restoreView);
   window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=true;requestAnimationFrame(()=>{scrollFrame=false;const offset=innerWidth<1024?84:32;const ids=['welcome',...NAV_TOPIC.keys()].filter(id=>!document.getElementById(id)?.hidden);let current='welcome',closest=-Infinity;for(const id of ids){const el=document.getElementById(id),top=el?.getBoundingClientRect().top;if(el&&top<=offset&&top>closest){current=id;closest=top}}if(innerHeight+scrollY>=document.documentElement.scrollHeight-3)current='sec-data';markNavigation(current);clearTimeout(scrollTimer);scrollTimer=setTimeout(()=>saveView(false),180)})},{passive:true});
-  let resizeTimer;window.addEventListener('resize',()=>{setDrawer(false,{focus:false});clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{renderYearChart();renderCovidEventStudy();renderTrendTotal();if(viewState.country){renderTrendSender(viewState.country);renderSalaryReference();if(map)map.invalidateSize()}},120)});
+  let resizeTimer;window.addEventListener('resize',()=>{setDrawer(false,{focus:false});clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{renderYearChart();renderCovidEventStudy();renderTrendTotal();if(viewState.country){const rows=senderRowsFiltered(viewState.country);renderBar(rows);renderScatter(rows);renderTrendSender(viewState.country);renderSalaryReference();if(map)map.invalidateSize()}},120)});
   setDrawer(false,{focus:false});explorerReady=true;
   const id=location.hash.slice(1)||(viewState.view==='europe'?'sec-europe':'welcome');
   goToSection(id,{push:false});

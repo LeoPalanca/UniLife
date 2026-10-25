@@ -1697,7 +1697,7 @@ __EXPLORER_CSS__
       <p class="country-feedback" id="countryFeedback">Choose a country to explore its mobility.</p>
     </div>
     <nav class="sidebar-nav" id="sidebarNav" aria-label="Research and exploration"></nav>
-    <div class="sidebar-foot"><a href="#sec-data">Sources &amp; coverage</a><button id="shareView" type="button">Copy link to this view ↗</button><span id="shareStatus" role="status"></span></div>
+    <div class="sidebar-foot"><a href="https://github.com/LeoPalanca/UniLife" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a><a href="#sec-data">Sources &amp; coverage</a><button id="shareView" type="button">Copy link to this view ↗</button><span id="shareStatus" role="status"></span></div>
   </aside>
   <header class="pagehead" id="welcome">
     <div class="hero-inner">
@@ -2148,7 +2148,7 @@ __VARIABLE_CARDS__
         </label>
       </div>
       <div class="chart" id="earningsChart"></div>
-      <p class="note">Mean monthly gross earnings by NACE economic sector, Structure of Earnings Survey 2018. This is a salary-by-sector reference, <strong>not</strong> salary by field of study (Eurostat does not publish earnings by field of study). Coverage is limited to the 17 countries that report this dataset.</p>
+      <p class="note" id="salaryCoverage">Mean monthly gross earnings by employer's NACE economic sector. Reference year and coverage follow the loaded Eurostat Structure of Earnings Survey data.</p>
     </section>
     <section id="sec-economics" class="collapsible">
       <details>
@@ -2475,7 +2475,7 @@ __MOBILITY_MODEL__
 
     function renderBar(rows) {
       if (!rows.length) { document.getElementById("barChart").innerHTML = '<p class="exploration-empty">No partner flows match the current selection. Clear the filters to broaden the view.</p>'; return; }
-      const data = [...rows].sort((a, b) => b.flow_count - a.flow_count).slice(0, 12).reverse();
+      const data = [...rows].sort((a, b) => b.flow_count - a.flow_count).slice(0, 12);
       const width = Math.max(280, document.getElementById('barChart').clientWidth);
       const rowH = 30;
       const left = width < 500 ? 110 : 170;
@@ -2520,7 +2520,7 @@ __MOBILITY_MODEL__
         <text class="axis-text" x="${left}" y="${height - 16}">poorer destination</text>
         <text class="axis-text" x="${width - right}" y="${height - 16}" text-anchor="end">richer destination</text>
         <text class="axis-text" x="${width / 2}" y="${height - 36}" text-anchor="middle">GDP pc gap</text>
-        <text class="axis-text" x="12" y="${top}" transform="rotate(-90 12 ${top})">flow share</text>
+        <text class="axis-text" x="12" y="${(top + height - bottom) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(top + height - bottom) / 2})">flow share</text>
       </svg>`;
     }
 
@@ -3010,12 +3010,12 @@ __MOBILITY_MODEL__
         document.getElementById('earningsChart').innerHTML = '<p class="note">No data for this country.</p>';
         return;
       }
-      const reversed = [...data].reverse();
+      const ranked = data;
       const width = Math.max(300, document.getElementById('earningsChart').clientWidth), rowH = 30, left = width < 500 ? 140 : 240, right = 65;
-      const height = 30 + reversed.length * rowH;
-      const max = Math.max(...reversed.map(row => row[unit]), 1);
+      const height = 30 + ranked.length * rowH;
+      const max = Math.max(...ranked.map(row => row[unit]), 1);
       const unitLabel = unit === 'eur' ? 'EUR' : 'PPS';
-      const bars = reversed.map((row, i) => {
+      const bars = ranked.map((row, i) => {
         const y = 16 + i * rowH;
         const w = scale(row[unit], 0, max, 0, width - left - right);
         const tip = `${escapeHtml(row.label)}<br>${fmtMoney(row[unit])} ${unitLabel}/month`;
@@ -3050,13 +3050,19 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=OUTPUT_PATH, help='Generated HTML destination')
     parser.add_argument('--snapshot', type=Path, help='Reuse the embedded analytical payload from a generated HTML file')
+    parser.add_argument('--refresh-sector-earnings', action='store_true', help='Replace only the salary reference with the prepared latest SES table')
     args = parser.parse_args()
+    if args.refresh_sector_earnings and not args.snapshot:
+        parser.error('--refresh-sector-earnings requires --snapshot to preserve the analytical payload')
     if args.snapshot:
         snapshot = args.snapshot.read_text(encoding='utf-8')
         match = re.search(r'<script id="dashboard-data" type="application/json">(.*?)</script>', snapshot, re.S)
         if match is None:
             raise ValueError('Snapshot has no dashboard-data payload')
-        output = render_dashboard(json.loads(match.group(1)))
+        payload = json.loads(match.group(1))
+        if args.refresh_sector_earnings:
+            payload['sectorEarnings'] = sector_earnings_records()
+        output = render_dashboard(payload)
     else:
         output = build_dashboard()
     args.output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,21 @@
+{
+  "dataset": "earn_ses22_24",
+  "year": 2022,
+  "sourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/earn_ses22_24/default/table?lang=en",
+  "checkedAt": "2026-10-25",
+  "filters": {
+    "sex": "T",
+    "sizeclas": "GE10",
+    "l_serv": "TOTAL",
+    "indic_se": "ERN",
+    "freq": "A"
+  },
+  "units": [
+    "EUR",
+    "PPS"
+  ],
+  "rows": 946,
+  "countries": 34,
+  "csvSha256": "b0a12f4ff380429b68935eb08a821f66427763ebb2f30e5005dca254d9a7a200",
+  "scope": "Mean monthly gross earnings by employer NACE activity, employers with 10+ employees, all sexes and lengths of service. Not earnings by degree subject."
+}

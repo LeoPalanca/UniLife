@@ -42,6 +42,7 @@ coefficients should not be read as independent causal mechanisms.
 | Published cross-sectional research | `Erasmus-KA1-Mobility-Data-2022.xlsx` | Original estimated models; retained for reproducibility |
 | Multi-year mobility | Väisänen et al. geolocated Erasmus data, 2014–2023 | Country-pair-year and origin-country–destination-city–year panels |
 | Economic indicators | World Bank GDP per capita; Eurostat earnings and price levels | 2024 indicators for current exploration; original vintages retained in research estimates |
+| Sector salary reference | Eurostat SES 2022, `earn_ses22_24` | Mean monthly gross earnings in EUR/PPS; employers with 10+ employees; 34 countries with detailed sectors |
 | Perceived city quality of life | Erasmusu ratings and opinion counts | Main city-level QoL regressor and opinion weights where specified |
 | Student discussions | Reddit `r/Erasmus`, with OpenRouter/DeepSeek and Pydantic extraction | Destination sentiment/themes; exploratory Reddit-based comparisons |
 | Institution quality | QS 2023 scores geocoded and matched to destination cities | Academic/institutional attractiveness proxy |
@@ -222,6 +223,10 @@ The flow-table tabs change both aggregation and visible columns. University-to-u
 shows both countries and both universities directly, with cities beneath university names.
 Mixed views show only the university endpoint used by that aggregation. Wide tables scroll
 inside their container on small screens; row search and pagination retain the full dataset.
+Country → University omits the selected country's repeated country column and lists the
+partner country and destination university directly. Top partner and salary-sector charts
+rank values from largest to smallest. The sector salary reference uses the latest available
+SES wave (2022), independently of the annual 2024 net-earnings comparison and historical research.
 
 ![Italy incoming profile with the shared country/direction controls, national context, economic gaps and grants](docs/screenshots/country-exploration.jpg)
 

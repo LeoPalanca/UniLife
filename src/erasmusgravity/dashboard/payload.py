@@ -26,7 +26,7 @@ COUNTRY_UNI_FLOWS_PATH = "erasmus_country_uni_flows_long"
 UNI_COUNTRY_FLOWS_PATH = "erasmus_uni_country_flows_long"
 UNI_UNI_FLOWS_PATH = "erasmus_uni_uni_flows_long"
 CITY_COORDS_PATH = "city_coordinates"
-SECTOR_EARNINGS_PATH = "sector_earnings_2018"
+SECTOR_EARNINGS_PATH = "sector_earnings_latest"
 REDDIT_MENTIONS_PATH = "reddit_destination_mentions"
 PANEL_PATH = "erasmus_country_year_panel"
 OUTPUT_PATH = Path("dashboard/dist/index.html")
@@ -391,8 +391,9 @@ def sector_earnings_records() -> list[dict]:
                 "country": row["country_name"],
                 "nace": row["nace_code"],
                 "label": row["nace_label"],
-                "eur": None if row["earnings_eur"] is None else int(row["earnings_eur"]),
-                "pps": None if row["earnings_pps"] is None else int(row["earnings_pps"]),
+                "year": int(row["year"]),
+                "eur": None if row["earnings_eur"] is None else float(row["earnings_eur"]),
+                "pps": None if row["earnings_pps"] is None else float(row["earnings_pps"]),
             }
         )
     return records
