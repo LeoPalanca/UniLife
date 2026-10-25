@@ -1,0 +1,15 @@
+{
+  "sourceSha256": "661bb33edb59ec655954b6eb6037aa7ae5d0213f9ca18873e5fa6d0621147fc4",
+  "participants": 294907,
+  "universityRows": 93775,
+  "missingOrigin": 31741,
+  "missingDestination": 33677,
+  "missingEither": 61680,
+  "recoveredNamedMobilities": 295,
+  "placeholderMobilitiesCorrected": 53,
+  "tableRows": {
+    "countryUni": 33266,
+    "uniCountry": 30905,
+    "uniUni": 93775
+  }
+}

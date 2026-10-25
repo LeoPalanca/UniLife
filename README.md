@@ -59,7 +59,10 @@ the cross-border analysis; they are not presented as a domestic Erasmus programm
 Current exploration uses **2024**, the latest mobility release listed on the
 [Commission’s researcher downloads page](https://erasmus-plus.ec.europa.eu/resources-and-tools/statistics-and-factsheets/statistics/for-researchers) when checked on 25 October 2026.
 The filtered release contains **294,907 participants across 158 countries and 2,654 country pairs**.
-All 93,774 university-pair rows are retained; their participant total reconciles to the country total.
+All 93,775 university-pair rows are retained; their participant total reconciles to the country total.
+University-name normalization preserves non-Latin scripts and treats normalized source
+placeholders as unreported. The [name-repair audit](docs/university-names-fix.json) records
+the corrected coverage without changing national flows or published research estimates.
 Missing economic values and endpoint locations do not remove mobility counts.
 
 Descriptive trends extend the geolocated **2014–2023** archive with **2024** official counts

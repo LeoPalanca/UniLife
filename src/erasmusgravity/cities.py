@@ -21,7 +21,9 @@ def normalize_city_key(value: object) -> str | None:
     return text or None
 
 
-_PLACEHOLDER_ORGS = {"NAN", "NONE", "NA", "N/A", "UNKNOWN", "UNDEFINED", "TBD"}
+# Match the normalized spelling, including punctuation-separated N/A.
+_PLACEHOLDER_ORGS = {"NAN", "NONE", "NULL", "NA", "N A", "UNKNOWN", "UNDEFINED", "TBD",
+                     "NOT APPLICABLE", "NOT AVAILABLE", "NOT SPECIFIED", "UNIVERSITY NOT SPECIFIED"}
 ORG_NOT_SPECIFIED = "__NOT_SPECIFIED__"
 UNIVERSITY_CROSSWALK = Path("data/crosswalks/university_names.csv")
 
@@ -56,7 +58,7 @@ def normalize_org_key(value: object) -> str | None:
         return None
     text = unicodedata.normalize("NFKD", value)
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
-    text = re.sub(r"[^0-9A-Za-z]+", " ", text).strip().upper()
+    text = _WS.sub(" ", "".join(ch if ch.isalnum() else " " for ch in text)).strip().upper()
     if not text or text in _PLACEHOLDER_ORGS:
         return None
     return text
