@@ -2923,6 +2923,7 @@ __MOBILITY_MODEL__
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 14,
         noWrap: true,
+        bounds: [[-85.0511, -179.9999], [85.0511, 179.9999]],
         attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
       clusterLayer = L.markerClusterGroup({
