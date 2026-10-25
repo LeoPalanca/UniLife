@@ -51,7 +51,7 @@
     "UK",
     "XK"
   ],
-  "historyNote": "2014\u20132023: geolocated archive. 2024: official KA1 release, restricted to the archive\u2019s country coverage and ages 18\u2013100. The separate latest point marks the source change; coverage and revisions can affect comparisons. Country profiles use the full latest release.",
+  "historyNote": "2014\u20132023: V\u00e4is\u00e4nen et al.\u2019s Erasmus+ dataset. The authors matched Commission mobility records to origin/destination cities, municipalities (LAU) and regions (NUTS 3); this chart shows country-to-country totals. 2024: Commission KA1 data, limited here to the same 42 countries and ages 18\u2013100. The separate point marks a source change; coverage and revisions can affect comparisons. Country profiles use full 2024 coverage.",
   "participants": 294907,
   "countryPairs": 2654,
   "universityRows": 93774,
@@ -147,5 +147,6 @@
     }
   ],
   "grantSourceFile": "annual-report-2024-statistical-annex.xlsx",
-  "grantSourceSha256": "d0f4b5ff1f5f4638bb2b584ff0bb267ca1ea168d4df1f01eb7a288ade265e580"
+  "grantSourceSha256": "d0f4b5ff1f5f4638bb2b584ff0bb267ca1ea168d4df1f01eb7a288ade265e580",
+  "historySourceUrl": "https://zenodo.org/records/16737523"
 }

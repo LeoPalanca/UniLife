@@ -268,10 +268,12 @@ function restoreView() {
 }
 function renderDataCoverage(){
   document.querySelector('#sec-europe > .scope-note').textContent=`All participating countries · KA1 ${mobilityYear} study mobility, including partner countries outside Europe.`;
-  const historyNote=explorationMeta.historyNote || 'Separate geolocated historical panel, 2014–2023.';
-  document.querySelector('#sec-europe h3 + .scope-note').textContent=historyNote;
+  const historyNote=explorationMeta.historyNote || '2014–2023: Väisänen et al.’s Erasmus+ dataset, based on Commission records matched to origin/destination cities and municipality/regional codes. Shown here as country-to-country totals.';
+  for(const note of [document.querySelector('#sec-europe h3 + .scope-note'),document.querySelector('#sec-trends > .note')]){
+    note.textContent=historyNote+' ';
+    const source=document.createElement('a');source.href=explorationMeta.historySourceUrl || 'https://zenodo.org/records/16737523';source.textContent='Dataset and documentation';note.append(source);
+  }
   document.querySelector('#sec-trends h2').textContent=`Mobility over time (${historyRange})`;
-  document.querySelector('#sec-trends > .note').textContent=historyNote;
   document.querySelector('#sec-trends .grid .note').textContent='National flows by calendar year and direction, within historical-panel country coverage. University filters do not apply.';
   document.getElementById('explorationSource').innerHTML=`<strong>Current mobility exploration:</strong> <a href="${escapeHtml(explorationMeta.sourceUrl || 'https://erasmus-plus.ec.europa.eu/resources-and-tools/statistics-and-factsheets/statistics/for-researchers')}">Official KA1 ${mobilityYear} mobility data</a>, calendar year of mobility start. Higher Education learners, studies only, age 18+, cross-border. Counts use participant weights; university tables retain all filtered records.`;
   document.getElementById('grantSource').innerHTML=`<strong>HE grants:</strong> annual report 2024 statistical annex, Call Year ${explorationMeta.grantCallYear || 2022}. Applicant-country budgets and estimated programme participants, not awards to the students in the mobility snapshot.`;
