@@ -197,7 +197,8 @@ def render_dashboard(payload: dict) -> str:
     }
     .source-list li { margin-bottom: 6px; }
     .heatmap-wrap { overflow: auto; padding: 0; }
-    .heatmap-wrap svg { display: block; margin: 0; }
+    /* Keep the matrix at its readable native size instead of stretching it with .chart. */
+    .heatmap-wrap svg { width: auto; max-width: none; display: block; margin: 0 auto; }
     #map {
       height: 540px;
       border: 1px solid var(--line);
@@ -2855,7 +2856,7 @@ __MOBILITY_MODEL__
       const codes = order.map(country => country.code);
       const byPair = new Map(flows.map(row => [`${row.sending_code}|${row.receiving_code}`, row]));
       const max = Math.max(...flows.filter(row => codes.includes(row.sending_code) && codes.includes(row.receiving_code)).map(row => row.flow_count), 1);
-      const cell = 18, left = 26, top = 64, width = left + codes.length * cell + 8, height = top + codes.length * cell + 24;
+      const cell = 16, left = 30, top = 44, width = left + codes.length * cell + 8, height = top + codes.length * cell + 12;
       const labelsX = codes.map((code, i) => `<text class="axis-text" x="${left + i * cell + 12}" y="${top - 8}" transform="rotate(-60 ${left + i * cell + 12} ${top - 8})">${code}</text>`).join('');
       const labelsY = codes.map((code, i) => `<text class="axis-text" x="${left - 8}" y="${top + i * cell + 13}" text-anchor="end">${code}</text>`).join('');
       const cells = codes.flatMap((sender, yIdx) => codes.map((receiver, xIdx) => {
@@ -2866,7 +2867,7 @@ __MOBILITY_MODEL__
         const text = row ? `${sender} to ${receiver}<br>${fmtInt(value)} students` : `${sender} to ${receiver}<br>0 students`;
         return `<rect x="${left + xIdx * cell}" y="${top + yIdx * cell}" width="${cell - 1}" height="${cell - 1}" fill="${color}" data-tip="${text}" onmousemove="showTip(event, this.dataset.tip)" onmouseleave="hideTip()"></rect>`;
       })).join('');
-      document.getElementById('heatmap').innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img">${labelsX}${labelsY}${cells}</svg>`;
+      document.getElementById('heatmap').innerHTML = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img">${labelsX}${labelsY}${cells}</svg>`;
     }
 
     function wireSorting() {
